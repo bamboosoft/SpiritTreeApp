@@ -1,4 +1,4 @@
-package com.spirittree.bamboosoft.spirittreeapp;
+package com.bamboosoft.spirittreeapp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

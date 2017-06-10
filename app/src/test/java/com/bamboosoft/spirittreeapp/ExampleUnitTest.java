@@ -1,4 +1,4 @@
-package com.spirittree.bamboosoft.spirittreeapp;
+package com.bamboosoft.spirittreeapp;
 
 import org.junit.Test;
 

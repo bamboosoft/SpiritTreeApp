@@ -1,4 +1,4 @@
-package com.spirittree.bamboosoft.spirittreeapp;
+package com.bamboosoft.spirittreeapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.spirittree.bamboosoft.spirittreeapp", appContext.getPackageName());
+        assertEquals("com.bamboosoft.spirittreeapp", appContext.getPackageName());
     }
 }
