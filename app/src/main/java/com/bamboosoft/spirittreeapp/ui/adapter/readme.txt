@@ -1,2 +1,0 @@
-Activity是Controller,layout是View 
-因为layout五花八门,很多数据都不能直接绑定上去,所以android引入了Adapter这个机制作为复杂数据的展示的转换载体,所以各种Adapter只不过是转换的方式和能力不一样而已。 
