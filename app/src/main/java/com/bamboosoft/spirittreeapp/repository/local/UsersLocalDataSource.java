@@ -1,17 +1,9 @@
 /*
- * Copyright 2016, The Android Open Source Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *
+ *
  */
 
 package com.example.android.architecture.blueprints.todoapp.data.source.local;
@@ -22,9 +14,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.local.TasksPersistenceContract.TaskEntry;
+import com.example.android.architecture.blueprints.todoapp.data.User;
+import com.example.android.architecture.blueprints.todoapp.data.source.UserDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.local.UserPersistenceContract.UserEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,54 +27,54 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Concrete implementation of a data source as a db.
  */
-public class TasksLocalDataSource implements TasksDataSource {
+public class UserLocalDataSource implements UserDataSource {
 
-    private static TasksLocalDataSource INSTANCE;
+    private static UserLocalDataSource INSTANCE;
 
-    private TasksDbHelper mDbHelper;
+    private UserDbHelper mDbHelper;
 
     // Prevent direct instantiation.
-    private TasksLocalDataSource(@NonNull Context context) {
+    private UserLocalDataSource(@NonNull Context context) {
         checkNotNull(context);
-        mDbHelper = new TasksDbHelper(context);
+        mDbHelper = new UserDbHelper(context);
     }
 
-    public static TasksLocalDataSource getInstance(@NonNull Context context) {
+    public static UserLocalDataSource getInstance(@NonNull Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new TasksLocalDataSource(context);
+            INSTANCE = new UserLocalDataSource(context);
         }
         return INSTANCE;
     }
 
     /**
-     * Note: {@link LoadTasksCallback#onDataNotAvailable()} is fired if the database doesn't exist
+     * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if the database doesn't exist
      * or the table is empty.
      */
     @Override
-    public void getTasks(@NonNull LoadTasksCallback callback) {
-        List<Task> tasks = new ArrayList<Task>();
+    public void getUser(@NonNull LoadUserCallback callback) {
+        List<User> User = new ArrayList<User>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                TaskEntry.COLUMN_NAME_ENTRY_ID,
-                TaskEntry.COLUMN_NAME_TITLE,
-                TaskEntry.COLUMN_NAME_DESCRIPTION,
-                TaskEntry.COLUMN_NAME_COMPLETED
+                UserEntry.COLUMN_NAME_ENTRY_ID,
+                UserEntry.COLUMN_NAME_TITLE,
+                UserEntry.COLUMN_NAME_DESCRIPTION,
+                UserEntry.COLUMN_NAME_COMPLETED
         };
 
         Cursor c = db.query(
-                TaskEntry.TABLE_NAME, projection, null, null, null, null, null);
+                UserEntry.TABLE_NAME, projection, null, null, null, null, null);
 
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
-                String itemId = c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_ENTRY_ID));
-                String title = c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_TITLE));
+                String itemId = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_ENTRY_ID));
+                String title = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_TITLE));
                 String description =
-                        c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_DESCRIPTION));
+                        c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_DESCRIPTION));
                 boolean completed =
-                        c.getInt(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_COMPLETED)) == 1;
-                Task task = new Task(title, description, itemId, completed);
-                tasks.add(task);
+                        c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_COMPLETED)) == 1;
+                User user = new User(title, description, itemId, completed);
+                User.add(user);
             }
         }
         if (c != null) {
@@ -91,47 +83,47 @@ public class TasksLocalDataSource implements TasksDataSource {
 
         db.close();
 
-        if (tasks.isEmpty()) {
+        if (User.isEmpty()) {
             // This will be called if the table is new or just empty.
             callback.onDataNotAvailable();
         } else {
-            callback.onTasksLoaded(tasks);
+            callback.onUserLoaded(User);
         }
 
     }
 
     /**
-     * Note: {@link GetTaskCallback#onDataNotAvailable()} is fired if the {@link Task} isn't
+     * Note: {@link GetUserCallback#onDataNotAvailable()} is fired if the {@link User} isn't
      * found.
      */
     @Override
-    public void getTask(@NonNull String taskId, @NonNull GetTaskCallback callback) {
+    public void getUser(@NonNull String userId, @NonNull GetUserCallback callback) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                TaskEntry.COLUMN_NAME_ENTRY_ID,
-                TaskEntry.COLUMN_NAME_TITLE,
-                TaskEntry.COLUMN_NAME_DESCRIPTION,
-                TaskEntry.COLUMN_NAME_COMPLETED
+                UserEntry.COLUMN_NAME_ENTRY_ID,
+                UserEntry.COLUMN_NAME_TITLE,
+                UserEntry.COLUMN_NAME_DESCRIPTION,
+                UserEntry.COLUMN_NAME_COMPLETED
         };
 
-        String selection = TaskEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        String[] selectionArgs = { taskId };
+        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String[] selectionArgs = { userId };
 
         Cursor c = db.query(
-                TaskEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+                UserEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        Task task = null;
+        User user = null;
 
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
-            String itemId = c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_ENTRY_ID));
-            String title = c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_TITLE));
+            String itemId = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_ENTRY_ID));
+            String title = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_TITLE));
             String description =
-                    c.getString(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_DESCRIPTION));
+                    c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_DESCRIPTION));
             boolean completed =
-                    c.getInt(c.getColumnIndexOrThrow(TaskEntry.COLUMN_NAME_COMPLETED)) == 1;
-            task = new Task(title, description, itemId, completed);
+                    c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_COMPLETED)) == 1;
+            user = new User(title, description, itemId, completed);
         }
         if (c != null) {
             c.close();
@@ -139,106 +131,106 @@ public class TasksLocalDataSource implements TasksDataSource {
 
         db.close();
 
-        if (task != null) {
-            callback.onTaskLoaded(task);
+        if (user != null) {
+            callback.onUserLoaded(user);
         } else {
             callback.onDataNotAvailable();
         }
     }
 
     @Override
-    public void saveTask(@NonNull Task task) {
-        checkNotNull(task);
+    public void saveUser(@NonNull User user) {
+        checkNotNull(user);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TaskEntry.COLUMN_NAME_ENTRY_ID, task.getId());
-        values.put(TaskEntry.COLUMN_NAME_TITLE, task.getTitle());
-        values.put(TaskEntry.COLUMN_NAME_DESCRIPTION, task.getDescription());
-        values.put(TaskEntry.COLUMN_NAME_COMPLETED, task.isCompleted());
+        values.put(UserEntry.COLUMN_NAME_ENTRY_ID, user.getId());
+        values.put(UserEntry.COLUMN_NAME_TITLE, user.getTitle());
+        values.put(UserEntry.COLUMN_NAME_DESCRIPTION, user.getDescription());
+        values.put(UserEntry.COLUMN_NAME_COMPLETED, user.isCompleted());
 
-        db.insert(TaskEntry.TABLE_NAME, null, values);
+        db.insert(UserEntry.TABLE_NAME, null, values);
 
         db.close();
     }
 
     @Override
-    public void completeTask(@NonNull Task task) {
+    public void completeUser(@NonNull User user) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TaskEntry.COLUMN_NAME_COMPLETED, true);
+        values.put(UserEntry.COLUMN_NAME_COMPLETED, true);
 
-        String selection = TaskEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        String[] selectionArgs = { task.getId() };
+        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String[] selectionArgs = { user.getId() };
 
-        db.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
+        db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
 
         db.close();
     }
 
     @Override
-    public void completeTask(@NonNull String taskId) {
-        // Not required for the local data source because the {@link TasksRepository} handles
-        // converting from a {@code taskId} to a {@link task} using its cached data.
+    public void completeUser(@NonNull String userId) {
+        // Not required for the local data source because the {@link UserRepository} handles
+        // converting from a {@code userId} to a {@link user} using its cached data.
     }
 
     @Override
-    public void activateTask(@NonNull Task task) {
+    public void activateUser(@NonNull User user) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(TaskEntry.COLUMN_NAME_COMPLETED, false);
+        values.put(UserEntry.COLUMN_NAME_COMPLETED, false);
 
-        String selection = TaskEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        String[] selectionArgs = { task.getId() };
+        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String[] selectionArgs = { user.getId() };
 
-        db.update(TaskEntry.TABLE_NAME, values, selection, selectionArgs);
+        db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
 
         db.close();
     }
 
     @Override
-    public void activateTask(@NonNull String taskId) {
-        // Not required for the local data source because the {@link TasksRepository} handles
-        // converting from a {@code taskId} to a {@link task} using its cached data.
+    public void activateUser(@NonNull String userId) {
+        // Not required for the local data source because the {@link UserRepository} handles
+        // converting from a {@code userId} to a {@link user} using its cached data.
     }
 
     @Override
-    public void clearCompletedTasks() {
+    public void clearCompletedUser() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = TaskEntry.COLUMN_NAME_COMPLETED + " LIKE ?";
+        String selection = UserEntry.COLUMN_NAME_COMPLETED + " LIKE ?";
         String[] selectionArgs = { "1" };
 
-        db.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);
+        db.delete(UserEntry.TABLE_NAME, selection, selectionArgs);
 
         db.close();
     }
 
     @Override
-    public void refreshTasks() {
-        // Not required because the {@link TasksRepository} handles the logic of refreshing the
-        // tasks from all the available data sources.
+    public void refreshUser() {
+        // Not required because the {@link UserRepository} handles the logic of refreshing the
+        // User from all the available data sources.
     }
 
     @Override
-    public void deleteAllTasks() {
+    public void deleteAllUser() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        db.delete(TaskEntry.TABLE_NAME, null, null);
+        db.delete(UserEntry.TABLE_NAME, null, null);
 
         db.close();
     }
 
     @Override
-    public void deleteTask(@NonNull String taskId) {
+    public void deleteUser(@NonNull String userId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = TaskEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        String[] selectionArgs = { taskId };
+        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String[] selectionArgs = { userId };
 
-        db.delete(TaskEntry.TABLE_NAME, selection, selectionArgs);
+        db.delete(UserEntry.TABLE_NAME, selection, selectionArgs);
 
         db.close();
     }

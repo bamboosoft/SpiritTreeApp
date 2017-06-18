@@ -1,17 +1,9 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ *ËµÃ÷:
+ *sqlite°ïÖúÀà
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 package com.example.android.architecture.blueprints.todoapp.data.source.local;
@@ -20,27 +12,40 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class TasksDbHelper extends SQLiteOpenHelper {
+public class UserDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
 
-    public static final String DATABASE_NAME = "Tasks.db";
+    public static final String DATABASE_NAME = "spirittreedb.db";
 
     private static final String TEXT_TYPE = " TEXT";
+
+    private static final String DATETIME_TYPE = " DATETIME";
+
+    private static final String VARCHAR_TYPE = " VARCHAR";
+
+    private static final String INT_TYPE = " INT";
+
+    private static final String INTEGER_TYPE = " INTEGER";
 
     private static final String BOOLEAN_TYPE = " INTEGER";
 
     private static final String COMMA_SEP = ",";
 
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + TasksPersistenceContract.TaskEntry.TABLE_NAME + " (" +
-                    TasksPersistenceContract.TaskEntry._ID + TEXT_TYPE + " PRIMARY KEY," +
-                    TasksPersistenceContract.TaskEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
-                    TasksPersistenceContract.TaskEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
-                    TasksPersistenceContract.TaskEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
-                    TasksPersistenceContract.TaskEntry.COLUMN_NAME_COMPLETED + BOOLEAN_TYPE +
+            "CREATE TABLE " + UserPersistenceContract.UserEntry.TABLE_NAME + " (" +
+                    UserPersistenceContract.UserEntry._ID + TEXT_TYPE + " PRIMARY KEY," +
+                    UserPersistenceContract.UserEntry.COLUMN_ID + INTEGER_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_ACCOUNT + VARCHAR_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_MOBILE + INT_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_EMAIL + VARCHAR_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_PASSWORD + VARCHAR_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_CREATETIME + DATETIME_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_STATUS + INTEGER_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_TYPE + INTEGER_TYPE + COMMA_SEP +
+                    UserPersistenceContract.UserEntry.COLUMN_MEMO + TEXT_TYPE +
             " )";
 
-    public TasksDbHelper(Context context) {
+    public UserDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
