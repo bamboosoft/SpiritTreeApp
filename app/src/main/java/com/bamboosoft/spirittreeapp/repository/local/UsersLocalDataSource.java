@@ -51,15 +51,15 @@ public class UserLocalDataSource implements UserDataSource {
      * or the table is empty.
      */
     @Override
-    public void getUser(@NonNull LoadUserCallback callback) {
-        List<User> User = new ArrayList<User>();
+    public void getUsers(@NonNull LoadUsersCallback callback) {
+        List<User> users = new ArrayList<User>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                UserEntry.COLUMN_NAME_ENTRY_ID,
-                UserEntry.COLUMN_NAME_TITLE,
-                UserEntry.COLUMN_NAME_DESCRIPTION,
-                UserEntry.COLUMN_NAME_COMPLETED
+                UserEntry.COLUMN_ID,
+                UserEntry.COLUMN_ACCOUNT,
+                UserEntry.COLUMN_MOBILE,
+                UserEntry.COLUMN_EMAIL
         };
 
         Cursor c = db.query(
