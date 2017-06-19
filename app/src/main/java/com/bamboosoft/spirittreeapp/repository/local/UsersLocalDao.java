@@ -186,7 +186,11 @@ public class UserLocalDao implements UserDao {
         db.close();
     }
 
-
+    @Override
+    public void refreshUser() {
+        // Not required because the {@link TasksRepository} handles the logic of refreshing the
+        // tasks from all the available data sources.
+    }
    
     /**
 	*删除所有用户

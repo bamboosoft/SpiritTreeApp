@@ -1,17 +1,5 @@
 /*
- * Copyright 2016, The Android Open Source Project
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 package com.example.android.architecture.blueprints.todoapp.data.source;
@@ -21,7 +9,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.User;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,24 +18,24 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Concrete implementation to load tasks from the data sources into a cache.
+ * Concrete implementation to load users from the data sources into a cache.
  * <p>
  * For simplicity, this implements a dumb synchronisation between locally persisted data and data
  * obtained from the server, by using the remote data source only if the local database doesn't
  * exist or is empty.
  */
-public class TasksRepository implements TasksDao {
+public class UserRepository implements UserDao {
 
-    private static TasksRepository INSTANCE = null;
+    private static UserRepository INSTANCE = null;
 
-    private final TasksDao mTasksRemoteDao;
+    private final UserDao mUserRemoteDao;
 
-    private final TasksDao mTasksLocalDao;
+    private final UserDao mUserLocalDao;
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
      */
-    Map<String, Task> mCachedTasks;
+    Map<String, User> mCachedUser;
 
     /**
      * Marks the cache as invalid, to force an update the next time data is requested. This variable
@@ -56,29 +44,29 @@ public class TasksRepository implements TasksDao {
     boolean mCacheIsDirty = false;
 
     // Prevent direct instantiation.
-    private TasksRepository(@NonNull TasksDao tasksRemoteDao,
-                            @NonNull TasksDao tasksLocalDao) {
-        mTasksRemoteDao = checkNotNull(tasksRemoteDao);
-        mTasksLocalDao = checkNotNull(tasksLocalDao);
+    private UserRepository(@NonNull UserDao usersRemoteDao,
+                            @NonNull UserDao usersLocalDao) {
+        mUserRemoteDao = checkNotNull(usersRemoteDao);
+        mUserLocalDao = checkNotNull(usersLocalDao);
     }
 
     /**
      * Returns the single instance of this class, creating it if necessary.
      *
-     * @param tasksRemoteDao the backend data source
-     * @param tasksLocalDao  the device storage data source
-     * @return the {@link TasksRepository} instance
+     * @param usersRemoteDao the backend data source
+     * @param usersLocalDao  the device storage data source
+     * @return the {@link UserRepository} instance
      */
-    public static TasksRepository getInstance(TasksDao tasksRemoteDao,
-                                              TasksDao tasksLocalDao) {
+    public static UserRepository getInstance(UserDao usersRemoteDao,
+                                              UserDao usersLocalDao) {
         if (INSTANCE == null) {
-            INSTANCE = new TasksRepository(tasksRemoteDao, tasksLocalDao);
+            INSTANCE = new UserRepository(usersRemoteDao, usersLocalDao);
         }
         return INSTANCE;
     }
 
     /**
-     * Used to force {@link #getInstance(TasksDao, TasksDao)} to create a new instance
+     * Used to force {@link #getInstance(UserDao, UserDao)} to create a new instance
      * next time it's called.
      */
     public static void destroyInstance() {
@@ -86,109 +74,109 @@ public class TasksRepository implements TasksDao {
     }
 
     /**
-     * Gets tasks from cache, local data source (SQLite) or remote data source, whichever is
+     * Gets users from cache, local data source (SQLite) or remote data source, whichever is
      * available first.
      * <p>
-     * Note: {@link LoadTasksCallback#onDataNotAvailable()} is fired if all data sources fail to
+     * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if all data sources fail to
      * get the data.
      */
     @Override
-    public void getTasks(@NonNull final LoadTasksCallback callback) {
+    public void getUser(@NonNull final LoadUserCallback callback) {
         checkNotNull(callback);
 
         // Respond immediately with cache if available and not dirty
-        if (mCachedTasks != null && !mCacheIsDirty) {
-            callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
+        if (mCachedUser != null && !mCacheIsDirty) {
+            callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
             return;
         }
 
         if (mCacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
-            getTasksFromRemoteDao(callback);
+            getUserFromRemoteDao(callback);
         } else {
             // Query the local storage if available. If not, query the network.
-            mTasksLocalDao.getTasks(new LoadTasksCallback() {
+            mUserLocalDao.getUser(new LoadUserCallback() {
                 @Override
-                public void onTasksLoaded(List<Task> tasks) {
-                    refreshCache(tasks);
-                    callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
+                public void onUserLoaded(List<User> users) {
+                    refreshCache(users);
+                    callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
                 }
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTasksFromRemoteDao(callback);
+                    getUserFromRemoteDao(callback);
                 }
             });
         }
     }
 
     @Override
-    public void saveTask(@NonNull Task task) {
-        checkNotNull(task);
-        mTasksRemoteDao.saveTask(task);
-        mTasksLocalDao.saveTask(task);
+    public void addUser(@NonNull User user) {
+        checkNotNull(user);
+        mUserRemoteDao.saveUser(user);
+        mUserLocalDao.saveUser(user);
 
         // Do in memory cache update to keep the app UI up to date
-        if (mCachedTasks == null) {
-            mCachedTasks = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        mCachedTasks.put(task.getId(), task);
+        mCachedUser.put(user.getId(), user);
     }
 
     @Override
-    public void completeTask(@NonNull Task task) {
-        checkNotNull(task);
-        mTasksRemoteDao.completeTask(task);
-        mTasksLocalDao.completeTask(task);
+    public void completeUser(@NonNull User user) {
+        checkNotNull(user);
+        mUserRemoteDao.completeUser(user);
+        mUserLocalDao.completeUser(user);
 
-        Task completedTask = new Task(task.getTitle(), task.getDescription(), task.getId(), true);
+        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
 
         // Do in memory cache update to keep the app UI up to date
-        if (mCachedTasks == null) {
-            mCachedTasks = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        mCachedTasks.put(task.getId(), completedTask);
+        mCachedUser.put(user.getId(), completedUser);
     }
 
     @Override
-    public void completeTask(@NonNull String taskId) {
-        checkNotNull(taskId);
-        completeTask(getTaskWithId(taskId));
+    public void completeUser(@NonNull String userId) {
+        checkNotNull(userId);
+        completeUser(getUserWithId(userId));
     }
 
     @Override
-    public void activateTask(@NonNull Task task) {
-        checkNotNull(task);
-        mTasksRemoteDao.activateTask(task);
-        mTasksLocalDao.activateTask(task);
+    public void activateUser(@NonNull User user) {
+        checkNotNull(user);
+        mUserRemoteDao.activateUser(user);
+        mUserLocalDao.activateUser(user);
 
-        Task activeTask = new Task(task.getTitle(), task.getDescription(), task.getId());
+        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
 
         // Do in memory cache update to keep the app UI up to date
-        if (mCachedTasks == null) {
-            mCachedTasks = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        mCachedTasks.put(task.getId(), activeTask);
+        mCachedUser.put(user.getId(), activeUser);
     }
 
     @Override
-    public void activateTask(@NonNull String taskId) {
-        checkNotNull(taskId);
-        activateTask(getTaskWithId(taskId));
+    public void activateUser(@NonNull String userId) {
+        checkNotNull(userId);
+        activateUser(getUserWithId(userId));
     }
 
     @Override
-    public void clearCompletedTasks() {
-        mTasksRemoteDao.clearCompletedTasks();
-        mTasksLocalDao.clearCompletedTasks();
+    public void clearCompletedUser() {
+        mUserRemoteDao.clearCompletedUser();
+        mUserLocalDao.clearCompletedUser();
 
         // Do in memory cache update to keep the app UI up to date
-        if (mCachedTasks == null) {
-            mCachedTasks = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        Iterator<Map.Entry<String, Task>> it = mCachedTasks.entrySet().iterator();
+        Iterator<Map.Entry<String, User>> it = mCachedUser.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<String, Task> entry = it.next();
+            Map.Entry<String, User> entry = it.next();
             if (entry.getValue().isCompleted()) {
                 it.remove();
             }
@@ -196,50 +184,50 @@ public class TasksRepository implements TasksDao {
     }
 
     /**
-     * Gets tasks from local data source (sqlite) unless the table is new or empty. In that case it
+     * Gets users from local data source (sqlite) unless the table is new or empty. In that case it
      * uses the network data source. This is done to simplify the sample.
      * <p>
-     * Note: {@link GetTaskCallback#onDataNotAvailable()} is fired if both data sources fail to
+     * Note: {@link GetUserCallback#onDataNotAvailable()} is fired if both data sources fail to
      * get the data.
      */
     @Override
-    public void getTask(@NonNull final String taskId, @NonNull final GetTaskCallback callback) {
-        checkNotNull(taskId);
+    public void getUser(@NonNull final String userId, @NonNull final GetUserCallback callback) {
+        checkNotNull(userId);
         checkNotNull(callback);
 
-        Task cachedTask = getTaskWithId(taskId);
+        User cachedUser = getUserWithId(userId);
 
         // Respond immediately with cache if available
-        if (cachedTask != null) {
-            callback.onTaskLoaded(cachedTask);
+        if (cachedUser != null) {
+            callback.onUserLoaded(cachedUser);
             return;
         }
 
         // Load from server/persisted if needed.
 
-        // Is the task in the local data source? If not, query the network.
-        mTasksLocalDao.getTask(taskId, new GetTaskCallback() {
+        // Is the user in the local data source? If not, query the network.
+        mUserLocalDao.getUser(userId, new GetUserCallback() {
             @Override
-            public void onTaskLoaded(Task task) {
+            public void onUserLoaded(User user) {
                 // Do in memory cache update to keep the app UI up to date
-                if (mCachedTasks == null) {
-                    mCachedTasks = new LinkedHashMap<>();
+                if (mCachedUser == null) {
+                    mCachedUser = new LinkedHashMap<>();
                 }
-                mCachedTasks.put(task.getId(), task);
-                callback.onTaskLoaded(task);
+                mCachedUser.put(user.getId(), user);
+                callback.onUserLoaded(user);
             }
 
             @Override
             public void onDataNotAvailable() {
-                mTasksRemoteDao.getTask(taskId, new GetTaskCallback() {
+                mUserRemoteDao.getUser(userId, new GetUserCallback() {
                     @Override
-                    public void onTaskLoaded(Task task) {
+                    public void onUserLoaded(User user) {
                         // Do in memory cache update to keep the app UI up to date
-                        if (mCachedTasks == null) {
-                            mCachedTasks = new LinkedHashMap<>();
+                        if (mCachedUser == null) {
+                            mCachedUser = new LinkedHashMap<>();
                         }
-                        mCachedTasks.put(task.getId(), task);
-                        callback.onTaskLoaded(task);
+                        mCachedUser.put(user.getId(), user);
+                        callback.onUserLoaded(user);
                     }
 
                     @Override
@@ -252,36 +240,36 @@ public class TasksRepository implements TasksDao {
     }
 
     @Override
-    public void refreshTasks() {
+    public void refreshUser() {
         mCacheIsDirty = true;
     }
 
     @Override
-    public void deleteAllTasks() {
-        mTasksRemoteDao.deleteAllTasks();
-        mTasksLocalDao.deleteAllTasks();
+    public void deleteAllUser() {
+        mUserRemoteDao.deleteAllUser();
+        mUserLocalDao.deleteAllUser();
 
-        if (mCachedTasks == null) {
-            mCachedTasks = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        mCachedTasks.clear();
+        mCachedUser.clear();
     }
 
     @Override
-    public void deleteTask(@NonNull String taskId) {
-        mTasksRemoteDao.deleteTask(checkNotNull(taskId));
-        mTasksLocalDao.deleteTask(checkNotNull(taskId));
+    public void deleteUser(@NonNull String userId) {
+        mUserRemoteDao.deleteUser(checkNotNull(userId));
+        mUserLocalDao.deleteUser(checkNotNull(userId));
 
-        mCachedTasks.remove(taskId);
+        mCachedUser.remove(userId);
     }
 
-    private void getTasksFromRemoteDao(@NonNull final LoadTasksCallback callback) {
-        mTasksRemoteDao.getTasks(new LoadTasksCallback() {
+    private void getUserFromRemoteDao(@NonNull final LoadUserCallback callback) {
+        mUserRemoteDao.getUser(new LoadUserCallback() {
             @Override
-            public void onTasksLoaded(List<Task> tasks) {
-                refreshCache(tasks);
-                refreshLocalDao(tasks);
-                callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
+            public void onUserLoaded(List<User> users) {
+                refreshCache(users);
+                refreshLocalDao(users);
+                callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
             }
 
             @Override
@@ -291,31 +279,31 @@ public class TasksRepository implements TasksDao {
         });
     }
 
-    private void refreshCache(List<Task> tasks) {
-        if (mCachedTasks == null) {
-            mCachedTasks = new LinkedHashMap<>();
+    private void refreshCache(List<User> users) {
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        mCachedTasks.clear();
-        for (Task task : tasks) {
-            mCachedTasks.put(task.getId(), task);
+        mCachedUser.clear();
+        for (User user : users) {
+            mCachedUser.put(user.getId(), user);
         }
         mCacheIsDirty = false;
     }
 
-    private void refreshLocalDao(List<Task> tasks) {
-        mTasksLocalDao.deleteAllTasks();
-        for (Task task : tasks) {
-            mTasksLocalDao.saveTask(task);
+    private void refreshLocalDao(List<User> users) {
+        mUserLocalDao.deleteAllUser();
+        for (User user : users) {
+            mUserLocalDao.saveUser(user);
         }
     }
 
     @Nullable
-    private Task getTaskWithId(@NonNull String id) {
+    private User getUserWithId(@NonNull String id) {
         checkNotNull(id);
-        if (mCachedTasks == null || mCachedTasks.isEmpty()) {
+        if (mCachedUser == null || mCachedUser.isEmpty()) {
             return null;
         } else {
-            return mCachedTasks.get(id);
+            return mCachedUser.get(id);
         }
     }
 }
