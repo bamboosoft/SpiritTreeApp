@@ -1,12 +1,12 @@
 /*
- *ËµÃ÷:
- *sqlite°ïÖúÀà
+ *Ëµï¿½ï¿½:
+ *sqliteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  *
  *
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.data.source.local;
+package com.bamboosoft.spirittreeapp.repository.local;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
