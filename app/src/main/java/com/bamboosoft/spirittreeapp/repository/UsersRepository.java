@@ -36,13 +36,13 @@ import java.util.Map;
  * obtained from the server, by using the remote data source only if the local database doesn't
  * exist or is empty.
  */
-public class TasksRepository implements TasksDataSource {
+public class TasksRepository implements TasksDao {
 
     private static TasksRepository INSTANCE = null;
 
-    private final TasksDataSource mTasksRemoteDataSource;
+    private final TasksDao mTasksRemoteDao;
 
-    private final TasksDataSource mTasksLocalDataSource;
+    private final TasksDao mTasksLocalDao;
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
@@ -56,29 +56,29 @@ public class TasksRepository implements TasksDataSource {
     boolean mCacheIsDirty = false;
 
     // Prevent direct instantiation.
-    private TasksRepository(@NonNull TasksDataSource tasksRemoteDataSource,
-                            @NonNull TasksDataSource tasksLocalDataSource) {
-        mTasksRemoteDataSource = checkNotNull(tasksRemoteDataSource);
-        mTasksLocalDataSource = checkNotNull(tasksLocalDataSource);
+    private TasksRepository(@NonNull TasksDao tasksRemoteDao,
+                            @NonNull TasksDao tasksLocalDao) {
+        mTasksRemoteDao = checkNotNull(tasksRemoteDao);
+        mTasksLocalDao = checkNotNull(tasksLocalDao);
     }
 
     /**
      * Returns the single instance of this class, creating it if necessary.
      *
-     * @param tasksRemoteDataSource the backend data source
-     * @param tasksLocalDataSource  the device storage data source
+     * @param tasksRemoteDao the backend data source
+     * @param tasksLocalDao  the device storage data source
      * @return the {@link TasksRepository} instance
      */
-    public static TasksRepository getInstance(TasksDataSource tasksRemoteDataSource,
-                                              TasksDataSource tasksLocalDataSource) {
+    public static TasksRepository getInstance(TasksDao tasksRemoteDao,
+                                              TasksDao tasksLocalDao) {
         if (INSTANCE == null) {
-            INSTANCE = new TasksRepository(tasksRemoteDataSource, tasksLocalDataSource);
+            INSTANCE = new TasksRepository(tasksRemoteDao, tasksLocalDao);
         }
         return INSTANCE;
     }
 
     /**
-     * Used to force {@link #getInstance(TasksDataSource, TasksDataSource)} to create a new instance
+     * Used to force {@link #getInstance(TasksDao, TasksDao)} to create a new instance
      * next time it's called.
      */
     public static void destroyInstance() {
@@ -104,10 +104,10 @@ public class TasksRepository implements TasksDataSource {
 
         if (mCacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
-            getTasksFromRemoteDataSource(callback);
+            getTasksFromRemoteDao(callback);
         } else {
             // Query the local storage if available. If not, query the network.
-            mTasksLocalDataSource.getTasks(new LoadTasksCallback() {
+            mTasksLocalDao.getTasks(new LoadTasksCallback() {
                 @Override
                 public void onTasksLoaded(List<Task> tasks) {
                     refreshCache(tasks);
@@ -116,7 +116,7 @@ public class TasksRepository implements TasksDataSource {
 
                 @Override
                 public void onDataNotAvailable() {
-                    getTasksFromRemoteDataSource(callback);
+                    getTasksFromRemoteDao(callback);
                 }
             });
         }
@@ -125,8 +125,8 @@ public class TasksRepository implements TasksDataSource {
     @Override
     public void saveTask(@NonNull Task task) {
         checkNotNull(task);
-        mTasksRemoteDataSource.saveTask(task);
-        mTasksLocalDataSource.saveTask(task);
+        mTasksRemoteDao.saveTask(task);
+        mTasksLocalDao.saveTask(task);
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedTasks == null) {
@@ -138,8 +138,8 @@ public class TasksRepository implements TasksDataSource {
     @Override
     public void completeTask(@NonNull Task task) {
         checkNotNull(task);
-        mTasksRemoteDataSource.completeTask(task);
-        mTasksLocalDataSource.completeTask(task);
+        mTasksRemoteDao.completeTask(task);
+        mTasksLocalDao.completeTask(task);
 
         Task completedTask = new Task(task.getTitle(), task.getDescription(), task.getId(), true);
 
@@ -159,8 +159,8 @@ public class TasksRepository implements TasksDataSource {
     @Override
     public void activateTask(@NonNull Task task) {
         checkNotNull(task);
-        mTasksRemoteDataSource.activateTask(task);
-        mTasksLocalDataSource.activateTask(task);
+        mTasksRemoteDao.activateTask(task);
+        mTasksLocalDao.activateTask(task);
 
         Task activeTask = new Task(task.getTitle(), task.getDescription(), task.getId());
 
@@ -179,8 +179,8 @@ public class TasksRepository implements TasksDataSource {
 
     @Override
     public void clearCompletedTasks() {
-        mTasksRemoteDataSource.clearCompletedTasks();
-        mTasksLocalDataSource.clearCompletedTasks();
+        mTasksRemoteDao.clearCompletedTasks();
+        mTasksLocalDao.clearCompletedTasks();
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedTasks == null) {
@@ -218,7 +218,7 @@ public class TasksRepository implements TasksDataSource {
         // Load from server/persisted if needed.
 
         // Is the task in the local data source? If not, query the network.
-        mTasksLocalDataSource.getTask(taskId, new GetTaskCallback() {
+        mTasksLocalDao.getTask(taskId, new GetTaskCallback() {
             @Override
             public void onTaskLoaded(Task task) {
                 // Do in memory cache update to keep the app UI up to date
@@ -231,7 +231,7 @@ public class TasksRepository implements TasksDataSource {
 
             @Override
             public void onDataNotAvailable() {
-                mTasksRemoteDataSource.getTask(taskId, new GetTaskCallback() {
+                mTasksRemoteDao.getTask(taskId, new GetTaskCallback() {
                     @Override
                     public void onTaskLoaded(Task task) {
                         // Do in memory cache update to keep the app UI up to date
@@ -258,8 +258,8 @@ public class TasksRepository implements TasksDataSource {
 
     @Override
     public void deleteAllTasks() {
-        mTasksRemoteDataSource.deleteAllTasks();
-        mTasksLocalDataSource.deleteAllTasks();
+        mTasksRemoteDao.deleteAllTasks();
+        mTasksLocalDao.deleteAllTasks();
 
         if (mCachedTasks == null) {
             mCachedTasks = new LinkedHashMap<>();
@@ -269,18 +269,18 @@ public class TasksRepository implements TasksDataSource {
 
     @Override
     public void deleteTask(@NonNull String taskId) {
-        mTasksRemoteDataSource.deleteTask(checkNotNull(taskId));
-        mTasksLocalDataSource.deleteTask(checkNotNull(taskId));
+        mTasksRemoteDao.deleteTask(checkNotNull(taskId));
+        mTasksLocalDao.deleteTask(checkNotNull(taskId));
 
         mCachedTasks.remove(taskId);
     }
 
-    private void getTasksFromRemoteDataSource(@NonNull final LoadTasksCallback callback) {
-        mTasksRemoteDataSource.getTasks(new LoadTasksCallback() {
+    private void getTasksFromRemoteDao(@NonNull final LoadTasksCallback callback) {
+        mTasksRemoteDao.getTasks(new LoadTasksCallback() {
             @Override
             public void onTasksLoaded(List<Task> tasks) {
                 refreshCache(tasks);
-                refreshLocalDataSource(tasks);
+                refreshLocalDao(tasks);
                 callback.onTasksLoaded(new ArrayList<>(mCachedTasks.values()));
             }
 
@@ -302,10 +302,10 @@ public class TasksRepository implements TasksDataSource {
         mCacheIsDirty = false;
     }
 
-    private void refreshLocalDataSource(List<Task> tasks) {
-        mTasksLocalDataSource.deleteAllTasks();
+    private void refreshLocalDao(List<Task> tasks) {
+        mTasksLocalDao.deleteAllTasks();
         for (Task task : tasks) {
-            mTasksLocalDataSource.saveTask(task);
+            mTasksLocalDao.saveTask(task);
         }
     }
 

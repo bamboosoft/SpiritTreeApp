@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
 import com.example.android.architecture.blueprints.todoapp.data.User;
-import com.example.android.architecture.blueprints.todoapp.data.source.UserDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.UserDao;
 import com.example.android.architecture.blueprints.todoapp.data.source.local.UserPersistenceContract.UserEntry;
 
 import java.util.ArrayList;
@@ -27,26 +27,32 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Concrete implementation of a data source as a db.
  */
-public class UserLocalDataSource implements UserDataSource {
+public class UserLocalDao implements UserDao {
 
-    private static UserLocalDataSource INSTANCE;
+    private static UserLocalDao INSTANCE;
 
     private UserDbHelper mDbHelper;
 
-    // Prevent direct instantiation.
-    private UserLocalDataSource(@NonNull Context context) {
+    //Prevent direct instantiation.
+	//禁止实例化
+    private UserLocalDao(@NonNull Context context) {
         checkNotNull(context);
         mDbHelper = new UserDbHelper(context);
     }
 
-    public static UserLocalDataSource getInstance(@NonNull Context context) {
+    /**
+	*数据库单例实例
+	*
+	*/
+    public static UserLocalDao getInstance(@NonNull Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new UserLocalDataSource(context);
+            INSTANCE = new UserLocalDao(context);
         }
         return INSTANCE;
     }
 
     /**
+     * 获取实体集合.
      * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if the database doesn't exist
      * or the table is empty.
      */
@@ -93,6 +99,7 @@ public class UserLocalDataSource implements UserDataSource {
     }
 
     /**
+     * 获取单个实体.
      * Note: {@link GetUserCallback#onDataNotAvailable()} is fired if the {@link User} isn't
      * found.
      */
@@ -138,24 +145,34 @@ public class UserLocalDataSource implements UserDataSource {
         }
     }
 
+    /**
+	*增加数据
+	*保存用户实体数据
+	*/
     @Override
-    public void saveUser(@NonNull User user) {
+    public void addUser(@NonNull User user) {
         checkNotNull(user);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(UserEntry.COLUMN_NAME_ENTRY_ID, user.getId());
-        values.put(UserEntry.COLUMN_NAME_TITLE, user.getTitle());
-        values.put(UserEntry.COLUMN_NAME_DESCRIPTION, user.getDescription());
-        values.put(UserEntry.COLUMN_NAME_COMPLETED, user.isCompleted());
+
+        values.put(UserEntry.COLUMN_ACCOUNT, user.getAccount());
+        values.put(UserEntry.COLUMN_MOBILE, user.getMobile());
+        values.put(UserEntry.COLUMN_EMAIL, user.getEmail());
+        values.put(UserEntry.COLUMN_PASSWORD, user.GetPassword());
+
 
         db.insert(UserEntry.TABLE_NAME, null, values);
 
         db.close();
     }
 
+    /**
+	*修改用户
+	*
+	*/
     @Override
-    public void completeUser(@NonNull User user) {
+    public void updateUser(@NonNull User user) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -169,51 +186,12 @@ public class UserLocalDataSource implements UserDataSource {
         db.close();
     }
 
-    @Override
-    public void completeUser(@NonNull String userId) {
-        // Not required for the local data source because the {@link UserRepository} handles
-        // converting from a {@code userId} to a {@link user} using its cached data.
-    }
 
-    @Override
-    public void activateUser(@NonNull User user) {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(UserEntry.COLUMN_NAME_COMPLETED, false);
-
-        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
-        String[] selectionArgs = { user.getId() };
-
-        db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
-
-        db.close();
-    }
-
-    @Override
-    public void activateUser(@NonNull String userId) {
-        // Not required for the local data source because the {@link UserRepository} handles
-        // converting from a {@code userId} to a {@link user} using its cached data.
-    }
-
-    @Override
-    public void clearCompletedUser() {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        String selection = UserEntry.COLUMN_NAME_COMPLETED + " LIKE ?";
-        String[] selectionArgs = { "1" };
-
-        db.delete(UserEntry.TABLE_NAME, selection, selectionArgs);
-
-        db.close();
-    }
-
-    @Override
-    public void refreshUser() {
-        // Not required because the {@link UserRepository} handles the logic of refreshing the
-        // User from all the available data sources.
-    }
-
+   
+    /**
+	*删除所有用户
+	*
+	*/
     @Override
     public void deleteAllUser() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -223,11 +201,15 @@ public class UserLocalDataSource implements UserDataSource {
         db.close();
     }
 
+    /**
+	*删除单个用户
+	*
+	*/
     @Override
     public void deleteUser(@NonNull String userId) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String selection = UserEntry.COLUMN_ID + " LIKE ?";
         String[] selectionArgs = { userId };
 
         db.delete(UserEntry.TABLE_NAME, selection, selectionArgs);

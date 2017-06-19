@@ -18,48 +18,48 @@ package com.example.android.architecture.blueprints.todoapp.data.source;
 
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
+import com.example.android.architecture.blueprints.todoapp.data.User;
 
 import java.util.List;
 
 /**
- * Main entry point for accessing tasks data.
+ * Main entry point for accessing users data.
  */
-public interface TasksDataSource {
+public interface UserDao {
 
-    interface LoadTasksCallback {
+    interface LoadUserCallback {
 
-        void onTasksLoaded(List<Task> tasks);
-
-        void onDataNotAvailable();
-    }
-
-    interface GetTaskCallback {
-
-        void onTaskLoaded(Task task);
+        void onUserLoaded(List<User> users);
 
         void onDataNotAvailable();
     }
 
-    void getTasks(@NonNull LoadTasksCallback callback);
+    interface GetUserCallback {
 
-    void getTask(@NonNull String taskId, @NonNull GetTaskCallback callback);
+        void onUserLoaded(User user);
 
-    void saveTask(@NonNull Task task);
+        void onDataNotAvailable();
+    }
 
-    void completeTask(@NonNull Task task);
+    void getUser(@NonNull LoadUserCallback callback);
 
-    void completeTask(@NonNull String taskId);
+    void getUser(@NonNull String userId, @NonNull GetUserCallback callback);
 
-    void activateTask(@NonNull Task task);
+    void saveUser(@NonNull User user);
 
-    void activateTask(@NonNull String taskId);
+    void completeUser(@NonNull User user);
 
-    void clearCompletedTasks();
+    void completeUser(@NonNull String userId);
 
-    void refreshTasks();
+    void activateUser(@NonNull User user);
 
-    void deleteAllTasks();
+    void activateUser(@NonNull String userId);
 
-    void deleteTask(@NonNull String taskId);
+    void clearCompletedUser();
+
+    void refreshUser();
+
+    void deleteAllUser();
+
+    void deleteUser(@NonNull String userId);
 }
