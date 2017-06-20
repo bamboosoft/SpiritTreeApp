@@ -2,7 +2,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.data.source;
+package com.bamboosoft.spirittreeapp.repository;
 
 import android.support.annotation.NonNull;
 

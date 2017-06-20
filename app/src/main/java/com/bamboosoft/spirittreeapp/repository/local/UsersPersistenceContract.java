@@ -7,7 +7,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.data.source.local;
+package com.bamboosoft.spirittreeapp.repository.local;
 
 import android.provider.BaseColumns;
 
