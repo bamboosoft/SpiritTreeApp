@@ -115,41 +115,6 @@ public class UsersRemoteDao implements UsersDao {
     }
 
     @Override
-    public void completeUser(@NonNull User user) {
-        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
-        USER_SERVICE_DATA.put(user.getId(), completedUser);
-    }
-
-    @Override
-    public void completeUser(@NonNull String userId) {
-        // Not required for the remote data source because the {@link UsersRepository} handles
-        // converting from a {@code userId} to a {@link user} using its cached data.
-    }
-
-    @Override
-    public void activateUser(@NonNull User user) {
-        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
-        USER_SERVICE_DATA.put(user.getId(), activeUser);
-    }
-
-    @Override
-    public void activateUser(@NonNull String userId) {
-        // Not required for the remote data source because the {@link UsersRepository} handles
-        // converting from a {@code userId} to a {@link user} using its cached data.
-    }
-
-    @Override
-    public void clearCompletedUsers() {
-        Iterator<Map.Entry<String, User>> it = USER_SERVICE_DATA.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, User> entry = it.next();
-            if (entry.getValue().isCompleted()) {
-                it.remove();
-            }
-        }
-    }
-
-    @Override
     public void refreshUsers() {
         // Not required because the {@link UsersRepository} handles the logic of refreshing the
         // users from all the available data sources.

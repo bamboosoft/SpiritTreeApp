@@ -33,7 +33,7 @@ public interface UserDao {
 
     void getUser(@NonNull String userId, @NonNull GetUserCallback callback);
 
-    void addUser(@NonNull User user);
+    void saveUser(@NonNull User user);
 
     void updateUser(@NonNull User user);
 

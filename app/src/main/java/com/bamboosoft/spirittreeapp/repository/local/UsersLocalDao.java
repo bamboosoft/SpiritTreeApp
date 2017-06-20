@@ -150,7 +150,7 @@ public class UserLocalDao implements UserDao {
 	*保存用户实体数据
 	*/
     @Override
-    public void addUser(@NonNull User user) {
+    public void saveUser(@NonNull User user) {
         checkNotNull(user);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 

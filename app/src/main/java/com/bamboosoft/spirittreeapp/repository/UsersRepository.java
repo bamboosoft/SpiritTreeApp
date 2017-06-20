@@ -111,7 +111,7 @@ public class UserRepository implements UserDao {
     }
 
     @Override
-    public void addUser(@NonNull User user) {
+    public void saveUser(@NonNull User user) {
         checkNotNull(user);
         mUserRemoteDao.saveUser(user);
         mUserLocalDao.saveUser(user);
@@ -123,52 +123,11 @@ public class UserRepository implements UserDao {
         mCachedUser.put(user.getId(), user);
     }
 
-    @Override
-    public void completeUser(@NonNull User user) {
-        checkNotNull(user);
-        mUserRemoteDao.completeUser(user);
-        mUserLocalDao.completeUser(user);
 
-        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
 
-        // Do in memory cache update to keep the app UI up to date
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
-        }
-        mCachedUser.put(user.getId(), completedUser);
-    }
-
-    @Override
-    public void completeUser(@NonNull String userId) {
-        checkNotNull(userId);
-        completeUser(getUserWithId(userId));
-    }
-
-    @Override
-    public void activateUser(@NonNull User user) {
-        checkNotNull(user);
-        mUserRemoteDao.activateUser(user);
-        mUserLocalDao.activateUser(user);
-
-        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
-
-        // Do in memory cache update to keep the app UI up to date
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
-        }
-        mCachedUser.put(user.getId(), activeUser);
-    }
-
-    @Override
-    public void activateUser(@NonNull String userId) {
-        checkNotNull(userId);
-        activateUser(getUserWithId(userId));
-    }
-
-    @Override
     public void clearCompletedUser() {
-        mUserRemoteDao.clearCompletedUser();
-        mUserLocalDao.clearCompletedUser();
+        //mUserRemoteDao.clearCompletedUser();
+        //mUserLocalDao.clearCompletedUser();
 
         // Do in memory cache update to keep the app UI up to date
         if (mCachedUser == null) {

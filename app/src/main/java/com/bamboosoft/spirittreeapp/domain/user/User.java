@@ -24,94 +24,121 @@ import com.google.common.base.Strings;
 
 import java.util.UUID;
 
+
+
+
 /**
- * Immutable model class for a Task.
+
+       ,
+       ,
+       
+
+
+ * Immutable model class for a User.
  */
-public final class Task {
+public final class User {
 
     @NonNull
-    private final String mId;
+    private final int mUserId;
 
     @Nullable
-    private final String mTitle;
+    private final String mAccount;
+    
+	@Nullable
+	private final String mPassword
 
     @Nullable
-    private final String mDescription;
+    private final int mMobile;
 
-    private boolean mCompleted;
+    @Nullable
+    private final String mEmail;
+
+    @Nullable
+    private final DateTime mCreateTime;
+
+    @Nullable
+    private final int mStatus;
+
+    @Nullable
+    private final int mLevel;
+
+    @Nullable
+    private final int mType;
+
+    private final String mMemo;
 
     /**
-     * Use this constructor to create a new active Task.
+     * Use this constructor to create a new active User.
      *
-     * @param title       title of the task
-     * @param description description of the task
+     * @param account       account of the user
+     * @param password password of the user
      */
-    public Task(@Nullable String title, @Nullable String description) {
-        this(title, description, UUID.randomUUID().toString(), false);
+    public User(@Nullable String account, @Nullable String password) {
+        this(account, password, mUserId, false);
     }
 
     /**
-     * Use this constructor to create an active Task if the Task already has an id (copy of another
-     * Task).
+     * Use this constructor to create an active User if the User already has an id (copy of another
+     * User).
      *
-     * @param title       title of the task
-     * @param description description of the task
-     * @param id          id of the task
+     * @param account       account of the user
+     * @param password password of the user
+     * @param id          id of the user
      */
-    public Task(@Nullable String title, @Nullable String description, @NonNull String id) {
-        this(title, description, id, false);
+    public User(@Nullable String account, @Nullable String password, @NonNull String id) {
+        this(account, password, false);
     }
 
     /**
-     * Use this constructor to create a new completed Task.
+     * Use this constructor to create a new completed User.
      *
-     * @param title       title of the task
-     * @param description description of the task
-     * @param completed   true if the task is completed, false if it's active
+     * @param account       account of the user
+     * @param password password of the user
+     * @param completed   true if the user is completed, false if it's active
      */
-    public Task(@Nullable String title, @Nullable String description, boolean completed) {
-        this(title, description, UUID.randomUUID().toString(), completed);
+    public User(@Nullable String account, @Nullable String password, boolean completed) {
+        this(account, password, UUID.randomUUID().toString(), completed);
     }
 
     /**
-     * Use this constructor to specify a completed Task if the Task already has an id (copy of
-     * another Task).
+     * Use this constructor to specify a completed User if the User already has an id (copy of
+     * another User).
      *
-     * @param title       title of the task
-     * @param description description of the task
-     * @param id          id of the task
-     * @param completed   true if the task is completed, false if it's active
+     * @param account       account of the user
+     * @param password password of the user
+     * @param id          id of the user
+     * @param completed   true if the user is completed, false if it's active
      */
-    public Task(@Nullable String title, @Nullable String description,
+    public User(@Nullable String account, @Nullable String password,
                 @NonNull String id, boolean completed) {
-        mId = id;
-        mTitle = title;
-        mDescription = description;
+        mUserId = id;
+        mAccount = account;
+        mPassword = password;
         mCompleted = completed;
     }
 
     @NonNull
     public String getId() {
-        return mId;
+        return mUserId;
     }
 
     @Nullable
-    public String getTitle() {
-        return mTitle;
+    public String getAccount() {
+        return mAccount;
     }
 
     @Nullable
-    public String getTitleForList() {
-        if (!Strings.isNullOrEmpty(mTitle)) {
-            return mTitle;
+    public String getAccountForList() {
+        if (!Strings.isNullOrEmpty(mAccount)) {
+            return mAccount;
         } else {
-            return mDescription;
+            return mPassword;
         }
     }
 
     @Nullable
-    public String getDescription() {
-        return mDescription;
+    public String getPassword() {
+        return mPassword;
     }
 
     public boolean isCompleted() {
@@ -123,31 +150,31 @@ public final class Task {
     }
 
     public boolean isActive() {
-        return !mCompleted;
+        return mStatus==1;
     }
 
     public boolean isEmpty() {
-        return Strings.isNullOrEmpty(mTitle) &&
-               Strings.isNullOrEmpty(mDescription);
+        return Strings.isNullOrEmpty(mAccount) &&
+               Strings.isNullOrEmpty(mPassword);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equal(mId, task.mId) &&
-               Objects.equal(mTitle, task.mTitle) &&
-               Objects.equal(mDescription, task.mDescription);
+        User user = (User) o;
+        return Objects.equal(mUserId, user.mUserId) &&
+               Objects.equal(mAccount, user.mAccount) &&
+               Objects.equal(mPassword, user.mPassword);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(mId, mTitle, mDescription);
+        return Objects.hashCode(mUserId, mAccount, mPassword);
     }
 
     @Override
     public String toString() {
-        return "Task with title " + mTitle;
+        return "User with account " + mAccount;
     }
 }
