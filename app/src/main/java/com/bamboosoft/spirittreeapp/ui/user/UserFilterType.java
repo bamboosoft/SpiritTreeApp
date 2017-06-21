@@ -19,19 +19,19 @@ package com.example.android.architecture.blueprints.todoapp.tasks;
 /**
  * Used with the filter spinner in the tasks list.
  */
-public enum TasksFilterType {
+public enum UserType {
     /**
      * Do not filter tasks.
      */
-    ALL_TASKS,
+    ALL_USER,
 
     /**
      * Filters only the active (not completed yet) tasks.
      */
-    ACTIVE_TASKS,
+    ACTIVE_USER,
 
     /**
      * Filters only the completed tasks.
      */
-    COMPLETED_TASKS
+    COMPLETED_USER
 }

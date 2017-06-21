@@ -24,16 +24,7 @@ import com.google.common.base.Strings;
 
 import java.util.UUID;
 
-
-
-
 /**
-
-       ,
-       ,
-       
-
-
  * Immutable model class for a User.
  */
 public final class User {
@@ -68,53 +59,21 @@ public final class User {
     private final String mMemo;
 
     /**
-     * Use this constructor to create a new active User.
      *
      * @param account       account of the user
      * @param password password of the user
-     */
-    public User(@Nullable String account, @Nullable String password) {
-        this(account, password, mUserId, false);
-    }
-
-    /**
-     * Use this constructor to create an active User if the User already has an id (copy of another
-     * User).
-     *
-     * @param account       account of the user
-     * @param password password of the user
-     * @param id          id of the user
-     */
-    public User(@Nullable String account, @Nullable String password, @NonNull String id) {
-        this(account, password, false);
-    }
-
-    /**
-     * Use this constructor to create a new completed User.
-     *
-     * @param account       account of the user
-     * @param password password of the user
-     * @param completed   true if the user is completed, false if it's active
-     */
-    public User(@Nullable String account, @Nullable String password, boolean completed) {
-        this(account, password, UUID.randomUUID().toString(), completed);
-    }
-
-    /**
-     * Use this constructor to specify a completed User if the User already has an id (copy of
-     * another User).
-     *
-     * @param account       account of the user
-     * @param password password of the user
-     * @param id          id of the user
-     * @param completed   true if the user is completed, false if it's active
      */
     public User(@Nullable String account, @Nullable String password,
-                @NonNull String id, boolean completed) {
-        mUserId = id;
+				@Nullable int mobile,@NonNull String email) {
         mAccount = account;
-        mPassword = password;
-        mCompleted = completed;
+        mPassword = password;       
+		mMobile = mobile;
+		mEmail = email;
+		mCreateTime = getNow();
+		mStatus = 1;
+		mLevel =1 ;
+		mType = 1;
+		mMemo = "";
     }
 
     @NonNull
@@ -128,35 +87,42 @@ public final class User {
     }
 
     @Nullable
-    public String getAccountForList() {
-        if (!Strings.isNullOrEmpty(mAccount)) {
-            return mAccount;
-        } else {
-            return mPassword;
-        }
-    }
-
-    @Nullable
     public String getPassword() {
         return mPassword;
     }
 
-    public boolean isCompleted() {
-        return mCompleted;
+    @Nullable
+    public int getMobile() {
+        return mMobile;
     }
 
-    public void setCompleted(boolean completed) {
-        mCompleted = completed;
+    @Nullable
+    public String getEmail() {
+        return mPassword;
     }
 
-    public boolean isActive() {
-        return mStatus==1;
+    @Nullable
+    public DateTime getCreateTime() {
+        return mCreateTime;
     }
 
-    public boolean isEmpty() {
-        return Strings.isNullOrEmpty(mAccount) &&
-               Strings.isNullOrEmpty(mPassword);
+    @Nullable
+    public int getStatus() {
+        return mStatus;
     }
+
+    @Nullable
+    public int getLevel() {
+        return mLevel;
+    }
+
+
+    @Nullable
+    public int getType() {
+        return mType;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
