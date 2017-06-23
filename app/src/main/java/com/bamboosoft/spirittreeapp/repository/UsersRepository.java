@@ -19,10 +19,13 @@ import java.util.Map;
 
 /**
  * Concrete implementation to load users from the data sources into a cache.
+ * 具体实现将用户从数据源加载到缓存中。
  * <p>
  * For simplicity, this implements a dumb synchronisation between locally persisted data and data
  * obtained from the server, by using the remote data source only if the local database doesn't
  * exist or is empty.
+ * 为简单起见，这实现了本地持久化数据和数据之间的非同步的同步
+ * 从服务器获取，只有在本地数据库不使用时才使用远程数据源存在或者是空的。
  */
 public class UserRepository implements UserDao {
 
@@ -34,16 +37,20 @@ public class UserRepository implements UserDao {
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
-     */
+     * 该变量具有包本地可见性，因此可以从测试中访问。
+	 */
     Map<String, User> mCachedUser;
 
     /**
      * Marks the cache as invalid, to force an update the next time data is requested. This variable
      * has package local visibility so it can be accessed from tests.
+	 * 将缓存标记为无效，以便在请求下一次数据时强制更新。这个变量
+	 * 具有包本地可见性，因此可以从测试中访问它。
      */
     boolean mCacheIsDirty = false;
 
     // Prevent direct instantiation.
+	// 防止直接实例化。
     private UserRepository(@NonNull UserDao usersRemoteDao,
                             @NonNull UserDao usersLocalDao) {
         mUserRemoteDao = checkNotNull(usersRemoteDao);
@@ -52,9 +59,10 @@ public class UserRepository implements UserDao {
 
     /**
      * Returns the single instance of this class, creating it if necessary.
-     *
-     * @param usersRemoteDao the backend data source
-     * @param usersLocalDao  the device storage data source
+     * 返回这个类的单个实例，如果需要，创建它。
+	 *			
+     * @param usersRemoteDao 后端数据源
+     * @param usersLocalDao  设备存储数据源
      * @return the {@link UserRepository} instance
      */
     public static UserRepository getInstance(UserDao usersRemoteDao,
@@ -66,8 +74,10 @@ public class UserRepository implements UserDao {
     }
 
     /**
+	 * 用于强制{ @ link # getInstance(UserDao,UserDao)}来创建一个新实例
      * Used to force {@link #getInstance(UserDao, UserDao)} to create a new instance
      * next time it's called.
+	 * 下次它被调用
      */
     public static void destroyInstance() {
         INSTANCE = null;
@@ -76,15 +86,18 @@ public class UserRepository implements UserDao {
     /**
      * Gets users from cache, local data source (SQLite) or remote data source, whichever is
      * available first.
+	 * 从缓存、本地数据源(SQLite)或远程数据源获取用户，无论哪一个都要是可用的。
      * <p>
      * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if all data sources fail to
      * get the data.
+	 * 注:{ @ link LoadUserCallback # onDataNotAvailable()}如果所有数据源无法获取数据，则会被触发。
      */
     @Override
     public void getUser(@NonNull final LoadUserCallback callback) {
         checkNotNull(callback);
 
         // Respond immediately with cache if available and not dirty
+		// 如果可用且不脏，立即响应缓存
         if (mCachedUser != null && !mCacheIsDirty) {
             callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
             return;
@@ -92,10 +105,12 @@ public class UserRepository implements UserDao {
 
         if (mCacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
+			// 如果缓存是脏的，我们需要从网络获取新数据。
             getUserFromRemoteDao(callback);
         } else {
             // Query the local storage if available. If not, query the network.
-            mUserLocalDao.getUser(new LoadUserCallback() {
+            // 如果可用，查询本地存储。如果没有，查询网络。
+			mUserLocalDao.getUser(new LoadUserCallback() {
                 @Override
                 public void onUserLoaded(List<User> users) {
                     refreshCache(users);
@@ -117,6 +132,7 @@ public class UserRepository implements UserDao {
         mUserLocalDao.saveUser(user);
 
         // Do in memory cache update to keep the app UI up to date
+		// 是否在内存缓存更新中保持应用程序的UI更新
         if (mCachedUser == null) {
             mCachedUser = new LinkedHashMap<>();
         }
@@ -130,6 +146,7 @@ public class UserRepository implements UserDao {
         //mUserLocalDao.clearCompletedUser();
 
         // Do in memory cache update to keep the app UI up to date
+		// 是否在内存缓存更新中保持应用程序的UI更新
         if (mCachedUser == null) {
             mCachedUser = new LinkedHashMap<>();
         }
@@ -145,9 +162,13 @@ public class UserRepository implements UserDao {
     /**
      * Gets users from local data source (sqlite) unless the table is new or empty. In that case it
      * uses the network data source. This is done to simplify the sample.
-     * <p>
+     * 从本地数据源(sqlite)获取用户，除非该表是新的或空的。在这种情况下它
+	 * 使用网络数据源。这样做是为了简化样本。	 
+	 * <p>
      * Note: {@link GetUserCallback#onDataNotAvailable()} is fired if both data sources fail to
      * get the data.
+	 * 注:{ @ link GetUserCallback # onDataNotAvailable()}如果两个数据源无法获取数据，就会被触发。
+	 *
      */
     @Override
     public void getUser(@NonNull final String userId, @NonNull final GetUserCallback callback) {
@@ -157,18 +178,22 @@ public class UserRepository implements UserDao {
         User cachedUser = getUserWithId(userId);
 
         // Respond immediately with cache if available
+		// 如果可用，立即响应缓存
         if (cachedUser != null) {
             callback.onUserLoaded(cachedUser);
             return;
         }
 
         // Load from server/persisted if needed.
+		// 如果需要，可以从服务器加载。
 
         // Is the user in the local data source? If not, query the network.
-        mUserLocalDao.getUser(userId, new GetUserCallback() {
+        // 用户是否在本地数据源?如果没有，查询网络。
+		mUserLocalDao.getUser(userId, new GetUserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 // Do in memory cache update to keep the app UI up to date
+				// 是否在内存缓存更新中保持应用程序的UI更新
                 if (mCachedUser == null) {
                     mCachedUser = new LinkedHashMap<>();
                 }
@@ -182,7 +207,8 @@ public class UserRepository implements UserDao {
                     @Override
                     public void onUserLoaded(User user) {
                         // Do in memory cache update to keep the app UI up to date
-                        if (mCachedUser == null) {
+                        // 是否在内存缓存更新中保持应用程序的UI更新
+						if (mCachedUser == null) {
                             mCachedUser = new LinkedHashMap<>();
                         }
                         mCachedUser.put(user.getId(), user);

@@ -26,6 +26,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Concrete implementation of a data source as a db.
+ * 将数据源作为数据库的具体实现。
  */
 public class UserLocalDao implements UserDao {
 
@@ -52,7 +53,8 @@ public class UserLocalDao implements UserDao {
     }
 
     /**
-     * 获取实体集合.
+     * 注:{ @ link LoadUserCallback # onDataNotAvailable()}
+	 * 如果数据库不存在或表为空，则会被触发。
      * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if the database doesn't exist
      * or the table is empty.
      */
@@ -91,6 +93,7 @@ public class UserLocalDao implements UserDao {
 
         if (User.isEmpty()) {
             // This will be called if the table is new or just empty.
+			// 如果表是新的或者只是空的，就会调用这个。
             callback.onDataNotAvailable();
         } else {
             callback.onUserLoaded(User);
@@ -102,6 +105,8 @@ public class UserLocalDao implements UserDao {
      * 获取单个实体.
      * Note: {@link GetUserCallback#onDataNotAvailable()} is fired if the {@link User} isn't
      * found.
+	 * 注意:如果没有找到{ @ link用户}，
+	 * 就会触发{ @ link GetUserCallback # onDataNotAvailable()}。
      */
     @Override
     public void getUser(@NonNull String userId, @NonNull GetUserCallback callback) {
@@ -190,6 +195,9 @@ public class UserLocalDao implements UserDao {
     public void refreshUser() {
         // Not required because the {@link TasksRepository} handles the logic of refreshing the
         // tasks from all the available data sources.
+
+		// 不需要，因为{ @ link UserRepository }
+		// 处理从所有可用数据源刷新用户的逻辑。
     }
    
     /**

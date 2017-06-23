@@ -17,21 +17,9 @@
 package com.example.android.architecture.blueprints.todoapp.tasks;
 
 /**
- * Used with the filter spinner in the tasks list.
+ * Defines the navigation actions that can be called from a list item in the task list.
  */
-public enum UserType {
-    /**
-     * Do not filter tasks.
-     */
-    ALL_USER,
+public interface TaskItemNavigator {
 
-    /**
-     * Filters only the active (not completed yet) tasks.
-     */
-    ACTIVE_USER,
-
-    /**
-     * Filters only the completed tasks.
-     */
-    COMPLETED_USER
+    void openTaskDetails(String taskId);
 }

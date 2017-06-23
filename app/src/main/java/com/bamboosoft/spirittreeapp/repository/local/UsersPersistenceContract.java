@@ -13,14 +13,18 @@ import android.provider.BaseColumns;
 
 /**
  * The contract used for the db to save the Users locally.
+ * 用于数据库的契约可以在本地保存用户。
  */
 public final class UsersPersistenceContract {
 
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
+	// 为了防止意外地实例化契约类，请给它一个空的构造函数。
+
     private UsersPersistenceContract() {}
 
     /* Inner class that defines the table contents */
+	/* 定义表内容的内部类 */
     public static abstract class UserEntry implements BaseColumns {
         public static final String TABLE_NAME = "Users";
         public static final int COLUMN_ID = "UserId";

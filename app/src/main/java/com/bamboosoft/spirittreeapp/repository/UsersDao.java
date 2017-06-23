@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Main entry point for accessing users data.
+ * 访问用户数据的主要入口点。
  */
 public interface UserDao {
 
