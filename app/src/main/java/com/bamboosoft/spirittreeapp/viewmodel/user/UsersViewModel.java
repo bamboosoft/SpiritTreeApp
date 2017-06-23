@@ -27,11 +27,11 @@ import android.graphics.drawable.Drawable;
 
 import com.example.android.architecture.blueprints.todoapp.BR;
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity;
-import com.example.android.architecture.blueprints.todoapp.data.Task;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
-import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailActivity;
+import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity;
+import com.example.android.architecture.blueprints.todoapp.data.User;
+import com.example.android.architecture.blueprints.todoapp.data.source.UsersDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
+import com.example.android.architecture.blueprints.todoapp.userdetail.UserDetailActivity;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
 
 import java.util.ArrayList;
@@ -44,44 +44,44 @@ import java.util.List;
  * property changes. This is done by assigning a {@link Bindable} annotation to the property's
  * getter method.
  */
-public class TasksViewModel extends BaseObservable {
+public class UsersViewModel extends BaseObservable {
 
     // These observable fields will update Views automatically
-    public final ObservableList<Task> items = new ObservableArrayList<>();
+    public final ObservableList<User> items = new ObservableArrayList<>();
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
 
     public final ObservableField<String> currentFilteringLabel = new ObservableField<>();
 
-    public final ObservableField<String> noTasksLabel = new ObservableField<>();
+    public final ObservableField<String> noUsersLabel = new ObservableField<>();
 
-    public final ObservableField<Drawable> noTaskIconRes = new ObservableField<>();
+    public final ObservableField<Drawable> noUserIconRes = new ObservableField<>();
 
-    public final ObservableBoolean tasksAddViewVisible = new ObservableBoolean();
+    public final ObservableBoolean UsersAddViewVisible = new ObservableBoolean();
 
     final ObservableField<String> snackbarText = new ObservableField<>();
 
-    private TasksFilterType mCurrentFiltering = TasksFilterType.ALL_TASKS;
+    private UsersFilterType mCurrentFiltering = UsersFilterType.ALL_Users;
 
-    private final TasksRepository mTasksRepository;
+    private final UsersRepository mUsersRepository;
 
     private final ObservableBoolean mIsDataLoadingError = new ObservableBoolean(false);
 
     private Context mContext; // To avoid leaks, this must be an Application Context.
 
-    private TasksNavigator mNavigator;
+    private UsersNavigator mNavigator;
 
-    public TasksViewModel(
-            TasksRepository repository,
+    public UsersViewModel(
+            UsersRepository repository,
             Context context) {
         mContext = context.getApplicationContext(); // Force use of Application Context.
-        mTasksRepository = repository;
+        mUsersRepository = repository;
 
         // Set initial state
-        setFiltering(TasksFilterType.ALL_TASKS);
+        setFiltering(UsersFilterType.ALL_USERS);
     }
 
-    void setNavigator(TasksNavigator navigator) {
+    void setNavigator(UsersNavigator navigator) {
         mNavigator = navigator;
     }
 
@@ -91,7 +91,7 @@ public class TasksViewModel extends BaseObservable {
     }
 
     public void start() {
-        loadTasks(false);
+        loadUsers(false);
     }
 
     @Bindable
@@ -99,50 +99,50 @@ public class TasksViewModel extends BaseObservable {
         return items.isEmpty();
     }
 
-    public void loadTasks(boolean forceUpdate) {
-        loadTasks(forceUpdate, true);
+    public void loadUsers(boolean forceUpdate) {
+        loadUsers(forceUpdate, true);
     }
 
     /**
-     * Sets the current task filtering type.
+     * Sets the current user filtering type.
      *
-     * @param requestType Can be {@link TasksFilterType#ALL_TASKS},
-     *                    {@link TasksFilterType#COMPLETED_TASKS}, or
-     *                    {@link TasksFilterType#ACTIVE_TASKS}
+     * @param requestType Can be {@link UsersFilterType#ALL_USERS},
+     *                    {@link UsersFilterType#COMPLETED_USERS}, or
+     *                    {@link UsersFilterType#ACTIVE_USERS}
      */
-    public void setFiltering(TasksFilterType requestType) {
+    public void setFiltering(UsersFilterType requestType) {
         mCurrentFiltering = requestType;
 
         // Depending on the filter type, set the filtering label, icon drawables, etc.
         switch (requestType) {
-            case ALL_TASKS:
+            case ALL_USERS:
                 currentFilteringLabel.set(mContext.getString(R.string.label_all));
-                noTasksLabel.set(mContext.getResources().getString(R.string.no_tasks_all));
-                noTaskIconRes.set(mContext.getResources().getDrawable(
+                noUsersLabel.set(mContext.getResources().getString(R.string.no_users_all));
+                noUserIconRes.set(mContext.getResources().getDrawable(
                         R.drawable.ic_assignment_turned_in_24dp));
-                tasksAddViewVisible.set(true);
+                usersAddViewVisible.set(true);
                 break;
-            case ACTIVE_TASKS:
+            case ACTIVE_USERS:
                 currentFilteringLabel.set(mContext.getString(R.string.label_active));
-                noTasksLabel.set(mContext.getResources().getString(R.string.no_tasks_active));
-                noTaskIconRes.set(mContext.getResources().getDrawable(
+                noUsersLabel.set(mContext.getResources().getString(R.string.no_users_active));
+                noUserIconRes.set(mContext.getResources().getDrawable(
                         R.drawable.ic_check_circle_24dp));
-                tasksAddViewVisible.set(false);
+                usersAddViewVisible.set(false);
                 break;
-            case COMPLETED_TASKS:
+            case COMPLETED_USERS:
                 currentFilteringLabel.set(mContext.getString(R.string.label_completed));
-                noTasksLabel.set(mContext.getResources().getString(R.string.no_tasks_completed));
-                noTaskIconRes.set(mContext.getResources().getDrawable(
+                noUsersLabel.set(mContext.getResources().getString(R.string.no_users_completed));
+                noUserIconRes.set(mContext.getResources().getDrawable(
                         R.drawable.ic_verified_user_24dp));
-                tasksAddViewVisible.set(false);
+                usersAddViewVisible.set(false);
                 break;
         }
     }
 
-    public void clearCompletedTasks() {
-        mTasksRepository.clearCompletedTasks();
-        snackbarText.set(mContext.getString(R.string.completed_tasks_cleared));
-        loadTasks(false, false);
+    public void clearCompletedUsers() {
+        mUsersRepository.clearCompletedUsers();
+        snackbarText.set(mContext.getString(R.string.completed_users_cleared));
+        loadUsers(false, false);
     }
 
     public String getSnackbarText() {
@@ -152,52 +152,52 @@ public class TasksViewModel extends BaseObservable {
     /**
      * Called by the Data Binding library and the FAB's click listener.
      */
-    public void addNewTask() {
+    public void addNewUser() {
         if (mNavigator != null) {
-            mNavigator.addNewTask();
+            mNavigator.addNewUser();
         }
     }
 
     void handleActivityResult(int requestCode, int resultCode) {
-        if (AddEditTaskActivity.REQUEST_CODE == requestCode) {
+        if (AddEditUserActivity.REQUEST_CODE == requestCode) {
             switch (resultCode) {
-                case TaskDetailActivity.EDIT_RESULT_OK:
+                case UserDetailActivity.EDIT_RESULT_OK:
                     snackbarText.set(
-                            mContext.getString(R.string.successfully_saved_task_message));
+                            mContext.getString(R.string.successfully_saved_user_message));
                     break;
-                case AddEditTaskActivity.ADD_EDIT_RESULT_OK:
+                case AddEditUserActivity.ADD_EDIT_RESULT_OK:
                     snackbarText.set(
-                            mContext.getString(R.string.successfully_added_task_message));
+                            mContext.getString(R.string.successfully_added_user_message));
                     break;
-                case TaskDetailActivity.DELETE_RESULT_OK:
+                case UserDetailActivity.DELETE_RESULT_OK:
                     snackbarText.set(
-                            mContext.getString(R.string.successfully_deleted_task_message));
+                            mContext.getString(R.string.successfully_deleted_user_message));
                     break;
             }
         }
     }
 
     /**
-     * @param forceUpdate   Pass in true to refresh the data in the {@link TasksDataSource}
+     * @param forceUpdate   Pass in true to refresh the data in the {@link UsersDataSource}
      * @param showLoadingUI Pass in true to display a loading icon in the UI
      */
-    private void loadTasks(boolean forceUpdate, final boolean showLoadingUI) {
+    private void loadUsers(boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) {
             dataLoading.set(true);
         }
         if (forceUpdate) {
 
-            mTasksRepository.refreshTasks();
+            mUsersRepository.refreshUsers();
         }
 
         // The network request might be handled in a different thread so make sure Espresso knows
         // that the app is busy until the response is handled.
         EspressoIdlingResource.increment(); // App is busy until further notice
 
-        mTasksRepository.getTasks(new TasksDataSource.LoadTasksCallback() {
+        mUsersRepository.getUsers(new UsersDataSource.LoadUsersCallback() {
             @Override
-            public void onTasksLoaded(List<Task> tasks) {
-                List<Task> tasksToShow = new ArrayList<Task>();
+            public void onUsersLoaded(List<User> users) {
+                List<User> usersToShow = new ArrayList<User>();
 
                 // This callback may be called twice, once for the cache and once for loading
                 // the data from the server API, so we check before decrementing, otherwise
@@ -206,24 +206,24 @@ public class TasksViewModel extends BaseObservable {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
 
-                // We filter the tasks based on the requestType
-                for (Task task : tasks) {
+                // We filter the users based on the requestType
+                for (User user : users) {
                     switch (mCurrentFiltering) {
-                        case ALL_TASKS:
-                            tasksToShow.add(task);
+                        case ALL_USERS:
+                            usersToShow.add(user);
                             break;
-                        case ACTIVE_TASKS:
-                            if (task.isActive()) {
-                                tasksToShow.add(task);
+                        case ACTIVE_USERS:
+                            if (user.isActive()) {
+                                usersToShow.add(user);
                             }
                             break;
-                        case COMPLETED_TASKS:
-                            if (task.isCompleted()) {
-                                tasksToShow.add(task);
+                        case COMPLETED_USERS:
+                            if (user.isCompleted()) {
+                                usersToShow.add(user);
                             }
                             break;
                         default:
-                            tasksToShow.add(task);
+                            usersToShow.add(user);
                             break;
                     }
                 }
@@ -233,7 +233,7 @@ public class TasksViewModel extends BaseObservable {
                 mIsDataLoadingError.set(false);
 
                 items.clear();
-                items.addAll(tasksToShow);
+                items.addAll(usersToShow);
                 notifyPropertyChanged(BR.empty); // It's a @Bindable so update manually
             }
 
