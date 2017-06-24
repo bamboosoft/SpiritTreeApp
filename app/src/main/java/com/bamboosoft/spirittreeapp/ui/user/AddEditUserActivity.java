@@ -1,20 +1,9 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addedituser;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,16 +20,17 @@ import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
 
 /**
- * Displays an add or edit task screen.
+ * Displays an add or edit user screen.
+ * 显示添加或编辑用户界面。
  */
-public class AddEditTaskActivity extends AppCompatActivity implements AddEditTaskNavigator {
+public class AddEditUserActivity extends AppCompatActivity implements AddEditUserNavigator {
 
     public static final int REQUEST_CODE = 1;
 
     public static final int ADD_EDIT_RESULT_OK = RESULT_FIRST_USER + 1;
 
     public static final String ADD_EDIT_VIEWMODEL_TAG = "ADD_EDIT_VIEWMODEL_TAG";
-    private AddEditTaskViewModel mViewModel;
+    private AddEditUserViewModel mViewModel;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -54,7 +44,7 @@ public class AddEditTaskActivity extends AppCompatActivity implements AddEditTas
     }
 
     @Override
-    public void onTaskSaved() {
+    public void onUserSaved() {
         setResult(ADD_EDIT_RESULT_OK);
         finish();
     }
@@ -62,21 +52,23 @@ public class AddEditTaskActivity extends AppCompatActivity implements AddEditTas
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.addtask_act);
+        setContentView(R.layout.adduser_act);
 
         // Set up the toolbar.
+		// 设置工具栏。
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
-        AddEditTaskFragment addEditTaskFragment = findOrCreateViewFragment();
+        AddEditUserFragment addEditUserFragment = findOrCreateViewFragment();
 
         mViewModel = findOrCreateViewModel();
 
         // Link View and ViewModel
-        addEditTaskFragment.setViewModel(mViewModel);
+		// 链接视图和视图模型 
+        addEditUserFragment.setViewModel(mViewModel);
 
         mViewModel.onActivityCreated(this);
     }
@@ -88,44 +80,51 @@ public class AddEditTaskActivity extends AppCompatActivity implements AddEditTas
     }
 
     @NonNull
-    private AddEditTaskFragment findOrCreateViewFragment() {
+    private AddEditUserFragment findOrCreateViewFragment() {
         // View Fragment
-        AddEditTaskFragment addEditTaskFragment = (AddEditTaskFragment) getSupportFragmentManager()
+		// 视图的片段
+        AddEditUserFragment addEditUserFragment = (AddEditUserFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (addEditTaskFragment == null) {
-            addEditTaskFragment = AddEditTaskFragment.newInstance();
+        if (addEditUserFragment == null) {
+            addEditUserFragment = AddEditUserFragment.newInstance();
 
-            // Send the task ID to the fragment
+            // Send the user ID to the fragment
+			// 将用户ID发送给碎片
             Bundle bundle = new Bundle();
-            bundle.putString(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID,
-                    getIntent().getStringExtra(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID));
-            addEditTaskFragment.setArguments(bundle);
+            bundle.putString(AddEditUserFragment.ARGUMENT_EDIT_USER_ID,
+                    getIntent().getStringExtra(AddEditUserFragment.ARGUMENT_EDIT_USER_ID));
+            addEditUserFragment.setArguments(bundle);
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    addEditTaskFragment, R.id.contentFrame);
+                    addEditUserFragment, R.id.contentFrame);
         }
-        return addEditTaskFragment;
+        return addEditUserFragment;
     }
 
-    private AddEditTaskViewModel findOrCreateViewModel() {
+    private AddEditUserViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
+		// 在配置更改中，我们可能会有一个视图模型。它使用片段管理器保留。
         @SuppressWarnings("unchecked")
-        ViewModelHolder<AddEditTaskViewModel> retainedViewModel =
-                (ViewModelHolder<AddEditTaskViewModel>) getSupportFragmentManager()
+        ViewModelHolder<AddEditUserViewModel> retainedViewModel =
+                (ViewModelHolder<AddEditUserViewModel>) getSupportFragmentManager()
                         .findFragmentByTag(ADD_EDIT_VIEWMODEL_TAG);
 
         if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
             // If the model was retained, return it.
+			// 如果模型被保留，返回它。
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-            AddEditTaskViewModel viewModel = new AddEditTaskViewModel(
+			// 现在还没有ViewModel，创建它。
+            AddEditUserViewModel viewModel = new AddEditUserViewModel(
                     getApplicationContext(),
-                    Injection.provideTasksRepository(getApplicationContext()));
+                    Injection.provideUsersRepository(getApplicationContext()));
 
             // and bind it to this Activity's lifecycle using the Fragment Manager.
+			// 使用片段管理器将其绑定到这个Activity的生命周期。
+
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     ViewModelHolder.createContainer(viewModel),

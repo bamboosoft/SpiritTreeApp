@@ -1,17 +1,6 @@
 /*
- * Copyright 2016, The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016, 
+ * 
  */
 
 package com.example.android.architecture.blueprints.todoapp.statistics;
@@ -30,11 +19,12 @@ import android.view.MenuItem;
 import com.example.android.architecture.blueprints.todoapp.Injection;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.ViewModelHolder;
-import com.example.android.architecture.blueprints.todoapp.tasks.TasksActivity;
+import com.example.android.architecture.blueprints.todoapp.users.UsersActivity;
 import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 
 /**
- * Show statistics for tasks.
+ * Show statistics for users.
+ * 显示用户统计数据。
  */
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -47,6 +37,7 @@ public class StatisticsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Open the navigation drawer when the home icon is selected from the toolbar.
+				// 从工具栏中选择home图标时打开导航抽屉。
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
@@ -68,6 +59,7 @@ public class StatisticsActivity extends AppCompatActivity {
         StatisticsViewModel statisticsViewModel = findOrCreateViewModel();
 
         // Link View and ViewModel
+		// 链接视图和视图模型
         statisticsFragment.setViewModel(statisticsViewModel);
     }
 
@@ -75,6 +67,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private StatisticsViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
+		// 在配置更改中，我们可能会有一个视图模型。它使用片段管理器保留。
         @SuppressWarnings("unchecked")
         ViewModelHolder<StatisticsViewModel> retainedViewModel =
                 (ViewModelHolder<StatisticsViewModel>) getSupportFragmentManager()
@@ -82,13 +75,16 @@ public class StatisticsActivity extends AppCompatActivity {
 
         if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
             // If the model was retained, return it.
+			// 如果模型被保留，返回它。
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
+			// 现在还没有ViewModel，创建它。
             StatisticsViewModel viewModel = new StatisticsViewModel(getApplicationContext(),
-                    Injection.provideTasksRepository(getApplicationContext()));
+                    Injection.provideUsersRepository(getApplicationContext()));
 
             // and bind it to this Activity's lifecycle using the Fragment Manager.
+			// 使用片段管理器将其绑定到这个活动的生命周期。
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     ViewModelHolder.createContainer(viewModel),
@@ -135,16 +131,18 @@ public class StatisticsActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.list_navigation_menu_item:
                                 Intent intent =
-                                        new Intent(StatisticsActivity.this, TasksActivity.class);
+                                        new Intent(StatisticsActivity.this, UsersActivity.class);
                                 startActivity(intent);
                                 break;
                             case R.id.statistics_navigation_menu_item:
                                 // Do nothing, we're already on that screen
+								// 什么都不做，我们已经在屏幕上了
                                 break;
                             default:
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.
+						// 选择一个项目时关闭导航抽屉。
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;

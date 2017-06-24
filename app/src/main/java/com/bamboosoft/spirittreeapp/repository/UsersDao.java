@@ -43,4 +43,18 @@ public interface UserDao {
     void deleteAllUser();
 
     void deleteUser(@NonNull String userId);
+
+	//-------------------------------------------
+
+    void completeUser(@NonNull User user);
+
+    void completeUser(@NonNull String userId);
+
+    void activateUser(@NonNull User user);
+
+    void activateUser(@NonNull String userId);
+
+    void clearCompletedUsers();
+
+
 }

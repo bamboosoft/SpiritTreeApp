@@ -1,20 +1,9 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2015 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.example.android.architecture.blueprints.todoapp.userdetail;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,93 +15,101 @@ import android.support.v7.widget.Toolbar;
 import com.example.android.architecture.blueprints.todoapp.Injection;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.ViewModelHolder;
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity;
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskFragment;
+import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity;
+import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserFragment;
 import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 
-import static com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity.ADD_EDIT_RESULT_OK;
-import static com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailFragment.REQUEST_EDIT_TASK;
+import static com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity.ADD_EDIT_RESULT_OK;
+import static com.example.android.architecture.blueprints.todoapp.userdetail.UserDetailFragment.REQUEST_EDIT_USER;
 
 /**
- * Displays task details screen.
+ * Displays user details screen.
+ * 屏幕显示用户详细信息。
  */
-public class TaskDetailActivity extends AppCompatActivity implements TaskDetailNavigator {
+public class UserDetailActivity extends AppCompatActivity implements UserDetailNavigator {
 
-    public static final String EXTRA_TASK_ID = "TASK_ID";
+    public static final String EXTRA_USER_ID = "USER_ID";
 
-    public static final String TASKDETAIL_VIEWMODEL_TAG = "TASKDETAIL_VIEWMODEL_TAG";
+    public static final String USERDETAIL_VIEWMODEL_TAG = "USERDETAIL_VIEWMODEL_TAG";
 
     public static final int DELETE_RESULT_OK = RESULT_FIRST_USER + 2;
 
     public static final int EDIT_RESULT_OK = RESULT_FIRST_USER + 3;
 
-    private TaskDetailViewModel mTaskViewModel;
+    private UserDetailViewModel mUserViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.taskdetail_act);
+        setContentView(R.layout.userdetail_act);
 
         setupToolbar();
 
-        TaskDetailFragment taskDetailFragment = findOrCreateViewFragment();
+        UserDetailFragment userDetailFragment = findOrCreateViewFragment();
 
-        mTaskViewModel = findOrCreateViewModel();
-        mTaskViewModel.setNavigator(this);
+        mUserViewModel = findOrCreateViewModel();
+        mUserViewModel.setNavigator(this);
 
         // Link View and ViewModel
-        taskDetailFragment.setViewModel(mTaskViewModel);
+		// 链接视图和视图模型
+        userDetailFragment.setViewModel(mUserViewModel);
     }
 
     @Override
     protected void onDestroy() {
-        mTaskViewModel.onActivityDestroyed();
+        mUserViewModel.onActivityDestroyed();
         super.onDestroy();
     }
 
     @NonNull
-    private TaskDetailViewModel findOrCreateViewModel() {
+    private UserDetailViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
+		// 在配置更改中，我们可能会有一个视图模型。它使用片段管理器保留。
         @SuppressWarnings("unchecked")
-        ViewModelHolder<TaskDetailViewModel> retainedViewModel =
-                (ViewModelHolder<TaskDetailViewModel>) getSupportFragmentManager()
-                        .findFragmentByTag(TASKDETAIL_VIEWMODEL_TAG);
+        ViewModelHolder<UserDetailViewModel> retainedViewModel =
+                (ViewModelHolder<UserDetailViewModel>) getSupportFragmentManager()
+                        .findFragmentByTag(USERDETAIL_VIEWMODEL_TAG);
 
         if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
             // If the model was retained, return it.
+			// 如果模型被保留，返回它。
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-            TaskDetailViewModel viewModel = new TaskDetailViewModel(
+			// 现在还没有ViewModel，创建它。
+            UserDetailViewModel viewModel = new UserDetailViewModel(
                     getApplicationContext(),
-                    Injection.provideTasksRepository(getApplicationContext()));
+                    Injection.provideUsersRepository(getApplicationContext()));
 
             // and bind it to this Activity's lifecycle using the Fragment Manager.
+			// 使用片段管理器将其绑定到这个活动的生命周期。
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     ViewModelHolder.createContainer(viewModel),
-                    TASKDETAIL_VIEWMODEL_TAG);
+                    USERDETAIL_VIEWMODEL_TAG);
             return viewModel;
         }
     }
 
     @NonNull
-    private TaskDetailFragment findOrCreateViewFragment() {
-        // Get the requested task id
-        String taskId = getIntent().getStringExtra(EXTRA_TASK_ID);
+    private UserDetailFragment findOrCreateViewFragment() {
+        // Get the requested user id
+		// 获取请求的用户id
 
-        TaskDetailFragment taskDetailFragment = (TaskDetailFragment) getSupportFragmentManager()
+        String userId = getIntent().getStringExtra(EXTRA_USER_ID);
+
+        UserDetailFragment userDetailFragment = (UserDetailFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
-        if (taskDetailFragment == null) {
-            taskDetailFragment = TaskDetailFragment.newInstance(taskId);
+        if (userDetailFragment == null) {
+            userDetailFragment = UserDetailFragment.newInstance(userId);
 
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
-                    taskDetailFragment, R.id.contentFrame);
+                    userDetailFragment, R.id.contentFrame);
         }
-        return taskDetailFragment;
+        return userDetailFragment;
     }
 
     private void setupToolbar() {
@@ -125,10 +122,13 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailN
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_EDIT_TASK) {
-            // If the task was edited successfully, go back to the list.
+        if (requestCode == REQUEST_EDIT_USER) {
+            // If the user was edited successfully, go back to the list.
+			// 如果用户成功编辑，返回到列表。
+
             if (resultCode == ADD_EDIT_RESULT_OK) {
                 // If the result comes from the add/edit screen, it's an edit.
+				// 如果结果来自添加/编辑屏幕，它是一个编辑。
                 setResult(EDIT_RESULT_OK);
                 finish();
             }
@@ -142,17 +142,18 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailN
     }
 
     @Override
-    public void onTaskDeleted() {
+    public void onUserDeleted() {
         setResult(DELETE_RESULT_OK);
-        // If the task was deleted successfully, go back to the list.
+        // If the user was deleted successfully, go back to the list.
+		// 如果用户被成功删除，返回到列表。
         finish();
     }
 
     @Override
-    public void onStartEditTask() {
-        String taskId = getIntent().getStringExtra(EXTRA_TASK_ID);
-        Intent intent = new Intent(this, AddEditTaskActivity.class);
-        intent.putExtra(AddEditTaskFragment.ARGUMENT_EDIT_TASK_ID, taskId);
-        startActivityForResult(intent, REQUEST_EDIT_TASK);
+    public void onStartEditUser() {
+        String userId = getIntent().getStringExtra(EXTRA_USER_ID);
+        Intent intent = new Intent(this, AddEditUserActivity.class);
+        intent.putExtra(AddEditUserFragment.ARGUMENT_EDIT_USER_ID, userId);
+        startActivityForResult(intent, REQUEST_EDIT_USER);
     }
 }

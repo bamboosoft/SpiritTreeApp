@@ -1,20 +1,9 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addedituser;
 
 import android.databinding.Observable;
 import android.os.Bundle;
@@ -29,43 +18,46 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.databinding.AddtaskFragBinding;
+import com.example.android.architecture.blueprints.todoapp.databinding.AdduserFragBinding;
 import com.example.android.architecture.blueprints.todoapp.util.SnackbarUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * Main UI for the add task screen. Users can enter a task title and description.
+ * Main UI for the add user screen. Users can enter a user title and description.
+ * 添加任务屏幕的主UI。用户可以输入任务标题和描述。
  */
-public class AddEditTaskFragment extends Fragment {
+public class AddEditUserFragment extends Fragment {
 
-    public static final String ARGUMENT_EDIT_TASK_ID = "EDIT_TASK_ID";
+    public static final String ARGUMENT_EDIT_USER_ID = "EDIT_USER_ID";
 
-    private AddEditTaskViewModel mViewModel;
+    private AddEditUserViewModel mViewModel;
 
-    private AddtaskFragBinding mViewDataBinding;
+    private AdduserFragBinding mViewDataBinding;
 
     private Observable.OnPropertyChangedCallback mSnackbarCallback;
 
-    public static AddEditTaskFragment newInstance() {
-        return new AddEditTaskFragment();
+    public static AddEditUserFragment newInstance() {
+        return new AddEditUserFragment();
     }
 
-    public AddEditTaskFragment() {
+    public AddEditUserFragment() {
         // Required empty public constructor
+		// 需要空公共构造函数
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         if (getArguments() != null) {
-            mViewModel.start(getArguments().getString(ARGUMENT_EDIT_TASK_ID));
+            mViewModel.start(getArguments().getString(ARGUMENT_EDIT_USER_ID));
         } else {
             mViewModel.start(null);
         }
     }
 
-    public void setViewModel(@NonNull AddEditTaskViewModel viewModel) {
+    public void setViewModel(@NonNull AddEditUserViewModel viewModel) {
         mViewModel = checkNotNull(viewModel);
     }
 
@@ -84,9 +76,9 @@ public class AddEditTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View root = inflater.inflate(R.layout.addtask_frag, container, false);
+        final View root = inflater.inflate(R.layout.adduser_frag, container, false);
         if (mViewDataBinding == null) {
-            mViewDataBinding = AddtaskFragBinding.bind(root);
+            mViewDataBinding = AdduserFragBinding.bind(root);
         }
 
         mViewDataBinding.setViewmodel(mViewModel);
@@ -117,12 +109,12 @@ public class AddEditTaskFragment extends Fragment {
 
     private void setupFab() {
         FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_task_done);
+                (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_user_done);
         fab.setImageResource(R.drawable.ic_done);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.saveTask(mViewModel.title.get(), mViewModel.description.get());
+                mViewModel.saveUser(mViewModel.title.get(), mViewModel.description.get());
             }
         });
     }
@@ -130,9 +122,9 @@ public class AddEditTaskFragment extends Fragment {
     private void setupActionBar() {
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (getArguments() != null) {
-            actionBar.setTitle(R.string.edit_task);
+            actionBar.setTitle(R.string.edit_user);
         } else {
-            actionBar.setTitle(R.string.add_task);
+            actionBar.setTitle(R.string.add_user);
         }
     }
 }

@@ -1,20 +1,9 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2015 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.example.android.architecture.blueprints.todoapp.userdetail;
 
 import android.databinding.Observable;
 import android.os.Bundle;
@@ -29,32 +18,33 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.databinding.TaskdetailFragBinding;
+import com.example.android.architecture.blueprints.todoapp.databinding.UserdetailFragBinding;
 import com.example.android.architecture.blueprints.todoapp.util.SnackbarUtils;
 
 
 /**
- * Main UI for the task detail screen.
+ * Main UI for the user detail screen.
+ * 主UI用于用户细节屏幕。
  */
-public class TaskDetailFragment extends Fragment {
+public class UserDetailFragment extends Fragment {
 
-    public static final String ARGUMENT_TASK_ID = "TASK_ID";
+    public static final String ARGUMENT_USER_ID = "USER_ID";
 
-    public static final int REQUEST_EDIT_TASK = 1;
+    public static final int REQUEST_EDIT_USER = 1;
 
-    private TaskDetailViewModel mViewModel;
+    private UserDetailViewModel mViewModel;
     private Observable.OnPropertyChangedCallback mSnackbarCallback;
 
-    public static TaskDetailFragment newInstance(String taskId) {
+    public static UserDetailFragment newInstance(String userId) {
         Bundle arguments = new Bundle();
-        arguments.putString(ARGUMENT_TASK_ID, taskId);
-        TaskDetailFragment fragment = new TaskDetailFragment();
+        arguments.putString(ARGUMENT_USER_ID, userId);
+        UserDetailFragment fragment = new UserDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public void setViewModel(TaskDetailViewModel taskViewModel) {
-        mViewModel = taskViewModel;
+    public void setViewModel(UserDetailViewModel userViewModel) {
+        mViewModel = userViewModel;
     }
 
     @Override
@@ -86,12 +76,12 @@ public class TaskDetailFragment extends Fragment {
 
     private void setupFab() {
         FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_task);
+                (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_user);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.startEditTask();
+                mViewModel.startEditUser();
             }
         });
     }
@@ -99,7 +89,7 @@ public class TaskDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mViewModel.start(getArguments().getString(ARGUMENT_TASK_ID));
+        mViewModel.start(getArguments().getString(ARGUMENT_USER_ID));
     }
 
     @Nullable
@@ -107,9 +97,9 @@ public class TaskDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.taskdetail_frag, container, false);
+        View view = inflater.inflate(R.layout.userdetail_frag, container, false);
 
-        TaskdetailFragBinding viewDataBinding = TaskdetailFragBinding.bind(view);
+        UserdetailFragBinding viewDataBinding = UserdetailFragBinding.bind(view);
         viewDataBinding.setViewmodel(mViewModel);
 
         setHasOptionsMenu(true);
@@ -121,7 +111,7 @@ public class TaskDetailFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_delete:
-                mViewModel.deleteTask();
+                mViewModel.deleteUser();
                 return true;
         }
         return false;
@@ -129,6 +119,6 @@ public class TaskDetailFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.taskdetail_fragment_menu, menu);
+        inflater.inflate(R.menu.userdetail_fragment_menu, menu);
     }
 }

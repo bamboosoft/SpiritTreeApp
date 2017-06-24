@@ -291,4 +291,73 @@ public class UserRepository implements UserDao {
             return mCachedUser.get(id);
         }
     }
+
+	//-------------------------------------------------------------
+
+    @Override
+    public void completeUser(@NonNull User user) {
+        checkNotNull(user);
+        mUsersRemoteDataSource.completeUser(user);
+        mUsersLocalDataSource.completeUser(user);
+
+        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
+
+        // Do in memory cache update to keep the app UI up to date
+		// 是否在内存缓存更新中保持应用程序的UI更新
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
+        }
+        mCachedUsers.put(user.getId(), completedUser);
+    }
+
+    @Override
+    public void completeUser(@NonNull String userId) {
+        checkNotNull(userId);
+        completeUser(getUserWithId(userId));
+    }
+
+    @Override
+    public void activateUser(@NonNull User user) {
+        checkNotNull(user);
+        mUsersRemoteDataSource.activateUser(user);
+        mUsersLocalDataSource.activateUser(user);
+
+        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
+
+        // Do in memory cache update to keep the app UI up to date
+		// 是否在内存缓存更新中保持应用程序的UI更新
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
+        }
+        mCachedUsers.put(user.getId(), activeUser);
+    }
+
+    @Override
+    public void activateUser(@NonNull String userId) {
+        checkNotNull(userId);
+        activateUser(getUserWithId(userId));
+    }
+
+    @Override
+    public void clearCompletedUsers() {
+        mUsersRemoteDataSource.clearCompletedUsers();
+        mUsersLocalDataSource.clearCompletedUsers();
+
+        // Do in memory cache update to keep the app UI up to date
+		// 是否在内存缓存更新中保持应用程序的UI更新
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
+        }
+        Iterator<Map.Entry<String, User>> it = mCachedUsers.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, User> entry = it.next();
+            if (entry.getValue().isCompleted()) {
+                it.remove();
+            }
+        }
+    }
+
+
+
+
 }

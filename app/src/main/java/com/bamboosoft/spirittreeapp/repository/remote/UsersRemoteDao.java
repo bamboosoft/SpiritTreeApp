@@ -1,17 +1,6 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 package com.bamboosoft.spirittreeapp.repository.remote;
@@ -29,6 +18,7 @@ import java.util.Map;
 
 /**
  * Implementation of the data source that adds a latency simulating network.
+ * 数据来源的实现，增加了一个延时模拟网络。
  */
 public class UsersRemoteDao implements UsersDao {
 
@@ -66,6 +56,7 @@ public class UsersRemoteDao implements UsersDao {
     }
 
     // Prevent direct instantiation.
+	// 防止直接实例化。
     private UsersRemoteDao() {}
 
     private static void addUser(String title, String description, String id) {
@@ -77,10 +68,14 @@ public class UsersRemoteDao implements UsersDao {
      * Note: {@link LoadUsersCallback#onDataNotAvailable()} is never fired. In a real remote data
      * source implementation, this would be fired if the server can't be contacted or the server
      * returns an error.
+	 * 注意:{ @ link LoadUsersCallback # onDataNotAvailable()}永远不会被触发。
+	 * 在实际的远程数据源实现中，如果无法联系服务器或服务器返回错误，
+	 * 则会触发此操作。
      */
     @Override
     public void getUsers(final @NonNull LoadUsersCallback callback) {
         // Simulate network by delaying the execution.
+		// 通过延迟执行来模拟网络。
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -94,12 +89,16 @@ public class UsersRemoteDao implements UsersDao {
      * Note: {@link GetUserCallback#onDataNotAvailable()} is never fired. In a real remote data
      * source implementation, this would be fired if the server can't be contacted or the server
      * returns an error.
+	 * 注意:{ @ link GetUserCallback # onDataNotAvailable()}永远不会被触发。
+	 * 在实际的远程数据源实现中，如果无法联系服务器或服务器返回错误，
+	 * 则会触发此操作。
      */
     @Override
     public void getUser(@NonNull String userId, final @NonNull GetUserCallback callback) {
         final User user = USER_SERVICE_DATA.get(userId);
 
         // Simulate network by delaying the execution.
+		// 通过延迟执行来模拟网络。
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -118,6 +117,8 @@ public class UsersRemoteDao implements UsersDao {
     public void refreshUsers() {
         // Not required because the {@link UsersRepository} handles the logic of refreshing the
         // users from all the available data sources.
+		// 不需要，因为{ @ link UsersRepository }处理从所有可用数据源中刷新用户的逻辑。
+
     }
 
     @Override
@@ -129,4 +130,46 @@ public class UsersRemoteDao implements UsersDao {
     public void deleteUser(@NonNull String userId) {
         USER_SERVICE_DATA.remove(userId);
     }
+
+	//----------------------------------------------------------------
+
+    @Override
+    public void completeUser(@NonNull User user) {
+        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
+        TASKS_SERVICE_DATA.put(user.getId(), completedUser);
+    }
+
+    @Override
+    public void completeUser(@NonNull String userId) {
+        // Not required for the remote data source because the {@link UsersRepository} handles
+        // converting from a {@code userId} to a {@link user} using its cached data.
+		// 不需要远程数据源，因为{ @ link UsersRepository }处理从{ @ code userId }转换为{ @ link用户}使用它的缓存数据。
+	}
+
+    @Override
+    public void activateUser(@NonNull User user) {
+        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
+        TASKS_SERVICE_DATA.put(user.getId(), activeUser);
+    }
+
+    @Override
+    public void activateUser(@NonNull String userId) {
+        // Not required for the remote data source because the {@link UsersRepository} handles
+        // converting from a {@code userId} to a {@link user} using its cached data.
+		// 不需要远程数据源，因为{ @ link UsersRepository }处理从{ @ code userId }转换为{ @ link用户}使用它的缓存数据。
+
+    }
+
+    @Override
+    public void clearCompletedUsers() {
+        Iterator<Map.Entry<String, User>> it = TASKS_SERVICE_DATA.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, User> entry = it.next();
+            if (entry.getValue().isCompleted()) {
+                it.remove();
+            }
+        }
+    }
+
+
 }

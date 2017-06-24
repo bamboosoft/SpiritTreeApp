@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /**
  * Immutable model class for a User.
- * 不可变用户model类
+ * 不可变 用户model类
  */
 public final class User {
 

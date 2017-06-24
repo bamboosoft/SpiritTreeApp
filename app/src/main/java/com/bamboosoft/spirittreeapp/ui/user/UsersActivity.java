@@ -1,20 +1,9 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.tasks;
+package com.example.android.architecture.blueprints.todoapp.users;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,37 +21,38 @@ import android.view.MenuItem;
 import com.example.android.architecture.blueprints.todoapp.Injection;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.example.android.architecture.blueprints.todoapp.ViewModelHolder;
-import com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskActivity;
+import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity;
 import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsActivity;
-import com.example.android.architecture.blueprints.todoapp.taskdetail.TaskDetailActivity;
+import com.example.android.architecture.blueprints.todoapp.userdetail.UserDetailActivity;
 import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
 
 
-public class TasksActivity extends AppCompatActivity implements TaskItemNavigator, TasksNavigator {
+public class UsersActivity extends AppCompatActivity implements UserItemNavigator, UsersNavigator {
 
     private DrawerLayout mDrawerLayout;
 
-    public static final String TASKS_VIEWMODEL_TAG = "TASKS_VIEWMODEL_TAG";
+    public static final String USERS_VIEWMODEL_TAG = "USERS_VIEWMODEL_TAG";
 
-    private TasksViewModel mViewModel;
+    private UsersViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tasks_act);
+        setContentView(R.layout.users_act);
 
         setupToolbar();
 
         setupNavigationDrawer();
 
-        TasksFragment tasksFragment = findOrCreateViewFragment();
+        UsersFragment usersFragment = findOrCreateViewFragment();
 
         mViewModel = findOrCreateViewModel();
         mViewModel.setNavigator(this);
 
         // Link View and ViewModel
-        tasksFragment.setViewModel(mViewModel);
+		// 链接视图和视图模型
+        usersFragment.setViewModel(mViewModel);
     }
 
     @Override
@@ -71,42 +61,46 @@ public class TasksActivity extends AppCompatActivity implements TaskItemNavigato
         super.onDestroy();
     }
 
-    private TasksViewModel findOrCreateViewModel() {
+    private UsersViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
+		// 在配置更改中，我们可能会有一个视图模型。它使用片段管理器保留。
         @SuppressWarnings("unchecked")
-        ViewModelHolder<TasksViewModel> retainedViewModel =
-                (ViewModelHolder<TasksViewModel>) getSupportFragmentManager()
-                        .findFragmentByTag(TASKS_VIEWMODEL_TAG);
+        ViewModelHolder<UsersViewModel> retainedViewModel =
+                (ViewModelHolder<UsersViewModel>) getSupportFragmentManager()
+                        .findFragmentByTag(USERS_VIEWMODEL_TAG);
 
         if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
             // If the model was retained, return it.
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-            TasksViewModel viewModel = new TasksViewModel(
-                    Injection.provideTasksRepository(getApplicationContext()),
+			// 现在还没有ViewModel，创建它。
+            UsersViewModel viewModel = new UsersViewModel(
+                    Injection.provideUsersRepository(getApplicationContext()),
                     getApplicationContext());
             // and bind it to this Activity's lifecycle using the Fragment Manager.
+			// 使用片段管理器将其绑定到这个活动的生命周期。
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     ViewModelHolder.createContainer(viewModel),
-                    TASKS_VIEWMODEL_TAG);
+                    USERS_VIEWMODEL_TAG);
             return viewModel;
         }
     }
 
     @NonNull
-    private TasksFragment findOrCreateViewFragment() {
-        TasksFragment tasksFragment =
-                (TasksFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (tasksFragment == null) {
+    private UsersFragment findOrCreateViewFragment() {
+        UsersFragment usersFragment =
+                (UsersFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (usersFragment == null) {
             // Create the fragment
-            tasksFragment = TasksFragment.newInstance();
+			// 创建片段
+            usersFragment = UsersFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), tasksFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), usersFragment, R.id.contentFrame);
         }
-        return tasksFragment;
+        return usersFragment;
     }
 
     private void setupToolbar() {
@@ -131,6 +125,7 @@ public class TasksActivity extends AppCompatActivity implements TaskItemNavigato
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Open the navigation drawer when the home icon is selected from the toolbar.
+				// 从工具栏中选择home图标时打开导航抽屉。
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
@@ -145,18 +140,20 @@ public class TasksActivity extends AppCompatActivity implements TaskItemNavigato
                         switch (menuItem.getItemId()) {
                             case R.id.list_navigation_menu_item:
                                 // Do nothing, we're already on that screen
+								// 什么都不做，我们已经在屏幕上了
                                 break;
                             case R.id.statistics_navigation_menu_item:
                                 Intent intent =
-                                        new Intent(TasksActivity.this, StatisticsActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        new Intent(UsersActivity.this, StatisticsActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_USER
+                                        | Intent.FLAG_ACTIVITY_CLEAR_USER);
                                 startActivity(intent);
                                 break;
                             default:
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.
+						// 选择一个项目时关闭导航抽屉。
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;
@@ -175,16 +172,16 @@ public class TasksActivity extends AppCompatActivity implements TaskItemNavigato
     }
 
     @Override
-    public void openTaskDetails(String taskId) {
-        Intent intent = new Intent(this, TaskDetailActivity.class);
-        intent.putExtra(TaskDetailActivity.EXTRA_TASK_ID, taskId);
-        startActivityForResult(intent, AddEditTaskActivity.REQUEST_CODE);
+    public void openUserDetails(String userId) {
+        Intent intent = new Intent(this, UserDetailActivity.class);
+        intent.putExtra(UserDetailActivity.EXTRA_USER_ID, userId);
+        startActivityForResult(intent, AddEditUserActivity.REQUEST_CODE);
 
     }
 
     @Override
-    public void addNewTask() {
-        Intent intent = new Intent(this, AddEditTaskActivity.class);
-        startActivityForResult(intent, AddEditTaskActivity.REQUEST_CODE);
+    public void addNewUser() {
+        Intent intent = new Intent(this, AddEditUserActivity.class);
+        startActivityForResult(intent, AddEditUserActivity.REQUEST_CODE);
     }
 }

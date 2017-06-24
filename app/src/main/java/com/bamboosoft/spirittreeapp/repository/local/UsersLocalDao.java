@@ -193,8 +193,8 @@ public class UserLocalDao implements UserDao {
 
     @Override
     public void refreshUser() {
-        // Not required because the {@link TasksRepository} handles the logic of refreshing the
-        // tasks from all the available data sources.
+        // Not required because the {@link UsersRepository} handles the logic of refreshing the
+        // users from all the available data sources.
 
 		// 不需要，因为{ @ link UserRepository }
 		// 处理从所有可用数据源刷新用户的逻辑。
@@ -228,4 +228,72 @@ public class UserLocalDao implements UserDao {
 
         db.close();
     }
+
+	// --------------------------------------------------------------------
+
+	
+    @Override
+    public void completeUser(@NonNull User user) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(UserEntry.COLUMN_NAME_COMPLETED, true);
+
+        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String[] selectionArgs = { user.getId() };
+
+        db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
+    }
+
+    @Override
+    public void completeUser(@NonNull String userId) {
+        // Not required for the local data source because the {@link UsersRepository} handles
+        // converting from a {@code userId} to a {@link user} using its cached data.
+		// 不需要本地数据源，因为{ @ link UsersRepository }
+		// 处理从{ @ code userId }转换为{ @ link用户}使用它的缓存数据。
+
+    }
+
+    @Override
+    public void activateUser(@NonNull User user) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(UserEntry.COLUMN_NAME_COMPLETED, false);
+
+        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String[] selectionArgs = { user.getId() };
+
+        db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        db.close();
+    }
+
+    @Override
+    public void activateUser(@NonNull String userId) {
+        // Not required for the local data source because the {@link UsersRepository} handles
+        // converting from a {@code userId} to a {@link user} using its cached data.
+		// 不需要本地数据源，因为{ @ link UsersRepository }处理从{ @ code userId }
+		// 转换为{ @ link用户}使用它的缓存数据。
+
+    }
+
+    @Override
+    public void clearCompletedUsers() {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        String selection = UserEntry.COLUMN_NAME_COMPLETED + " LIKE ?";
+        String[] selectionArgs = { "1" };
+
+        db.delete(UserEntry.TABLE_NAME, selection, selectionArgs);
+
+        db.close();
+    }
+
+
+
+
+
 }
