@@ -14,9 +14,9 @@ public class SwipeRefreshLayoutDataBinding {
 
     /**
      * Reloads the data when the pull-to-refresh is triggered.
-	 * ÔÚ´¥·¢µ½Ë¢ĞÂÊ±ÖØĞÂ¼ÓÔØÊı¾İ¡£
+	 * åœ¨è§¦å‘åˆ°åˆ·æ–°æ—¶é‡æ–°åŠ è½½æ•°æ®ã€‚
      * <p>
-     * ²úÉú {@code android:onRefresh} Îª {@link SwipeRefreshLayout}.
+     * äº§ç”Ÿ {@code android:onRefresh} ä¸º {@link SwipeRefreshLayout}.
      */
     @BindingAdapter("android:onRefresh")
     public static void setSwipeRefreshLayoutOnRefreshListener(ScrollChildSwipeRefreshLayout view,

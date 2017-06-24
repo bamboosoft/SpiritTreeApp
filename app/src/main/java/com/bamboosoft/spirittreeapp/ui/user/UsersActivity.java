@@ -51,7 +51,7 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
         mViewModel.setNavigator(this);
 
         // Link View and ViewModel
-		// Á´½ÓÊÓÍ¼ºÍÊÓÍ¼Ä£ĞÍ
+		// é“¾æ¥è§†å›¾å’Œè§†å›¾æ¨¡å‹
         usersFragment.setViewModel(mViewModel);
     }
 
@@ -64,7 +64,7 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
     private UsersViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
-		// ÔÚÅäÖÃ¸ü¸ÄÖĞ£¬ÎÒÃÇ¿ÉÄÜ»áÓĞÒ»¸öÊÓÍ¼Ä£ĞÍ¡£ËüÊ¹ÓÃÆ¬¶Î¹ÜÀíÆ÷±£Áô¡£
+		// åœ¨é…ç½®æ›´æ”¹ä¸­ï¼Œæˆ‘ä»¬å¯èƒ½ä¼šæœ‰ä¸€ä¸ªè§†å›¾æ¨¡å‹ã€‚å®ƒä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨ä¿ç•™ã€‚
         @SuppressWarnings("unchecked")
         ViewModelHolder<UsersViewModel> retainedViewModel =
                 (ViewModelHolder<UsersViewModel>) getSupportFragmentManager()
@@ -75,12 +75,12 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-			// ÏÖÔÚ»¹Ã»ÓĞViewModel£¬´´½¨Ëü¡£
+			// ç°åœ¨è¿˜æ²¡æœ‰ViewModelï¼Œåˆ›å»ºå®ƒã€‚
             UsersViewModel viewModel = new UsersViewModel(
                     Injection.provideUsersRepository(getApplicationContext()),
                     getApplicationContext());
             // and bind it to this Activity's lifecycle using the Fragment Manager.
-			// Ê¹ÓÃÆ¬¶Î¹ÜÀíÆ÷½«Æä°ó¶¨µ½Õâ¸ö»î¶¯µÄÉúÃüÖÜÆÚ¡£
+			// ä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨å°†å…¶ç»‘å®šåˆ°è¿™ä¸ªæ´»åŠ¨çš„ç”Ÿå‘½å‘¨æœŸã€‚
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     ViewModelHolder.createContainer(viewModel),
@@ -95,7 +95,7 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
                 (UsersFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (usersFragment == null) {
             // Create the fragment
-			// ´´½¨Æ¬¶Î
+			// åˆ›å»ºç‰‡æ®µ
             usersFragment = UsersFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), usersFragment, R.id.contentFrame);
@@ -125,7 +125,7 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Open the navigation drawer when the home icon is selected from the toolbar.
-				// ´Ó¹¤¾ßÀ¸ÖĞÑ¡ÔñhomeÍ¼±êÊ±´ò¿ªµ¼º½³éÌë¡£
+				// ä»å·¥å…·æ ä¸­é€‰æ‹©homeå›¾æ ‡æ—¶æ‰“å¼€å¯¼èˆªæŠ½å±‰ã€‚
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
@@ -140,7 +140,7 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
                         switch (menuItem.getItemId()) {
                             case R.id.list_navigation_menu_item:
                                 // Do nothing, we're already on that screen
-								// Ê²Ã´¶¼²»×ö£¬ÎÒÃÇÒÑ¾­ÔÚÆÁÄ»ÉÏÁË
+								// ä»€ä¹ˆéƒ½ä¸åšï¼Œæˆ‘ä»¬å·²ç»åœ¨å±å¹•ä¸Šäº†
                                 break;
                             case R.id.statistics_navigation_menu_item:
                                 Intent intent =
@@ -153,7 +153,7 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.
-						// Ñ¡ÔñÒ»¸öÏîÄ¿Ê±¹Ø±Õµ¼º½³éÌë¡£
+						// é€‰æ‹©ä¸€ä¸ªé¡¹ç›®æ—¶å…³é—­å¯¼èˆªæŠ½å±‰ã€‚
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;

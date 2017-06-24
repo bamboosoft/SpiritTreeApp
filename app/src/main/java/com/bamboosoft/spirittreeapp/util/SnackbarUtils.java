@@ -5,6 +5,7 @@ import android.view.View;
 
 /**
  * Provides a method to show a Snackbar.
+ * 提供一个显示Snackbar的方法。
  */
 public class SnackbarUtils {
 

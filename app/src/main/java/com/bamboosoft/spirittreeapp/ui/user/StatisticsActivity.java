@@ -24,7 +24,7 @@ import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
 
 /**
  * Show statistics for users.
- * ÏÔÊ¾ÓÃ»§Í³¼ÆÊı¾İ¡£
+ * æ˜¾ç¤ºç”¨æˆ·ç»Ÿè®¡æ•°æ®ã€‚
  */
 public class StatisticsActivity extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class StatisticsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Open the navigation drawer when the home icon is selected from the toolbar.
-				// ´Ó¹¤¾ßÀ¸ÖĞÑ¡ÔñhomeÍ¼±êÊ±´ò¿ªµ¼º½³éÌë¡£
+				// ä»å·¥å…·æ ä¸­é€‰æ‹©homeå›¾æ ‡æ—¶æ‰“å¼€å¯¼èˆªæŠ½å±‰ã€‚
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
@@ -59,7 +59,7 @@ public class StatisticsActivity extends AppCompatActivity {
         StatisticsViewModel statisticsViewModel = findOrCreateViewModel();
 
         // Link View and ViewModel
-		// Á´½ÓÊÓÍ¼ºÍÊÓÍ¼Ä£ĞÍ
+		// é“¾æ¥è§†å›¾å’Œè§†å›¾æ¨¡å‹
         statisticsFragment.setViewModel(statisticsViewModel);
     }
 
@@ -67,7 +67,7 @@ public class StatisticsActivity extends AppCompatActivity {
     private StatisticsViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
-		// ÔÚÅäÖÃ¸ü¸ÄÖĞ£¬ÎÒÃÇ¿ÉÄÜ»áÓĞÒ»¸öÊÓÍ¼Ä£ĞÍ¡£ËüÊ¹ÓÃÆ¬¶Î¹ÜÀíÆ÷±£Áô¡£
+		// åœ¨é…ç½®æ›´æ”¹ä¸­ï¼Œæˆ‘ä»¬å¯èƒ½ä¼šæœ‰ä¸€ä¸ªè§†å›¾æ¨¡å‹ã€‚å®ƒä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨ä¿ç•™ã€‚
         @SuppressWarnings("unchecked")
         ViewModelHolder<StatisticsViewModel> retainedViewModel =
                 (ViewModelHolder<StatisticsViewModel>) getSupportFragmentManager()
@@ -75,16 +75,16 @@ public class StatisticsActivity extends AppCompatActivity {
 
         if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
             // If the model was retained, return it.
-			// Èç¹ûÄ£ĞÍ±»±£Áô£¬·µ»ØËü¡£
+			// å¦‚æœæ¨¡å‹è¢«ä¿ç•™ï¼Œè¿”å›å®ƒã€‚
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-			// ÏÖÔÚ»¹Ã»ÓĞViewModel£¬´´½¨Ëü¡£
+			// ç°åœ¨è¿˜æ²¡æœ‰ViewModelï¼Œåˆ›å»ºå®ƒã€‚
             StatisticsViewModel viewModel = new StatisticsViewModel(getApplicationContext(),
                     Injection.provideUsersRepository(getApplicationContext()));
 
             // and bind it to this Activity's lifecycle using the Fragment Manager.
-			// Ê¹ÓÃÆ¬¶Î¹ÜÀíÆ÷½«Æä°ó¶¨µ½Õâ¸ö»î¶¯µÄÉúÃüÖÜÆÚ¡£
+			// ä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨å°†å…¶ç»‘å®šåˆ°è¿™ä¸ªæ´»åŠ¨çš„ç”Ÿå‘½å‘¨æœŸã€‚
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     ViewModelHolder.createContainer(viewModel),
@@ -136,13 +136,13 @@ public class StatisticsActivity extends AppCompatActivity {
                                 break;
                             case R.id.statistics_navigation_menu_item:
                                 // Do nothing, we're already on that screen
-								// Ê²Ã´¶¼²»×ö£¬ÎÒÃÇÒÑ¾­ÔÚÆÁÄ»ÉÏÁË
+								// ä»€ä¹ˆéƒ½ä¸åšï¼Œæˆ‘ä»¬å·²ç»åœ¨å±å¹•ä¸Šäº†
                                 break;
                             default:
                                 break;
                         }
                         // Close the navigation drawer when an item is selected.
-						// Ñ¡ÔñÒ»¸öÏîÄ¿Ê±¹Ø±Õµ¼º½³éÌë¡£
+						// é€‰æ‹©ä¸€ä¸ªé¡¹ç›®æ—¶å…³é—­å¯¼èˆªæŠ½å±‰ã€‚
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         return true;

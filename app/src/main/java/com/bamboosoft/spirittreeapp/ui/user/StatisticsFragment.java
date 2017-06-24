@@ -18,7 +18,7 @@ import com.example.android.architecture.blueprints.todoapp.databinding.Statistic
 
 /**
  * Main UI for the statistics screen.
- * Í³¼ÆÆÁÄ»µÄÖ÷UI¡£
+ * ç»Ÿè®¡å±å¹•çš„ä¸»UIã€‚
  */
 public class StatisticsFragment extends Fragment {
 

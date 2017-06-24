@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Contains {@link BindingAdapter}s for the {@link User} list.
- * ÔÚ{ @ linkÓÃ»§ÁĞ±íÖĞ°üº¬{ @ link BindingAdapter } s¡£
+ * åœ¨{ @ linkç”¨æˆ·åˆ—è¡¨ä¸­åŒ…å«{ @ link BindingAdapter } sã€‚
  */
 public class UsersListBindings {
 

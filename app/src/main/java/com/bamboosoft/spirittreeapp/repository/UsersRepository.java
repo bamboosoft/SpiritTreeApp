@@ -19,13 +19,13 @@ import java.util.Map;
 
 /**
  * Concrete implementation to load users from the data sources into a cache.
- * ¾ßÌåÊµÏÖ½«ÓÃ»§´ÓÊı¾İÔ´¼ÓÔØµ½»º´æÖĞ¡£
+ * å…·ä½“å®ç°å°†ç”¨æˆ·ä»æ•°æ®æºåŠ è½½åˆ°ç¼“å­˜ä¸­ã€‚
  * <p>
  * For simplicity, this implements a dumb synchronisation between locally persisted data and data
  * obtained from the server, by using the remote data source only if the local database doesn't
  * exist or is empty.
- * Îª¼òµ¥Æğ¼û£¬ÕâÊµÏÖÁË±¾µØ³Ö¾Ã»¯Êı¾İºÍÊı¾İÖ®¼äµÄ·ÇÍ¬²½µÄÍ¬²½
- * ´Ó·şÎñÆ÷»ñÈ¡£¬Ö»ÓĞÔÚ±¾µØÊı¾İ¿â²»Ê¹ÓÃÊ±²ÅÊ¹ÓÃÔ¶³ÌÊı¾İÔ´´æÔÚ»òÕßÊÇ¿ÕµÄ¡£
+ * ä¸ºç®€å•èµ·è§ï¼Œè¿™å®ç°äº†æœ¬åœ°æŒä¹…åŒ–æ•°æ®å’Œæ•°æ®ä¹‹é—´çš„éåŒæ­¥çš„åŒæ­¥
+ * ä»æœåŠ¡å™¨è·å–ï¼Œåªæœ‰åœ¨æœ¬åœ°æ•°æ®åº“ä¸ä½¿ç”¨æ—¶æ‰ä½¿ç”¨è¿œç¨‹æ•°æ®æºå­˜åœ¨æˆ–è€…æ˜¯ç©ºçš„ã€‚
  */
 public class UserRepository implements UserDao {
 
@@ -37,20 +37,20 @@ public class UserRepository implements UserDao {
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
-     * ¸Ã±äÁ¿¾ßÓĞ°ü±¾µØ¿É¼ûĞÔ£¬Òò´Ë¿ÉÒÔ´Ó²âÊÔÖĞ·ÃÎÊ¡£
+     * è¯¥å˜é‡å…·æœ‰åŒ…æœ¬åœ°å¯è§æ€§ï¼Œå› æ­¤å¯ä»¥ä»æµ‹è¯•ä¸­è®¿é—®ã€‚
 	 */
     Map<String, User> mCachedUser;
 
     /**
      * Marks the cache as invalid, to force an update the next time data is requested. This variable
      * has package local visibility so it can be accessed from tests.
-	 * ½«»º´æ±ê¼ÇÎªÎŞĞ§£¬ÒÔ±ãÔÚÇëÇóÏÂÒ»´ÎÊı¾İÊ±Ç¿ÖÆ¸üĞÂ¡£Õâ¸ö±äÁ¿
-	 * ¾ßÓĞ°ü±¾µØ¿É¼ûĞÔ£¬Òò´Ë¿ÉÒÔ´Ó²âÊÔÖĞ·ÃÎÊËü¡£
+	 * å°†ç¼“å­˜æ ‡è®°ä¸ºæ— æ•ˆï¼Œä»¥ä¾¿åœ¨è¯·æ±‚ä¸‹ä¸€æ¬¡æ•°æ®æ—¶å¼ºåˆ¶æ›´æ–°ã€‚è¿™ä¸ªå˜é‡
+	 * å…·æœ‰åŒ…æœ¬åœ°å¯è§æ€§ï¼Œå› æ­¤å¯ä»¥ä»æµ‹è¯•ä¸­è®¿é—®å®ƒã€‚
      */
     boolean mCacheIsDirty = false;
 
     // Prevent direct instantiation.
-	// ·ÀÖ¹Ö±½ÓÊµÀı»¯¡£
+	// é˜²æ­¢ç›´æ¥å®ä¾‹åŒ–ã€‚
     private UserRepository(@NonNull UserDao usersRemoteDao,
                             @NonNull UserDao usersLocalDao) {
         mUserRemoteDao = checkNotNull(usersRemoteDao);
@@ -59,10 +59,10 @@ public class UserRepository implements UserDao {
 
     /**
      * Returns the single instance of this class, creating it if necessary.
-     * ·µ»ØÕâ¸öÀàµÄµ¥¸öÊµÀı£¬Èç¹ûĞèÒª£¬´´½¨Ëü¡£
+     * è¿”å›è¿™ä¸ªç±»çš„å•ä¸ªå®ä¾‹ï¼Œå¦‚æœéœ€è¦ï¼Œåˆ›å»ºå®ƒã€‚
 	 *			
-     * @param usersRemoteDao ºó¶ËÊı¾İÔ´
-     * @param usersLocalDao  Éè±¸´æ´¢Êı¾İÔ´
+     * @param usersRemoteDao åç«¯æ•°æ®æº
+     * @param usersLocalDao  è®¾å¤‡å­˜å‚¨æ•°æ®æº
      * @return the {@link UserRepository} instance
      */
     public static UserRepository getInstance(UserDao usersRemoteDao,
@@ -74,10 +74,10 @@ public class UserRepository implements UserDao {
     }
 
     /**
-	 * ÓÃÓÚÇ¿ÖÆ{ @ link # getInstance(UserDao,UserDao)}À´´´½¨Ò»¸öĞÂÊµÀı
+	 * ç”¨äºå¼ºåˆ¶{ @ link # getInstance(UserDao,UserDao)}æ¥åˆ›å»ºä¸€ä¸ªæ–°å®ä¾‹
      * Used to force {@link #getInstance(UserDao, UserDao)} to create a new instance
      * next time it's called.
-	 * ÏÂ´ÎËü±»µ÷ÓÃ
+	 * ä¸‹æ¬¡å®ƒè¢«è°ƒç”¨
      */
     public static void destroyInstance() {
         INSTANCE = null;
@@ -86,18 +86,18 @@ public class UserRepository implements UserDao {
     /**
      * Gets users from cache, local data source (SQLite) or remote data source, whichever is
      * available first.
-	 * ´Ó»º´æ¡¢±¾µØÊı¾İÔ´(SQLite)»òÔ¶³ÌÊı¾İÔ´»ñÈ¡ÓÃ»§£¬ÎŞÂÛÄÄÒ»¸ö¶¼ÒªÊÇ¿ÉÓÃµÄ¡£
+	 * ä»ç¼“å­˜ã€æœ¬åœ°æ•°æ®æº(SQLite)æˆ–è¿œç¨‹æ•°æ®æºè·å–ç”¨æˆ·ï¼Œæ— è®ºå“ªä¸€ä¸ªéƒ½è¦æ˜¯å¯ç”¨çš„ã€‚
      * <p>
      * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if all data sources fail to
      * get the data.
-	 * ×¢:{ @ link LoadUserCallback # onDataNotAvailable()}Èç¹ûËùÓĞÊı¾İÔ´ÎŞ·¨»ñÈ¡Êı¾İ£¬Ôò»á±»´¥·¢¡£
+	 * æ³¨:{ @ link LoadUserCallback # onDataNotAvailable()}å¦‚æœæ‰€æœ‰æ•°æ®æºæ— æ³•è·å–æ•°æ®ï¼Œåˆ™ä¼šè¢«è§¦å‘ã€‚
      */
     @Override
     public void getUser(@NonNull final LoadUserCallback callback) {
         checkNotNull(callback);
 
         // Respond immediately with cache if available and not dirty
-		// Èç¹û¿ÉÓÃÇÒ²»Ôà£¬Á¢¼´ÏìÓ¦»º´æ
+		// å¦‚æœå¯ç”¨ä¸”ä¸è„ï¼Œç«‹å³å“åº”ç¼“å­˜
         if (mCachedUser != null && !mCacheIsDirty) {
             callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
             return;
@@ -105,11 +105,11 @@ public class UserRepository implements UserDao {
 
         if (mCacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
-			// Èç¹û»º´æÊÇÔàµÄ£¬ÎÒÃÇĞèÒª´ÓÍøÂç»ñÈ¡ĞÂÊı¾İ¡£
+			// å¦‚æœç¼“å­˜æ˜¯è„çš„ï¼Œæˆ‘ä»¬éœ€è¦ä»ç½‘ç»œè·å–æ–°æ•°æ®ã€‚
             getUserFromRemoteDao(callback);
         } else {
             // Query the local storage if available. If not, query the network.
-            // Èç¹û¿ÉÓÃ£¬²éÑ¯±¾µØ´æ´¢¡£Èç¹ûÃ»ÓĞ£¬²éÑ¯ÍøÂç¡£
+            // å¦‚æœå¯ç”¨ï¼ŒæŸ¥è¯¢æœ¬åœ°å­˜å‚¨ã€‚å¦‚æœæ²¡æœ‰ï¼ŒæŸ¥è¯¢ç½‘ç»œã€‚
 			mUserLocalDao.getUser(new LoadUserCallback() {
                 @Override
                 public void onUserLoaded(List<User> users) {
@@ -132,7 +132,7 @@ public class UserRepository implements UserDao {
         mUserLocalDao.saveUser(user);
 
         // Do in memory cache update to keep the app UI up to date
-		// ÊÇ·ñÔÚÄÚ´æ»º´æ¸üĞÂÖĞ±£³ÖÓ¦ÓÃ³ÌĞòµÄUI¸üĞÂ
+		// æ˜¯å¦åœ¨å†…å­˜ç¼“å­˜æ›´æ–°ä¸­ä¿æŒåº”ç”¨ç¨‹åºçš„UIæ›´æ–°
         if (mCachedUser == null) {
             mCachedUser = new LinkedHashMap<>();
         }
@@ -146,7 +146,7 @@ public class UserRepository implements UserDao {
         //mUserLocalDao.clearCompletedUser();
 
         // Do in memory cache update to keep the app UI up to date
-		// ÊÇ·ñÔÚÄÚ´æ»º´æ¸üĞÂÖĞ±£³ÖÓ¦ÓÃ³ÌĞòµÄUI¸üĞÂ
+		// æ˜¯å¦åœ¨å†…å­˜ç¼“å­˜æ›´æ–°ä¸­ä¿æŒåº”ç”¨ç¨‹åºçš„UIæ›´æ–°
         if (mCachedUser == null) {
             mCachedUser = new LinkedHashMap<>();
         }
@@ -162,12 +162,12 @@ public class UserRepository implements UserDao {
     /**
      * Gets users from local data source (sqlite) unless the table is new or empty. In that case it
      * uses the network data source. This is done to simplify the sample.
-     * ´Ó±¾µØÊı¾İÔ´(sqlite)»ñÈ¡ÓÃ»§£¬³ı·Ç¸Ã±íÊÇĞÂµÄ»ò¿ÕµÄ¡£ÔÚÕâÖÖÇé¿öÏÂËü
-	 * Ê¹ÓÃÍøÂçÊı¾İÔ´¡£ÕâÑù×öÊÇÎªÁË¼ò»¯Ñù±¾¡£	 
+     * ä»æœ¬åœ°æ•°æ®æº(sqlite)è·å–ç”¨æˆ·ï¼Œé™¤éè¯¥è¡¨æ˜¯æ–°çš„æˆ–ç©ºçš„ã€‚åœ¨è¿™ç§æƒ…å†µä¸‹å®ƒ
+	 * ä½¿ç”¨ç½‘ç»œæ•°æ®æºã€‚è¿™æ ·åšæ˜¯ä¸ºäº†ç®€åŒ–æ ·æœ¬ã€‚	 
 	 * <p>
      * Note: {@link GetUserCallback#onDataNotAvailable()} is fired if both data sources fail to
      * get the data.
-	 * ×¢:{ @ link GetUserCallback # onDataNotAvailable()}Èç¹ûÁ½¸öÊı¾İÔ´ÎŞ·¨»ñÈ¡Êı¾İ£¬¾Í»á±»´¥·¢¡£
+	 * æ³¨:{ @ link GetUserCallback # onDataNotAvailable()}å¦‚æœä¸¤ä¸ªæ•°æ®æºæ— æ³•è·å–æ•°æ®ï¼Œå°±ä¼šè¢«è§¦å‘ã€‚
 	 *
      */
     @Override
@@ -178,22 +178,22 @@ public class UserRepository implements UserDao {
         User cachedUser = getUserWithId(userId);
 
         // Respond immediately with cache if available
-		// Èç¹û¿ÉÓÃ£¬Á¢¼´ÏìÓ¦»º´æ
+		// å¦‚æœå¯ç”¨ï¼Œç«‹å³å“åº”ç¼“å­˜
         if (cachedUser != null) {
             callback.onUserLoaded(cachedUser);
             return;
         }
 
         // Load from server/persisted if needed.
-		// Èç¹ûĞèÒª£¬¿ÉÒÔ´Ó·şÎñÆ÷¼ÓÔØ¡£
+		// å¦‚æœéœ€è¦ï¼Œå¯ä»¥ä»æœåŠ¡å™¨åŠ è½½ã€‚
 
         // Is the user in the local data source? If not, query the network.
-        // ÓÃ»§ÊÇ·ñÔÚ±¾µØÊı¾İÔ´?Èç¹ûÃ»ÓĞ£¬²éÑ¯ÍøÂç¡£
+        // ç”¨æˆ·æ˜¯å¦åœ¨æœ¬åœ°æ•°æ®æº?å¦‚æœæ²¡æœ‰ï¼ŒæŸ¥è¯¢ç½‘ç»œã€‚
 		mUserLocalDao.getUser(userId, new GetUserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 // Do in memory cache update to keep the app UI up to date
-				// ÊÇ·ñÔÚÄÚ´æ»º´æ¸üĞÂÖĞ±£³ÖÓ¦ÓÃ³ÌĞòµÄUI¸üĞÂ
+				// æ˜¯å¦åœ¨å†…å­˜ç¼“å­˜æ›´æ–°ä¸­ä¿æŒåº”ç”¨ç¨‹åºçš„UIæ›´æ–°
                 if (mCachedUser == null) {
                     mCachedUser = new LinkedHashMap<>();
                 }
@@ -207,7 +207,7 @@ public class UserRepository implements UserDao {
                     @Override
                     public void onUserLoaded(User user) {
                         // Do in memory cache update to keep the app UI up to date
-                        // ÊÇ·ñÔÚÄÚ´æ»º´æ¸üĞÂÖĞ±£³ÖÓ¦ÓÃ³ÌĞòµÄUI¸üĞÂ
+                        // æ˜¯å¦åœ¨å†…å­˜ç¼“å­˜æ›´æ–°ä¸­ä¿æŒåº”ç”¨ç¨‹åºçš„UIæ›´æ–°
 						if (mCachedUser == null) {
                             mCachedUser = new LinkedHashMap<>();
                         }
@@ -303,7 +303,7 @@ public class UserRepository implements UserDao {
         User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
 
         // Do in memory cache update to keep the app UI up to date
-		// ÊÇ·ñÔÚÄÚ´æ»º´æ¸üĞÂÖĞ±£³ÖÓ¦ÓÃ³ÌĞòµÄUI¸üĞÂ
+		// æ˜¯å¦åœ¨å†…å­˜ç¼“å­˜æ›´æ–°ä¸­ä¿æŒåº”ç”¨ç¨‹åºçš„UIæ›´æ–°
         if (mCachedUsers == null) {
             mCachedUsers = new LinkedHashMap<>();
         }
@@ -325,7 +325,7 @@ public class UserRepository implements UserDao {
         User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
 
         // Do in memory cache update to keep the app UI up to date
-		// ÊÇ·ñÔÚÄÚ´æ»º´æ¸üĞÂÖĞ±£³ÖÓ¦ÓÃ³ÌĞòµÄUI¸üĞÂ
+		// æ˜¯å¦åœ¨å†…å­˜ç¼“å­˜æ›´æ–°ä¸­ä¿æŒåº”ç”¨ç¨‹åºçš„UIæ›´æ–°
         if (mCachedUsers == null) {
             mCachedUsers = new LinkedHashMap<>();
         }
@@ -344,7 +344,7 @@ public class UserRepository implements UserDao {
         mUsersLocalDataSource.clearCompletedUsers();
 
         // Do in memory cache update to keep the app UI up to date
-		// ÊÇ·ñÔÚÄÚ´æ»º´æ¸üĞÂÖĞ±£³ÖÓ¦ÓÃ³ÌĞòµÄUI¸üĞÂ
+		// æ˜¯å¦åœ¨å†…å­˜ç¼“å­˜æ›´æ–°ä¸­ä¿æŒåº”ç”¨ç¨‹åºçš„UIæ›´æ–°
         if (mCachedUsers == null) {
             mCachedUsers = new LinkedHashMap<>();
         }

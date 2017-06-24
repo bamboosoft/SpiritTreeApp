@@ -7,7 +7,7 @@ package com.example.android.architecture.blueprints.todoapp.users;
 
 /**
  * Defines the navigation actions that can be called from the user list screen.
- * ¶¨Òå¿ÉÒÔ´ÓÈÎÎñÁĞ±íÆÁÄ»µ÷ÓÃµÄµ¼º½²Ù×÷¡£
+ * å®šä¹‰å¯ä»¥ä»ä»»åŠ¡åˆ—è¡¨å±å¹•è°ƒç”¨çš„å¯¼èˆªæ“ä½œã€‚
  */
 public interface UsersNavigator {
 

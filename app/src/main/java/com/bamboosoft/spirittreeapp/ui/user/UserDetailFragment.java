@@ -24,7 +24,7 @@ import com.example.android.architecture.blueprints.todoapp.util.SnackbarUtils;
 
 /**
  * Main UI for the user detail screen.
- * Ö÷UIÓÃÓÚÓÃ»§Ï¸½ÚÆÁÄ»¡£
+ * ä¸»UIç”¨äºç”¨æˆ·ç»†èŠ‚å±å¹•ã€‚
  */
 public class UserDetailFragment extends Fragment {
 

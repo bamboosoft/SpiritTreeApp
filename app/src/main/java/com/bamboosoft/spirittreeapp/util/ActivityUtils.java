@@ -1,17 +1,6 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 package com.example.android.architecture.blueprints.todoapp.util;
@@ -25,12 +14,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * This provides methods to help Activities load their UI.
+ * 这提供了帮助活动加载UI的方法。
  */
 public class ActivityUtils {
 
     /**
      * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
      * performed by the {@code fragmentManager}.
+	 * 使用id { @ code frameId }将{ @ code片段}添加到容器视图中。
+	 * 操作由{ @ code fragmentManager }执行。
      *
      */
     public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,
@@ -45,6 +37,7 @@ public class ActivityUtils {
     /**
      * The {@code fragment} is added to the container view with id {@code frameId}. The operation is
      * performed by the {@code fragmentManager}.
+	 * 使用id { @ code frameId }将{ @ code片段}添加到容器视图中。操作由{ @ code fragmentManager }执行。
      *
      */
     public static void addFragmentToActivity (@NonNull FragmentManager fragmentManager,

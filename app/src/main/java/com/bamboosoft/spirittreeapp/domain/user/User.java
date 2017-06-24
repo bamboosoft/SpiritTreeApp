@@ -15,7 +15,7 @@ import java.util.UUID;
 
 /**
  * Immutable model class for a User.
- * ²»¿É±ä ÓÃ»§modelÀà
+ * ä¸å¯å˜ ç”¨æˆ·modelç±»
  */
 public final class User {
 

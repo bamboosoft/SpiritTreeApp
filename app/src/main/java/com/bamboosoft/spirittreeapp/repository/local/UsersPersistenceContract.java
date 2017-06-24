@@ -13,18 +13,18 @@ import android.provider.BaseColumns;
 
 /**
  * The contract used for the db to save the Users locally.
- * ÓÃÓÚÊı¾İ¿âµÄÆõÔ¼¿ÉÒÔÔÚ±¾µØ±£´æÓÃ»§¡£
+ * ç”¨äºæ•°æ®åº“çš„å¥‘çº¦å¯ä»¥åœ¨æœ¬åœ°ä¿å­˜ç”¨æˆ·ã€‚
  */
 public final class UsersPersistenceContract {
 
     // To prevent someone from accidentally instantiating the contract class,
     // give it an empty constructor.
-	// ÎªÁË·ÀÖ¹ÒâÍâµØÊµÀı»¯ÆõÔ¼Àà£¬Çë¸øËüÒ»¸ö¿ÕµÄ¹¹Ôìº¯Êı¡£
+	// ä¸ºäº†é˜²æ­¢æ„å¤–åœ°å®ä¾‹åŒ–å¥‘çº¦ç±»ï¼Œè¯·ç»™å®ƒä¸€ä¸ªç©ºçš„æ„é€ å‡½æ•°ã€‚
 
     private UsersPersistenceContract() {}
 
     /* Inner class that defines the table contents */
-	/* ¶¨Òå±íÄÚÈİµÄÄÚ²¿Àà */
+	/* å®šä¹‰è¡¨å†…å®¹çš„å†…éƒ¨ç±» */
     public static abstract class UserEntry implements BaseColumns {
         public static final String TABLE_NAME = "Users";
         public static final int COLUMN_ID = "UserId";

@@ -26,7 +26,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Concrete implementation of a data source as a db.
- * ½«Êı¾İÔ´×÷ÎªÊı¾İ¿âµÄ¾ßÌåÊµÏÖ¡£
+ * å°†æ•°æ®æºä½œä¸ºæ•°æ®åº“çš„å…·ä½“å®ç°ã€‚
  */
 public class UserLocalDao implements UserDao {
 
@@ -35,14 +35,14 @@ public class UserLocalDao implements UserDao {
     private UserDbHelper mDbHelper;
 
     //Prevent direct instantiation.
-	//½ûÖ¹ÊµÀı»¯
+	//ç¦æ­¢å®ä¾‹åŒ–
     private UserLocalDao(@NonNull Context context) {
         checkNotNull(context);
         mDbHelper = new UserDbHelper(context);
     }
 
     /**
-	*Êı¾İ¿âµ¥ÀıÊµÀı
+	*æ•°æ®åº“å•ä¾‹å®ä¾‹
 	*
 	*/
     public static UserLocalDao getInstance(@NonNull Context context) {
@@ -53,8 +53,8 @@ public class UserLocalDao implements UserDao {
     }
 
     /**
-     * ×¢:{ @ link LoadUserCallback # onDataNotAvailable()}
-	 * Èç¹ûÊı¾İ¿â²»´æÔÚ»ò±íÎª¿Õ£¬Ôò»á±»´¥·¢¡£
+     * æ³¨:{ @ link LoadUserCallback # onDataNotAvailable()}
+	 * å¦‚æœæ•°æ®åº“ä¸å­˜åœ¨æˆ–è¡¨ä¸ºç©ºï¼Œåˆ™ä¼šè¢«è§¦å‘ã€‚
      * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if the database doesn't exist
      * or the table is empty.
      */
@@ -93,7 +93,7 @@ public class UserLocalDao implements UserDao {
 
         if (User.isEmpty()) {
             // This will be called if the table is new or just empty.
-			// Èç¹û±íÊÇĞÂµÄ»òÕßÖ»ÊÇ¿ÕµÄ£¬¾Í»áµ÷ÓÃÕâ¸ö¡£
+			// å¦‚æœè¡¨æ˜¯æ–°çš„æˆ–è€…åªæ˜¯ç©ºçš„ï¼Œå°±ä¼šè°ƒç”¨è¿™ä¸ªã€‚
             callback.onDataNotAvailable();
         } else {
             callback.onUserLoaded(User);
@@ -102,11 +102,11 @@ public class UserLocalDao implements UserDao {
     }
 
     /**
-     * »ñÈ¡µ¥¸öÊµÌå.
+     * è·å–å•ä¸ªå®ä½“.
      * Note: {@link GetUserCallback#onDataNotAvailable()} is fired if the {@link User} isn't
      * found.
-	 * ×¢Òâ:Èç¹ûÃ»ÓĞÕÒµ½{ @ linkÓÃ»§}£¬
-	 * ¾Í»á´¥·¢{ @ link GetUserCallback # onDataNotAvailable()}¡£
+	 * æ³¨æ„:å¦‚æœæ²¡æœ‰æ‰¾åˆ°{ @ linkç”¨æˆ·}ï¼Œ
+	 * å°±ä¼šè§¦å‘{ @ link GetUserCallback # onDataNotAvailable()}ã€‚
      */
     @Override
     public void getUser(@NonNull String userId, @NonNull GetUserCallback callback) {
@@ -151,8 +151,8 @@ public class UserLocalDao implements UserDao {
     }
 
     /**
-	*Ôö¼ÓÊı¾İ
-	*±£´æÓÃ»§ÊµÌåÊı¾İ
+	*å¢åŠ æ•°æ®
+	*ä¿å­˜ç”¨æˆ·å®ä½“æ•°æ®
 	*/
     @Override
     public void saveUser(@NonNull User user) {
@@ -173,7 +173,7 @@ public class UserLocalDao implements UserDao {
     }
 
     /**
-	*ĞŞ¸ÄÓÃ»§
+	*ä¿®æ”¹ç”¨æˆ·
 	*
 	*/
     @Override
@@ -196,12 +196,12 @@ public class UserLocalDao implements UserDao {
         // Not required because the {@link UsersRepository} handles the logic of refreshing the
         // users from all the available data sources.
 
-		// ²»ĞèÒª£¬ÒòÎª{ @ link UserRepository }
-		// ´¦Àí´ÓËùÓĞ¿ÉÓÃÊı¾İÔ´Ë¢ĞÂÓÃ»§µÄÂß¼­¡£
+		// ä¸éœ€è¦ï¼Œå› ä¸º{ @ link UserRepository }
+		// å¤„ç†ä»æ‰€æœ‰å¯ç”¨æ•°æ®æºåˆ·æ–°ç”¨æˆ·çš„é€»è¾‘ã€‚
     }
    
     /**
-	*É¾³ıËùÓĞÓÃ»§
+	*åˆ é™¤æ‰€æœ‰ç”¨æˆ·
 	*
 	*/
     @Override
@@ -214,7 +214,7 @@ public class UserLocalDao implements UserDao {
     }
 
     /**
-	*É¾³ıµ¥¸öÓÃ»§
+	*åˆ é™¤å•ä¸ªç”¨æˆ·
 	*
 	*/
     @Override
@@ -251,8 +251,8 @@ public class UserLocalDao implements UserDao {
     public void completeUser(@NonNull String userId) {
         // Not required for the local data source because the {@link UsersRepository} handles
         // converting from a {@code userId} to a {@link user} using its cached data.
-		// ²»ĞèÒª±¾µØÊı¾İÔ´£¬ÒòÎª{ @ link UsersRepository }
-		// ´¦Àí´Ó{ @ code userId }×ª»»Îª{ @ linkÓÃ»§}Ê¹ÓÃËüµÄ»º´æÊı¾İ¡£
+		// ä¸éœ€è¦æœ¬åœ°æ•°æ®æºï¼Œå› ä¸º{ @ link UsersRepository }
+		// å¤„ç†ä»{ @ code userId }è½¬æ¢ä¸º{ @ linkç”¨æˆ·}ä½¿ç”¨å®ƒçš„ç¼“å­˜æ•°æ®ã€‚
 
     }
 
@@ -275,8 +275,8 @@ public class UserLocalDao implements UserDao {
     public void activateUser(@NonNull String userId) {
         // Not required for the local data source because the {@link UsersRepository} handles
         // converting from a {@code userId} to a {@link user} using its cached data.
-		// ²»ĞèÒª±¾µØÊı¾İÔ´£¬ÒòÎª{ @ link UsersRepository }´¦Àí´Ó{ @ code userId }
-		// ×ª»»Îª{ @ linkÓÃ»§}Ê¹ÓÃËüµÄ»º´æÊı¾İ¡£
+		// ä¸éœ€è¦æœ¬åœ°æ•°æ®æºï¼Œå› ä¸º{ @ link UsersRepository }å¤„ç†ä»{ @ code userId }
+		// è½¬æ¢ä¸º{ @ linkç”¨æˆ·}ä½¿ç”¨å®ƒçš„ç¼“å­˜æ•°æ®ã€‚
 
     }
 

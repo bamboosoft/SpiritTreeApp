@@ -1,64 +1,57 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.example.android.architecture.blueprints.todoapp.userdetail;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.TaskViewModel;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
-import com.example.android.architecture.blueprints.todoapp.tasks.TasksFragment;
+import com.example.android.architecture.blueprints.todoapp.UserViewModel;
+import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
+import com.example.android.architecture.blueprints.todoapp.users.UsersFragment;
 
 
 /**
- * Listens to user actions from the list item in ({@link TasksFragment}) and redirects them to the
+ * Listens to user actions from the list item in ({@link UsersFragment}) and redirects them to the
  * Fragment's actions listener.
+ * 从列表项({ @ link UsersFragment })中侦听用户操作，
+ * 并将它们重定向到片段的操作侦听器。
  */
-public class TaskDetailViewModel extends TaskViewModel {
+public class UserDetailViewModel extends UserViewModel {
 
     @Nullable
-    private TaskDetailNavigator mTaskDetailNavigator;
+    private UserDetailNavigator mUserDetailNavigator;
 
-    public TaskDetailViewModel(Context context, TasksRepository tasksRepository) {
-        super(context, tasksRepository);
+    public UserDetailViewModel(Context context, UsersRepository usersRepository) {
+        super(context, usersRepository);
     }
 
-    public void setNavigator(TaskDetailNavigator taskDetailNavigator) {
-        mTaskDetailNavigator = taskDetailNavigator;
+    public void setNavigator(UserDetailNavigator userDetailNavigator) {
+        mUserDetailNavigator = userDetailNavigator;
     }
 
     public void onActivityDestroyed() {
         // Clear references to avoid potential memory leaks.
-        mTaskDetailNavigator = null;
+		// 明确的引用以避免潜在的内存泄漏。
+        mUserDetailNavigator = null;
     }
 
     /**
      * Can be called by the Data Binding Library or the delete menu item.
+	 * 可以通过数据绑定库或删除菜单项调用。
      */
-    public void deleteTask() {
-        super.deleteTask();
-        if (mTaskDetailNavigator != null) {
-            mTaskDetailNavigator.onTaskDeleted();
+    public void deleteUser() {
+        super.deleteUser();
+        if (mUserDetailNavigator != null) {
+            mUserDetailNavigator.onUserDeleted();
         }
     }
 
-    public void startEditTask() {
-        if (mTaskDetailNavigator != null) {
-            mTaskDetailNavigator.onStartEditTask();
+    public void startEditUser() {
+        if (mUserDetailNavigator != null) {
+            mUserDetailNavigator.onStartEditUser();
         }
     }
 }

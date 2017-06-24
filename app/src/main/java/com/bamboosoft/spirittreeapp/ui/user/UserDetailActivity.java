@@ -24,7 +24,7 @@ import static com.example.android.architecture.blueprints.todoapp.userdetail.Use
 
 /**
  * Displays user details screen.
- * ÆÁÄ»ÏÔÊ¾ÓÃ»§ÏêÏ¸ĞÅÏ¢¡£
+ * å±å¹•æ˜¾ç¤ºç”¨æˆ·è¯¦ç»†ä¿¡æ¯ã€‚
  */
 public class UserDetailActivity extends AppCompatActivity implements UserDetailNavigator {
 
@@ -52,7 +52,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailN
         mUserViewModel.setNavigator(this);
 
         // Link View and ViewModel
-		// Á´½ÓÊÓÍ¼ºÍÊÓÍ¼Ä£ĞÍ
+		// é“¾æ¥è§†å›¾å’Œè§†å›¾æ¨¡å‹
         userDetailFragment.setViewModel(mUserViewModel);
     }
 
@@ -66,7 +66,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailN
     private UserDetailViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
-		// ÔÚÅäÖÃ¸ü¸ÄÖĞ£¬ÎÒÃÇ¿ÉÄÜ»áÓĞÒ»¸öÊÓÍ¼Ä£ĞÍ¡£ËüÊ¹ÓÃÆ¬¶Î¹ÜÀíÆ÷±£Áô¡£
+		// åœ¨é…ç½®æ›´æ”¹ä¸­ï¼Œæˆ‘ä»¬å¯èƒ½ä¼šæœ‰ä¸€ä¸ªè§†å›¾æ¨¡å‹ã€‚å®ƒä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨ä¿ç•™ã€‚
         @SuppressWarnings("unchecked")
         ViewModelHolder<UserDetailViewModel> retainedViewModel =
                 (ViewModelHolder<UserDetailViewModel>) getSupportFragmentManager()
@@ -74,17 +74,17 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailN
 
         if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
             // If the model was retained, return it.
-			// Èç¹ûÄ£ĞÍ±»±£Áô£¬·µ»ØËü¡£
+			// å¦‚æœæ¨¡å‹è¢«ä¿ç•™ï¼Œè¿”å›å®ƒã€‚
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-			// ÏÖÔÚ»¹Ã»ÓĞViewModel£¬´´½¨Ëü¡£
+			// ç°åœ¨è¿˜æ²¡æœ‰ViewModelï¼Œåˆ›å»ºå®ƒã€‚
             UserDetailViewModel viewModel = new UserDetailViewModel(
                     getApplicationContext(),
                     Injection.provideUsersRepository(getApplicationContext()));
 
             // and bind it to this Activity's lifecycle using the Fragment Manager.
-			// Ê¹ÓÃÆ¬¶Î¹ÜÀíÆ÷½«Æä°ó¶¨µ½Õâ¸ö»î¶¯µÄÉúÃüÖÜÆÚ¡£
+			// ä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨å°†å…¶ç»‘å®šåˆ°è¿™ä¸ªæ´»åŠ¨çš„ç”Ÿå‘½å‘¨æœŸã€‚
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),
                     ViewModelHolder.createContainer(viewModel),
@@ -96,7 +96,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailN
     @NonNull
     private UserDetailFragment findOrCreateViewFragment() {
         // Get the requested user id
-		// »ñÈ¡ÇëÇóµÄÓÃ»§id
+		// è·å–è¯·æ±‚çš„ç”¨æˆ·id
 
         String userId = getIntent().getStringExtra(EXTRA_USER_ID);
 
@@ -124,11 +124,11 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailN
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_EDIT_USER) {
             // If the user was edited successfully, go back to the list.
-			// Èç¹ûÓÃ»§³É¹¦±à¼­£¬·µ»Øµ½ÁĞ±í¡£
+			// å¦‚æœç”¨æˆ·æˆåŠŸç¼–è¾‘ï¼Œè¿”å›åˆ°åˆ—è¡¨ã€‚
 
             if (resultCode == ADD_EDIT_RESULT_OK) {
                 // If the result comes from the add/edit screen, it's an edit.
-				// Èç¹û½á¹ûÀ´×ÔÌí¼Ó/±à¼­ÆÁÄ»£¬ËüÊÇÒ»¸ö±à¼­¡£
+				// å¦‚æœç»“æœæ¥è‡ªæ·»åŠ /ç¼–è¾‘å±å¹•ï¼Œå®ƒæ˜¯ä¸€ä¸ªç¼–è¾‘ã€‚
                 setResult(EDIT_RESULT_OK);
                 finish();
             }
@@ -145,7 +145,7 @@ public class UserDetailActivity extends AppCompatActivity implements UserDetailN
     public void onUserDeleted() {
         setResult(DELETE_RESULT_OK);
         // If the user was deleted successfully, go back to the list.
-		// Èç¹ûÓÃ»§±»³É¹¦É¾³ı£¬·µ»Øµ½ÁĞ±í¡£
+		// å¦‚æœç”¨æˆ·è¢«æˆåŠŸåˆ é™¤ï¼Œè¿”å›åˆ°åˆ—è¡¨ã€‚
         finish();
     }
 

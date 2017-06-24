@@ -25,7 +25,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Main UI for the add user screen. Users can enter a user title and description.
- * Ìí¼ÓÈÎÎñÆÁÄ»µÄÖ÷UI¡£ÓÃ»§¿ÉÒÔÊäÈëÈÎÎñ±êÌâºÍÃèÊö¡£
+ * æ·»åŠ ä»»åŠ¡å±å¹•çš„ä¸»UIã€‚ç”¨æˆ·å¯ä»¥è¾“å…¥ä»»åŠ¡æ ‡é¢˜å’Œæè¿°ã€‚
  */
 public class AddEditUserFragment extends Fragment {
 
@@ -43,7 +43,7 @@ public class AddEditUserFragment extends Fragment {
 
     public AddEditUserFragment() {
         // Required empty public constructor
-		// ĞèÒª¿Õ¹«¹²¹¹Ôìº¯Êı
+		// éœ€è¦ç©ºå…¬å…±æ„é€ å‡½æ•°
 
     }
 

@@ -18,7 +18,7 @@ import java.util.Map;
 
 /**
  * Implementation of the data source that adds a latency simulating network.
- * Êı¾İÀ´Ô´µÄÊµÏÖ£¬Ôö¼ÓÁËÒ»¸öÑÓÊ±Ä£ÄâÍøÂç¡£
+ * æ•°æ®æ¥æºçš„å®ç°ï¼Œå¢åŠ äº†ä¸€ä¸ªå»¶æ—¶æ¨¡æ‹Ÿç½‘ç»œã€‚
  */
 public class UsersRemoteDao implements UsersDao {
 
@@ -56,7 +56,7 @@ public class UsersRemoteDao implements UsersDao {
     }
 
     // Prevent direct instantiation.
-	// ·ÀÖ¹Ö±½ÓÊµÀı»¯¡£
+	// é˜²æ­¢ç›´æ¥å®ä¾‹åŒ–ã€‚
     private UsersRemoteDao() {}
 
     private static void addUser(String title, String description, String id) {
@@ -68,14 +68,14 @@ public class UsersRemoteDao implements UsersDao {
      * Note: {@link LoadUsersCallback#onDataNotAvailable()} is never fired. In a real remote data
      * source implementation, this would be fired if the server can't be contacted or the server
      * returns an error.
-	 * ×¢Òâ:{ @ link LoadUsersCallback # onDataNotAvailable()}ÓÀÔ¶²»»á±»´¥·¢¡£
-	 * ÔÚÊµ¼ÊµÄÔ¶³ÌÊı¾İÔ´ÊµÏÖÖĞ£¬Èç¹ûÎŞ·¨ÁªÏµ·şÎñÆ÷»ò·şÎñÆ÷·µ»Ø´íÎó£¬
-	 * Ôò»á´¥·¢´Ë²Ù×÷¡£
+	 * æ³¨æ„:{ @ link LoadUsersCallback # onDataNotAvailable()}æ°¸è¿œä¸ä¼šè¢«è§¦å‘ã€‚
+	 * åœ¨å®é™…çš„è¿œç¨‹æ•°æ®æºå®ç°ä¸­ï¼Œå¦‚æœæ— æ³•è”ç³»æœåŠ¡å™¨æˆ–æœåŠ¡å™¨è¿”å›é”™è¯¯ï¼Œ
+	 * åˆ™ä¼šè§¦å‘æ­¤æ“ä½œã€‚
      */
     @Override
     public void getUsers(final @NonNull LoadUsersCallback callback) {
         // Simulate network by delaying the execution.
-		// Í¨¹ıÑÓ³ÙÖ´ĞĞÀ´Ä£ÄâÍøÂç¡£
+		// é€šè¿‡å»¶è¿Ÿæ‰§è¡Œæ¥æ¨¡æ‹Ÿç½‘ç»œã€‚
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -89,16 +89,16 @@ public class UsersRemoteDao implements UsersDao {
      * Note: {@link GetUserCallback#onDataNotAvailable()} is never fired. In a real remote data
      * source implementation, this would be fired if the server can't be contacted or the server
      * returns an error.
-	 * ×¢Òâ:{ @ link GetUserCallback # onDataNotAvailable()}ÓÀÔ¶²»»á±»´¥·¢¡£
-	 * ÔÚÊµ¼ÊµÄÔ¶³ÌÊı¾İÔ´ÊµÏÖÖĞ£¬Èç¹ûÎŞ·¨ÁªÏµ·şÎñÆ÷»ò·şÎñÆ÷·µ»Ø´íÎó£¬
-	 * Ôò»á´¥·¢´Ë²Ù×÷¡£
+	 * æ³¨æ„:{ @ link GetUserCallback # onDataNotAvailable()}æ°¸è¿œä¸ä¼šè¢«è§¦å‘ã€‚
+	 * åœ¨å®é™…çš„è¿œç¨‹æ•°æ®æºå®ç°ä¸­ï¼Œå¦‚æœæ— æ³•è”ç³»æœåŠ¡å™¨æˆ–æœåŠ¡å™¨è¿”å›é”™è¯¯ï¼Œ
+	 * åˆ™ä¼šè§¦å‘æ­¤æ“ä½œã€‚
      */
     @Override
     public void getUser(@NonNull String userId, final @NonNull GetUserCallback callback) {
         final User user = USER_SERVICE_DATA.get(userId);
 
         // Simulate network by delaying the execution.
-		// Í¨¹ıÑÓ³ÙÖ´ĞĞÀ´Ä£ÄâÍøÂç¡£
+		// é€šè¿‡å»¶è¿Ÿæ‰§è¡Œæ¥æ¨¡æ‹Ÿç½‘ç»œã€‚
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -117,7 +117,7 @@ public class UsersRemoteDao implements UsersDao {
     public void refreshUsers() {
         // Not required because the {@link UsersRepository} handles the logic of refreshing the
         // users from all the available data sources.
-		// ²»ĞèÒª£¬ÒòÎª{ @ link UsersRepository }´¦Àí´ÓËùÓĞ¿ÉÓÃÊı¾İÔ´ÖĞË¢ĞÂÓÃ»§µÄÂß¼­¡£
+		// ä¸éœ€è¦ï¼Œå› ä¸º{ @ link UsersRepository }å¤„ç†ä»æ‰€æœ‰å¯ç”¨æ•°æ®æºä¸­åˆ·æ–°ç”¨æˆ·çš„é€»è¾‘ã€‚
 
     }
 
@@ -143,7 +143,7 @@ public class UsersRemoteDao implements UsersDao {
     public void completeUser(@NonNull String userId) {
         // Not required for the remote data source because the {@link UsersRepository} handles
         // converting from a {@code userId} to a {@link user} using its cached data.
-		// ²»ĞèÒªÔ¶³ÌÊı¾İÔ´£¬ÒòÎª{ @ link UsersRepository }´¦Àí´Ó{ @ code userId }×ª»»Îª{ @ linkÓÃ»§}Ê¹ÓÃËüµÄ»º´æÊı¾İ¡£
+		// ä¸éœ€è¦è¿œç¨‹æ•°æ®æºï¼Œå› ä¸º{ @ link UsersRepository }å¤„ç†ä»{ @ code userId }è½¬æ¢ä¸º{ @ linkç”¨æˆ·}ä½¿ç”¨å®ƒçš„ç¼“å­˜æ•°æ®ã€‚
 	}
 
     @Override
@@ -156,7 +156,7 @@ public class UsersRemoteDao implements UsersDao {
     public void activateUser(@NonNull String userId) {
         // Not required for the remote data source because the {@link UsersRepository} handles
         // converting from a {@code userId} to a {@link user} using its cached data.
-		// ²»ĞèÒªÔ¶³ÌÊı¾İÔ´£¬ÒòÎª{ @ link UsersRepository }´¦Àí´Ó{ @ code userId }×ª»»Îª{ @ linkÓÃ»§}Ê¹ÓÃËüµÄ»º´æÊı¾İ¡£
+		// ä¸éœ€è¦è¿œç¨‹æ•°æ®æºï¼Œå› ä¸º{ @ link UsersRepository }å¤„ç†ä»{ @ code userId }è½¬æ¢ä¸º{ @ linkç”¨æˆ·}ä½¿ç”¨å®ƒçš„ç¼“å­˜æ•°æ®ã€‚
 
     }
 

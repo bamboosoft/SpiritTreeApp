@@ -7,7 +7,7 @@ package com.example.android.architecture.blueprints.todoapp.users;
 
 /**
  * Defines the navigation actions that can be called from a list item in the user list.
- * ¶¨ÒåÔÚÓÃ»§ÁĞ±íÖĞ¿ÉÒÔ´ÓÁĞ±íÏîµ÷ÓÃµÄµ¼º½²Ù×÷¡£
+ * å®šä¹‰åœ¨ç”¨æˆ·åˆ—è¡¨ä¸­å¯ä»¥ä»åˆ—è¡¨é¡¹è°ƒç”¨çš„å¯¼èˆªæ“ä½œã€‚
  */
 public interface UserItemNavigator {
 

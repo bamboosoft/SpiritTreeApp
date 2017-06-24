@@ -36,7 +36,7 @@ import java.util.List;
 
 /**
  * Display a grid of {@link User}s. User can choose to view all, active or completed users.
- * ÏÔÊ¾Ò»¸öÍø¸ñµÄ{ @ linkÓÃ»§}¡£ÓÃ»§¿ÉÒÔÑ¡Ôñ²é¿´ËùÓĞ¡¢»î¶¯»òÒÑÍê³ÉµÄÓÃ»§¡£
+ * æ˜¾ç¤ºä¸€ä¸ªç½‘æ ¼çš„{ @ linkç”¨æˆ·}ã€‚ç”¨æˆ·å¯ä»¥é€‰æ‹©æŸ¥çœ‹æ‰€æœ‰ã€æ´»åŠ¨æˆ–å·²å®Œæˆçš„ç”¨æˆ·ã€‚
  */
 public class UsersFragment extends Fragment {
 
@@ -50,7 +50,7 @@ public class UsersFragment extends Fragment {
 
     public UsersFragment() {
         // Requires empty public constructor
-		// ĞèÒª¿Õ¹«¹²¹¹Ôìº¯Êı
+		// éœ€è¦ç©ºå…¬å…±æ„é€ å‡½æ•°
     }
 
     public static UsersFragment newInstance() {
@@ -195,7 +195,7 @@ public class UsersFragment extends Fragment {
                 ContextCompat.getColor(getActivity(), R.color.colorPrimaryDark)
         );
         // Set the scrolling view in the custom SwipeRefreshLayout.
-		// ÔÚ×Ô¶¨Òå»¬¶¯Ë¢ĞÂ²¼¾ÖÖĞÉèÖÃ¹ö¶¯ÊÓÍ¼¡£
+		// åœ¨è‡ªå®šä¹‰æ»‘åŠ¨åˆ·æ–°å¸ƒå±€ä¸­è®¾ç½®æ»šåŠ¨è§†å›¾ã€‚
         swipeRefreshLayout.setScrollUpChild(listView);
     }
 
@@ -248,15 +248,15 @@ public class UsersFragment extends Fragment {
             UserItemBinding binding;
             if (view == null) {
                 // Inflate
-				// ÅòÕÍ
+				// è†¨èƒ€
                 LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
 
                 // Create the binding
-				// ´´½¨°ó¶¨
+				// åˆ›å»ºç»‘å®š
                 binding = UserItemBinding.inflate(inflater, viewGroup, false);
             } else {
                 // Recycling view
-				// »ØÊÕµÄ¹Ûµã
+				// å›æ”¶çš„è§‚ç‚¹
                 binding = DataBindingUtil.getBinding(view);
             }
 
@@ -270,7 +270,7 @@ public class UsersFragment extends Fragment {
             binding.setViewmodel(viewmodel);
             // To save on PropertyChangedCallbacks, wire the item's snackbar text observable to the
             // fragment's.
-			// ÎªÁË½ÚÊ¡PropertyChangedCallbacks,ÏßÏîÄ¿¼äĞ¡³ÔµêµÄÎÄ±¾Æ¬¶ÎµÄ¿É¹Û²ìµ½µÄ¡£
+			// ä¸ºäº†èŠ‚çœPropertyChangedCallbacks,çº¿é¡¹ç›®é—´å°åƒåº—çš„æ–‡æœ¬ç‰‡æ®µçš„å¯è§‚å¯Ÿåˆ°çš„ã€‚
             viewmodel.snackbarText.addOnPropertyChangedCallback(
                     new Observable.OnPropertyChangedCallback() {
                 @Override

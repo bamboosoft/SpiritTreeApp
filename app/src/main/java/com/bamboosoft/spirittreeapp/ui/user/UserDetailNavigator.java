@@ -7,7 +7,7 @@ package com.example.android.architecture.blueprints.todoapp.userdetail;
 
 /**
  * Defines the navigation actions that can be called from the Details screen.
- * ¶¨Òå¿ÉÒÔ´ÓDetailsÆÁÄ»µ÷ÓÃµÄµ¼º½²Ù×÷¡£
+ * å®šä¹‰å¯ä»¥ä»Detailså±å¹•è°ƒç”¨çš„å¯¼èˆªæ“ä½œã€‚
  */
 public interface UserDetailNavigator {
 

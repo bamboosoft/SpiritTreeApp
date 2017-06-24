@@ -21,7 +21,7 @@ import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingRe
 
 /**
  * Displays an add or edit user screen.
- * ÏÔÊ¾Ìí¼Ó»ò±à¼­ÓÃ»§½çÃæ¡£
+ * æ˜¾ç¤ºæ·»åŠ æˆ–ç¼–è¾‘ç”¨æˆ·ç•Œé¢ã€‚
  */
 public class AddEditUserActivity extends AppCompatActivity implements AddEditUserNavigator {
 
@@ -55,7 +55,7 @@ public class AddEditUserActivity extends AppCompatActivity implements AddEditUse
         setContentView(R.layout.adduser_act);
 
         // Set up the toolbar.
-		// ÉèÖÃ¹¤¾ßÀ¸¡£
+		// è®¾ç½®å·¥å…·æ ã€‚
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -67,7 +67,7 @@ public class AddEditUserActivity extends AppCompatActivity implements AddEditUse
         mViewModel = findOrCreateViewModel();
 
         // Link View and ViewModel
-		// Á´½ÓÊÓÍ¼ºÍÊÓÍ¼Ä£ĞÍ 
+		// é“¾æ¥è§†å›¾å’Œè§†å›¾æ¨¡å‹ 
         addEditUserFragment.setViewModel(mViewModel);
 
         mViewModel.onActivityCreated(this);
@@ -82,7 +82,7 @@ public class AddEditUserActivity extends AppCompatActivity implements AddEditUse
     @NonNull
     private AddEditUserFragment findOrCreateViewFragment() {
         // View Fragment
-		// ÊÓÍ¼µÄÆ¬¶Î
+		// è§†å›¾çš„ç‰‡æ®µ
         AddEditUserFragment addEditUserFragment = (AddEditUserFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.contentFrame);
 
@@ -90,7 +90,7 @@ public class AddEditUserActivity extends AppCompatActivity implements AddEditUse
             addEditUserFragment = AddEditUserFragment.newInstance();
 
             // Send the user ID to the fragment
-			// ½«ÓÃ»§ID·¢ËÍ¸øËéÆ¬
+			// å°†ç”¨æˆ·IDå‘é€ç»™ç¢ç‰‡
             Bundle bundle = new Bundle();
             bundle.putString(AddEditUserFragment.ARGUMENT_EDIT_USER_ID,
                     getIntent().getStringExtra(AddEditUserFragment.ARGUMENT_EDIT_USER_ID));
@@ -105,7 +105,7 @@ public class AddEditUserActivity extends AppCompatActivity implements AddEditUse
     private AddEditUserViewModel findOrCreateViewModel() {
         // In a configuration change we might have a ViewModel present. It's retained using the
         // Fragment Manager.
-		// ÔÚÅäÖÃ¸ü¸ÄÖĞ£¬ÎÒÃÇ¿ÉÄÜ»áÓĞÒ»¸öÊÓÍ¼Ä£ĞÍ¡£ËüÊ¹ÓÃÆ¬¶Î¹ÜÀíÆ÷±£Áô¡£
+		// åœ¨é…ç½®æ›´æ”¹ä¸­ï¼Œæˆ‘ä»¬å¯èƒ½ä¼šæœ‰ä¸€ä¸ªè§†å›¾æ¨¡å‹ã€‚å®ƒä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨ä¿ç•™ã€‚
         @SuppressWarnings("unchecked")
         ViewModelHolder<AddEditUserViewModel> retainedViewModel =
                 (ViewModelHolder<AddEditUserViewModel>) getSupportFragmentManager()
@@ -113,17 +113,17 @@ public class AddEditUserActivity extends AppCompatActivity implements AddEditUse
 
         if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
             // If the model was retained, return it.
-			// Èç¹ûÄ£ĞÍ±»±£Áô£¬·µ»ØËü¡£
+			// å¦‚æœæ¨¡å‹è¢«ä¿ç•™ï¼Œè¿”å›å®ƒã€‚
             return retainedViewModel.getViewmodel();
         } else {
             // There is no ViewModel yet, create it.
-			// ÏÖÔÚ»¹Ã»ÓĞViewModel£¬´´½¨Ëü¡£
+			// ç°åœ¨è¿˜æ²¡æœ‰ViewModelï¼Œåˆ›å»ºå®ƒã€‚
             AddEditUserViewModel viewModel = new AddEditUserViewModel(
                     getApplicationContext(),
                     Injection.provideUsersRepository(getApplicationContext()));
 
             // and bind it to this Activity's lifecycle using the Fragment Manager.
-			// Ê¹ÓÃÆ¬¶Î¹ÜÀíÆ÷½«Æä°ó¶¨µ½Õâ¸öActivityµÄÉúÃüÖÜÆÚ¡£
+			// ä½¿ç”¨ç‰‡æ®µç®¡ç†å™¨å°†å…¶ç»‘å®šåˆ°è¿™ä¸ªActivityçš„ç”Ÿå‘½å‘¨æœŸã€‚
 
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(),

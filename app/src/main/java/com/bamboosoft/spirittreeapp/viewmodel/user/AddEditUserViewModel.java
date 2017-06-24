@@ -1,20 +1,9 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedittask;
+package com.example.android.architecture.blueprints.todoapp.addedituser;
 
 import android.content.Context;
 import android.databinding.ObservableBoolean;
@@ -22,19 +11,24 @@ import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.data.Task;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.User;
+import com.example.android.architecture.blueprints.todoapp.data.source.UsersDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
 
 /**
  * ViewModel for the Add/Edit screen.
+ * 添加/编辑屏幕的ViewModel。
  * <p>
  * This ViewModel only exposes {@link ObservableField}s, so it doesn't need to extend
+ * 这个ViewModel只公开了{ @ link可见域}，所以它不需要扩展
  * {@link android.databinding.BaseObservable} and updates are notified automatically. See
  * {@link com.example.android.architecture.blueprints.todoapp.statistics.StatisticsViewModel} for
  * how to deal with more complex scenarios.
+ * { @link android.databinding。可以自动地通知可执行的事件和更新。
+ * 看到{ @link com.example.android.architecture.blueprints.todoapp.statistics。
+ * 关于如何处理更复杂的场景的统计视图模型。
  */
-public class AddEditTaskViewModel implements TasksDataSource.GetTaskCallback {
+public class AddEditUserViewModel implements UsersDataSource.GetUserCallback {
 
     public final ObservableField<String> title = new ObservableField<>();
 
@@ -44,62 +38,72 @@ public class AddEditTaskViewModel implements TasksDataSource.GetTaskCallback {
 
     public final ObservableField<String> snackbarText = new ObservableField<>();
 
-    private final TasksRepository mTasksRepository;
+    private final UsersRepository mUsersRepository;
 
-    private final Context mContext;  // To avoid leaks, this must be an Application Context.
+	// To avoid leaks, this must be an Application Context.
+	// 为了避免泄漏，这必须是应用程序上下文。
+    private final Context mContext;  
 
     @Nullable
-    private String mTaskId;
+    private String mUserId;
 
-    private boolean mIsNewTask;
+    private boolean mIsNewUser;
 
     private boolean mIsDataLoaded = false;
 
-    private AddEditTaskNavigator mAddEditTaskNavigator;
+    private AddEditUserNavigator mAddEditUserNavigator;
 
-    AddEditTaskViewModel(Context context, TasksRepository tasksRepository) {
-        mContext = context.getApplicationContext(); // Force use of Application Context.
-        mTasksRepository = tasksRepository;
+    AddEditUserViewModel(Context context, UsersRepository usersRepository) {
+        // Force use of Application Context.
+		// 强制使用应用程序上下文
+		mContext = context.getApplicationContext(); 
+        mUsersRepository = usersRepository;
     }
 
-    void onActivityCreated(AddEditTaskNavigator navigator) {
-        mAddEditTaskNavigator = navigator;
+    void onActivityCreated(AddEditUserNavigator navigator) {
+        mAddEditUserNavigator = navigator;
     }
 
     void onActivityDestroyed() {
         // Clear references to avoid potential memory leaks.
-        mAddEditTaskNavigator = null;
+		// 明确的引用以避免潜在的内存泄漏。
+        mAddEditUserNavigator = null;
     }
 
-    public void start(String taskId) {
+    public void start(String userId) {
         if (dataLoading.get()) {
             // Already loading, ignore.
+			// 已经加载,忽视。
             return;
         }
-        mTaskId = taskId;
-        if (taskId == null) {
-            // No need to populate, it's a new task
-            mIsNewTask = true;
+        mUserId = userId;
+        if (userId == null) {
+            // No need to populate, it's a new user
+			// 不需要填充，这是一个新任务
+            mIsNewUser = true;
             return;
         }
         if (mIsDataLoaded) {
             // No need to populate, already have data.
+			// 不需要填充，已经有数据了。
             return;
         }
-        mIsNewTask = false;
+        mIsNewUser = false;
         dataLoading.set(true);
-        mTasksRepository.getTask(taskId, this);
+        mUsersRepository.getUser(userId, this);
     }
 
     @Override
-    public void onTaskLoaded(Task task) {
-        title.set(task.getTitle());
-        description.set(task.getDescription());
+    public void onUserLoaded(User user) {
+        title.set(user.getTitle());
+        description.set(user.getDescription());
         dataLoading.set(false);
         mIsDataLoaded = true;
 
         // Note that there's no need to notify that the values changed because we're using
         // ObservableFields.
+		// 请注意，没有必要通知因为我们使用了可见字段而改变了值。
+
     }
 
     @Override
@@ -108,11 +112,12 @@ public class AddEditTaskViewModel implements TasksDataSource.GetTaskCallback {
     }
 
     // Called when clicking on fab.
-    public void saveTask(String title, String description) {
-        if (isNewTask()) {
-            createTask(title, description);
+	// 当单击fab时调用。
+    public void saveUser(String title, String description) {
+        if (isNewUser()) {
+            createUser(title, description);
         } else {
-            updateTask(title, description);
+            updateUser(title, description);
         }
     }
 
@@ -121,31 +126,33 @@ public class AddEditTaskViewModel implements TasksDataSource.GetTaskCallback {
         return snackbarText.get();
     }
 
-    private boolean isNewTask() {
-        return mIsNewTask;
+    private boolean isNewUser() {
+        return mIsNewUser;
     }
 
-    private void createTask(String title, String description) {
-        Task newTask = new Task(title, description);
-        if (newTask.isEmpty()) {
-            snackbarText.set(mContext.getString(R.string.empty_task_message));
+    private void createUser(String title, String description) {
+        User newUser = new User(title, description);
+        if (newUser.isEmpty()) {
+            snackbarText.set(mContext.getString(R.string.empty_user_message));
         } else {
-            mTasksRepository.saveTask(newTask);
-            navigateOnTaskSaved();
+            mUsersRepository.saveUser(newUser);
+            navigateOnUserSaved();
         }
     }
 
-    private void updateTask(String title, String description) {
-        if (isNewTask()) {
-            throw new RuntimeException("updateTask() was called but task is new.");
+    private void updateUser(String title, String description) {
+        if (isNewUser()) {
+            throw new RuntimeException("updateUser() was called but user is new.");
         }
-        mTasksRepository.saveTask(new Task(title, description, mTaskId));
-        navigateOnTaskSaved(); // After an edit, go back to the list.
+        mUsersRepository.saveUser(new User(title, description, mUserId));
+        // After an edit, go back to the list.
+		// 编辑后，返回到列表。
+		navigateOnUserSaved(); 
     }
 
-    private void navigateOnTaskSaved() {
-        if (mAddEditTaskNavigator!= null) {
-            mAddEditTaskNavigator.onTaskSaved();
+    private void navigateOnUserSaved() {
+        if (mAddEditUserNavigator!= null) {
+            mAddEditUserNavigator.onUserSaved();
         }
     }
 }

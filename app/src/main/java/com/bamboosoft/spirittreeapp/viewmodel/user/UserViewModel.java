@@ -1,17 +1,5 @@
 /*
- * Copyright 2016, The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2016, 
  */
 
 package com.example.android.architecture.blueprints.todoapp;
@@ -23,16 +11,17 @@ import android.databinding.Observable;
 import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.data.Task;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
+import com.example.android.architecture.blueprints.todoapp.data.User;
+import com.example.android.architecture.blueprints.todoapp.data.source.UsersDataSource;
+import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
 
 
 /**
- * Abstract class for View Models that expose a single {@link Task}.
+ * Abstract class for View Models that expose a single {@link User}.
+ * 用于显示单个{ @ link用户}的视图模型的抽象类。
  */
-public abstract class TaskViewModel extends BaseObservable
-        implements TasksDataSource.GetTaskCallback {
+public abstract class UserViewModel extends BaseObservable
+        implements UsersDataSource.GetUserCallback {
 
     public final ObservableField<String> snackbarText = new ObservableField<>();
 
@@ -40,26 +29,29 @@ public abstract class TaskViewModel extends BaseObservable
 
     public final ObservableField<String> description = new ObservableField<>();
 
-    private final ObservableField<Task> mTaskObservable = new ObservableField<>();
+    private final ObservableField<User> mUserObservable = new ObservableField<>();
 
-    private final TasksRepository mTasksRepository;
+    private final UsersRepository mUsersRepository;
 
     private final Context mContext;
 
     private boolean mIsDataLoading;
 
-    public TaskViewModel(Context context, TasksRepository tasksRepository) {
+    public UserViewModel(Context context, UsersRepository usersRepository) {
+		
+		//强制使用应用程序上下文。
         mContext = context.getApplicationContext(); // Force use of Application Context.
-        mTasksRepository = tasksRepository;
+        mUsersRepository = usersRepository;
 
-        // Exposed observables depend on the mTaskObservable observable:
-        mTaskObservable.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+        // Exposed observables depend on the mUserObservable observable:
+		// 可观察到的可观察到的可观察到的可见性:
+        mUserObservable.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable observable, int i) {
-                Task task = mTaskObservable.get();
-                if (task != null) {
-                    title.set(task.getTitle());
-                    description.set(task.getDescription());
+                User user = mUserObservable.get();
+                if (user != null) {
+                    title.set(user.getTitle());
+                    description.set(user.getDescription());
                 } else {
                     title.set(mContext.getString(R.string.no_data));
                     description.set(mContext.getString(R.string.no_data_description));
@@ -68,45 +60,50 @@ public abstract class TaskViewModel extends BaseObservable
         });
     }
 
-    public void start(String taskId) {
-        if (taskId != null) {
+    public void start(String userId) {
+        if (userId != null) {
             mIsDataLoading = true;
-            mTasksRepository.getTask(taskId, this);
+            mUsersRepository.getUser(userId, this);
         }
     }
 
-    public void setTask(Task task) {
-        mTaskObservable.set(task);
+    public void setUser(User user) {
+        mUserObservable.set(user);
     }
 
     // "completed" is two-way bound, so in order to intercept the new value, use a @Bindable
     // annotation and process it in the setter.
+	// “完成”是双向绑定，因此为了拦截新值，
+	// 使用@ bindable注释并在setter中处理它。
+
     @Bindable
     public boolean getCompleted() {
-        return mTaskObservable.get().isCompleted();
+        return mUserObservable.get().isCompleted();
     }
 
     public void setCompleted(boolean completed) {
         if (mIsDataLoading) {
             return;
         }
-        Task task = mTaskObservable.get();
+        User user = mUserObservable.get();
         // Update the entity
-        task.setCompleted(completed);
+		// 更新的实体
+        user.setCompleted(completed);
 
         // Notify repository and user
+		// 通知仓库和用户
         if (completed) {
-            mTasksRepository.completeTask(task);
-            snackbarText.set(mContext.getResources().getString(R.string.task_marked_complete));
+            mUsersRepository.completeUser(user);
+            snackbarText.set(mContext.getResources().getString(R.string.user_marked_complete));
         } else {
-            mTasksRepository.activateTask(task);
-            snackbarText.set(mContext.getResources().getString(R.string.task_marked_active));
+            mUsersRepository.activateUser(user);
+            snackbarText.set(mContext.getResources().getString(R.string.user_marked_active));
         }
     }
 
     @Bindable
     public boolean isDataAvailable() {
-        return mTaskObservable.get() != null;
+        return mUserObservable.get() != null;
     }
 
     @Bindable
@@ -114,37 +111,40 @@ public abstract class TaskViewModel extends BaseObservable
         return mIsDataLoading;
     }
 
-    // This could be an observable, but we save a call to Task.getTitleForList() if not needed.
+    // This could be an observable, but we save a call to User.getTitleForList() if not needed.
+	// 这可以是可观察的，但是我们可以为用户保存一个调用。
     @Bindable
     public String getTitleForList() {
-        if (mTaskObservable.get() == null) {
+        if (mUserObservable.get() == null) {
             return "No data";
         }
-        return mTaskObservable.get().getTitleForList();
+        return mUserObservable.get().getTitleForList();
     }
 
     @Override
-    public void onTaskLoaded(Task task) {
-        mTaskObservable.set(task);
+    public void onUserLoaded(User user) {
+        mUserObservable.set(user);
         mIsDataLoading = false;
+
+		// @Bindable属性
         notifyChange(); // For the @Bindable properties
     }
 
     @Override
     public void onDataNotAvailable() {
-        mTaskObservable.set(null);
+        mUserObservable.set(null);
         mIsDataLoading = false;
     }
 
-    public void deleteTask() {
-        if (mTaskObservable.get() != null) {
-            mTasksRepository.deleteTask(mTaskObservable.get().getId());
+    public void deleteUser() {
+        if (mUserObservable.get() != null) {
+            mUsersRepository.deleteUser(mUserObservable.get().getId());
         }
     }
 
     public void onRefresh() {
-        if (mTaskObservable.get() != null) {
-            start(mTaskObservable.get().getId());
+        if (mUserObservable.get() != null) {
+            start(mUserObservable.get().getId());
         }
     }
 
@@ -153,7 +153,7 @@ public abstract class TaskViewModel extends BaseObservable
     }
 
     @Nullable
-    protected String getTaskId() {
-        return mTaskObservable.get().getId();
+    protected String getUserId() {
+        return mUserObservable.get().getId();
     }
 }

@@ -7,7 +7,7 @@ package com.example.android.architecture.blueprints.todoapp.addedituser;
 
 /**
  * Defines the navigation actions that can be called from the Add/Edit screen.
- * ¶¨Òå¿ÉÒÔ´ÓÌí¼Ó/±à¼­ÆÁÄ»µ÷ÓÃµÄµ¼º½²Ù×÷¡£
+ * å®šä¹‰å¯ä»¥ä»æ·»åŠ /ç¼–è¾‘å±å¹•è°ƒç”¨çš„å¯¼èˆªæ“ä½œã€‚
  */
 interface AddEditUserNavigator {
 

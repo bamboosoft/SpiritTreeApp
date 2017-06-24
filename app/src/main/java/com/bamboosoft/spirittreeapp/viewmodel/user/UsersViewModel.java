@@ -1,17 +1,6 @@
 /*
- * Copyright 2016, The Android Open Source Project
+ * Copyright 2016, 
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 package com.bamboosoft.spirittreeapp.viewmodel.user;
@@ -43,10 +32,14 @@ import java.util.List;
  * {@link BaseObservable} implements a listener registration mechanism which is notified when a
  * property changes. This is done by assigning a {@link Bindable} annotation to the property's
  * getter method.
+ * { @ link BaseObservable }实现了一个侦听器注册机制，当属性发生变化时，
+ * 它会被通知。这是通过为属性的getter方法分配{ @ link可绑定}注释来完成的。
  */
 public class UsersViewModel extends BaseObservable {
 
     // These observable fields will update Views automatically
+	// 这些可观察的字段将自动更新视图
+
     public final ObservableList<User> items = new ObservableArrayList<>();
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
@@ -67,17 +60,23 @@ public class UsersViewModel extends BaseObservable {
 
     private final ObservableBoolean mIsDataLoadingError = new ObservableBoolean(false);
 
-    private Context mContext; // To avoid leaks, this must be an Application Context.
+	// To avoid leaks, this must be an Application Context.
+	// 为了避免泄漏，这必须是应用程序上下文。
+
+    private Context mContext; 
 
     private UsersNavigator mNavigator;
 
     public UsersViewModel(
             UsersRepository repository,
             Context context) {
+
+		// 强制使用应用程序上下文。
         mContext = context.getApplicationContext(); // Force use of Application Context.
         mUsersRepository = repository;
 
         // Set initial state
+		// 设置初始状态
         setFiltering(UsersFilterType.ALL_USERS);
     }
 
@@ -87,6 +86,7 @@ public class UsersViewModel extends BaseObservable {
 
     void onActivityDestroyed() {
         // Clear references to avoid potential memory leaks.
+		// 明确的引用以避免潜在的内存泄漏。
         mNavigator = null;
     }
 
@@ -105,7 +105,8 @@ public class UsersViewModel extends BaseObservable {
 
     /**
      * Sets the current user filtering type.
-     *
+     * 设置当前的用户过滤类型。
+	 *
      * @param requestType Can be {@link UsersFilterType#ALL_USERS},
      *                    {@link UsersFilterType#COMPLETED_USERS}, or
      *                    {@link UsersFilterType#ACTIVE_USERS}
@@ -114,6 +115,7 @@ public class UsersViewModel extends BaseObservable {
         mCurrentFiltering = requestType;
 
         // Depending on the filter type, set the filtering label, icon drawables, etc.
+		// 根据筛选器类型，设置过滤标签、图标绘制器等。
         switch (requestType) {
             case ALL_USERS:
                 currentFilteringLabel.set(mContext.getString(R.string.label_all));
@@ -151,6 +153,7 @@ public class UsersViewModel extends BaseObservable {
 
     /**
      * Called by the Data Binding library and the FAB's click listener.
+	 * 由数据绑定库和FAB的单击侦听器调用。
      */
     public void addNewUser() {
         if (mNavigator != null) {
@@ -179,7 +182,10 @@ public class UsersViewModel extends BaseObservable {
 
     /**
      * @param forceUpdate   Pass in true to refresh the data in the {@link UsersDataSource}
+	 * @ param forceUpdate通过true来刷新{ @ link UsersDataSource }中的数据
+
      * @param showLoadingUI Pass in true to display a loading icon in the UI
+	 * @ param showLoadingUI通过true来显示UI中的加载图标
      */
     private void loadUsers(boolean forceUpdate, final boolean showLoadingUI) {
         if (showLoadingUI) {
@@ -192,6 +198,10 @@ public class UsersViewModel extends BaseObservable {
 
         // The network request might be handled in a different thread so make sure Espresso knows
         // that the app is busy until the response is handled.
+		// 网络请求可能会以不同的线程处理，所以确保Espresso知道应用程序很忙，
+		// 直到响应被处理。
+
+		//应用程序一直忙到另行通知
         EspressoIdlingResource.increment(); // App is busy until further notice
 
         mUsersRepository.getUsers(new UsersDataSource.LoadUsersCallback() {
@@ -202,11 +212,14 @@ public class UsersViewModel extends BaseObservable {
                 // This callback may be called twice, once for the cache and once for loading
                 // the data from the server API, so we check before decrementing, otherwise
                 // it throws "Counter has been corrupted!" exception.
+				// 这个回调可能被调用两次，一次是用于缓存，一次是用于从服务器API加载数据，
+				// 所以我们在递减之前检查，否则它抛出“计数器已经被破坏了!”“例外。
                 if (!EspressoIdlingResource.getIdlingResource().isIdleNow()) {
                     EspressoIdlingResource.decrement(); // Set app as idle.
                 }
 
                 // We filter the users based on the requestType
+				// 我们根据请求类型过滤用户
                 for (User user : users) {
                     switch (mCurrentFiltering) {
                         case ALL_USERS:
@@ -234,6 +247,8 @@ public class UsersViewModel extends BaseObservable {
 
                 items.clear();
                 items.addAll(usersToShow);
+
+				//这是一个手动更新的@ bindable
                 notifyPropertyChanged(BR.empty); // It's a @Bindable so update manually
             }
 

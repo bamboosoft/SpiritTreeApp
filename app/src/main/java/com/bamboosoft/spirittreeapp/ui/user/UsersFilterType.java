@@ -7,24 +7,24 @@ package com.example.android.architecture.blueprints.todoapp.users;
 
 /**
  * Used with the filter spinner in the users list.
- * ÓëÓÃ»§ÁĞ±íÖĞµÄ¹ıÂËÆ÷spinnerÒ»ÆğÊ¹ÓÃ¡£
+ * ä¸ç”¨æˆ·åˆ—è¡¨ä¸­çš„è¿‡æ»¤å™¨spinnerä¸€èµ·ä½¿ç”¨ã€‚
  */
 public enum UsersFilterType {
     /**
      * Do not filter users.
-	 * ²»¹ıÂËÓÃ»§¡£
+	 * ä¸è¿‡æ»¤ç”¨æˆ·ã€‚
      */
     ALL_USERS,
 
     /**
      * Filters only the active (not completed yet) users.
-	 * Ö»¹ıÂË»î¶¯µÄ(Î´Íê³ÉµÄ)ÓÃ»§¡£
+	 * åªè¿‡æ»¤æ´»åŠ¨çš„(æœªå®Œæˆçš„)ç”¨æˆ·ã€‚
      */
     ACTIVE_USERS,
 
     /**
      * Filters only the completed users.
-	 * Ö»¹ıÂËÒÑÍê³ÉµÄÓÃ»§¡£
+	 * åªè¿‡æ»¤å·²å®Œæˆçš„ç”¨æˆ·ã€‚
      */
     COMPLETED_USERS
 }
