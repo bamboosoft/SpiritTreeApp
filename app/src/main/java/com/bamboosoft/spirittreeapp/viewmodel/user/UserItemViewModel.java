@@ -2,7 +2,7 @@
  * Copyright 2016, 
  */
 
-package com.example.android.architecture.blueprints.todoapp.users;
+package com.bamboosoft.spirittreeapp.viewmodel.user;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

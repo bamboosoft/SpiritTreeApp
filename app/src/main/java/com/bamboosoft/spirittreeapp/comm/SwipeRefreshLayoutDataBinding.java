@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp;
+package com.bamboosoft.spirittreeapp.comm;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;

@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedituser;
+package com.bamboosoft.spirittreeapp.ui.user;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.util;
+package com.bamboosoft.spirittreeapp.util;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;

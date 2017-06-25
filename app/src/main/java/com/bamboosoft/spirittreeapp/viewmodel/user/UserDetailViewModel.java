@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.userdetail;
+package com.bamboosoft.spirittreeapp.viewmodel.user;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

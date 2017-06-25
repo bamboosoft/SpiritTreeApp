@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.users;
+package com.bamboosoft.spirittreeapp.ui.user;
 
 /**
  * Defines the navigation actions that can be called from the user list screen.

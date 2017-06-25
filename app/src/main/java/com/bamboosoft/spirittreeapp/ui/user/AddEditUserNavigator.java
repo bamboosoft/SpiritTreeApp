@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.addedituser;
+package com.bamboosoft.spirittreeapp.ui.user;
 
 /**
  * Defines the navigation actions that can be called from the Add/Edit screen.

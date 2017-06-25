@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp;
+package com.bamboosoft.spirittreeapp.comm;
 
 
 import android.os.Bundle;
@@ -33,8 +33,8 @@ public class ViewModelHolder<VM> extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
-
-    @Nullable public VM getViewmodel() {
+M
+    @Nullable public VM getViewodel() {
         return mViewModel;
     }
 

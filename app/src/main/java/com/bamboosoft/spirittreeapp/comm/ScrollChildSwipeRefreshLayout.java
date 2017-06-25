@@ -2,7 +2,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp;
+package com.bamboosoft.spirittreeapp.comm;
 
 import android.content.Context;
 import android.support.v4.view.ViewCompat;

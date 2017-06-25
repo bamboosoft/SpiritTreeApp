@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.data;
+package com.bamboosoft.spirittreeapp.domain.user;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

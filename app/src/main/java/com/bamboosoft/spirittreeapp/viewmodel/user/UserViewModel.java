@@ -2,7 +2,7 @@
  * Copyright 2016, 
  */
 
-package com.example.android.architecture.blueprints.todoapp;
+package com.bamboosoft.spirittreeapp.viewmodel.user;
 
 import android.content.Context;
 import android.databinding.BaseObservable;

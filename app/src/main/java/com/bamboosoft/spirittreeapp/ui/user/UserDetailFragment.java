@@ -3,7 +3,7 @@
  *
  */
 
-package com.example.android.architecture.blueprints.todoapp.userdetail;
+package com.bamboosoft.spirittreeapp.ui.user;
 
 import android.databinding.Observable;
 import android.os.Bundle;
