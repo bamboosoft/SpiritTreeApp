@@ -3,7 +3,7 @@
  *
  */
 
-package com.bamboosoft.spirittreeapp.comm;
+package com.bamboosoft.spirittreeapp.viewmodel;
 
 
 import android.os.Bundle;
@@ -33,7 +33,7 @@ public class ViewModelHolder<VM> extends Fragment {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
     }
-M
+
     @Nullable public VM getViewodel() {
         return mViewModel;
     }

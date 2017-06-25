@@ -27,7 +27,7 @@ public final class UsersPersistenceContract {
 	/* 定义表内容的内部类 */
     public static abstract class UserEntry implements BaseColumns {
         public static final String TABLE_NAME = "Users";
-        public static final int COLUMN_ID = "UserId";
+        public static final int COLUMN_ID = 0;
         public static final String COLUMN_ACCOUNT = "Account";
         public static final String COLUMN_MOBILE = "Mobile";
         public static final String COLUMN_EMAIL = "Email";
