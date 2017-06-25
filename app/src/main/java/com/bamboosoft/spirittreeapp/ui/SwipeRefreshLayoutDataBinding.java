@@ -3,12 +3,12 @@
  *
  */
 
-package com.bamboosoft.spirittreeapp.comm;
+package com.bamboosoft.spirittreeapp.ui;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import com.example.android.architecture.blueprints.todoapp.tasks.TasksViewModel;
+import com.bamboosoft.spirittreeapp.viewmodel.user.UsersViewModel;
 
 public class SwipeRefreshLayoutDataBinding {
 
@@ -20,11 +20,11 @@ public class SwipeRefreshLayoutDataBinding {
      */
     @BindingAdapter("android:onRefresh")
     public static void setSwipeRefreshLayoutOnRefreshListener(ScrollChildSwipeRefreshLayout view,
-            final TasksViewModel viewModel) {
+            final UsersViewModel viewModel) {
         view.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                viewModel.loadTasks(true);
+                viewModel.loadUsers(true);
             }
         });
     }

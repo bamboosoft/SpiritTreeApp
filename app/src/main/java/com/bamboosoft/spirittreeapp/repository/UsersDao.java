@@ -6,7 +6,7 @@ package com.bamboosoft.spirittreeapp.repository;
 
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.User;
+import com.bamboosoft.spirittreeapp.domain.user;
 
 import java.util.List;
 

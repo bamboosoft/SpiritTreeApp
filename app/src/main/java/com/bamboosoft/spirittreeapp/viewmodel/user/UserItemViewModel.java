@@ -7,8 +7,10 @@ package com.bamboosoft.spirittreeapp.viewmodel.user;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.UserViewModel;
-import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
+import com.bamboosoft.spirittreeapp.viewmodel.user.UserViewModel;
+
+import com.bamboosoft.spirittreeapp.repository.UsersRepository;
+
 
 import java.lang.ref.WeakReference;
 

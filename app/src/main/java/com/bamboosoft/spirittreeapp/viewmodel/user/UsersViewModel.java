@@ -14,14 +14,16 @@ import android.databinding.ObservableField;
 import android.databinding.ObservableList;
 import android.graphics.drawable.Drawable;
 
-import com.example.android.architecture.blueprints.todoapp.BR;
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity;
-import com.example.android.architecture.blueprints.todoapp.data.User;
-import com.example.android.architecture.blueprints.todoapp.data.source.UsersDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
-import com.example.android.architecture.blueprints.todoapp.userdetail.UserDetailActivity;
-import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
+import com.bamboosoft.spirittreeapp.BR;
+import com.bamboosoft.spirittreeapp.ui.user.AddEditUserActivity;
+import com.bamboosoft.spirittreeapp.ui.user.UserDetailActivity;
+import com.bamboosoft.spirittreeapp.util.EspressoIdlingResource;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.domain.user.User;
+import com.bamboosoft.spirittreeapp.repository.UsersDataSource;
+import com.bamboosoft.spirittreeapp.repository.UsersRepository;
+
+
 
 import java.util.ArrayList;
 import java.util.List;

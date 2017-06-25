@@ -17,9 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.databinding.AdduserFragBinding;
-import com.example.android.architecture.blueprints.todoapp.util.SnackbarUtils;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.databinding.AdduserFragBinding;
+import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

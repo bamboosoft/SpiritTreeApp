@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.data.User;
+import com.bamboosoft.spirittreeapp.domain.user;
 
 import java.util.ArrayList;
 import java.util.Iterator;

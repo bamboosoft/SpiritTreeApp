@@ -13,11 +13,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.example.android.architecture.blueprints.todoapp.Injection;
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.ViewModelHolder;
-import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
-import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
+//import com.example.android.architecture.blueprints.todoapp.Injection;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
+import com.bamboosoft.spirittreeapp.util.ActivityUtils;
+import com.bamboosoft.spirittreeapp.util.EspressoIdlingResource;
 
 /**
  * Displays an add or edit user screen.

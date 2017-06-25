@@ -8,10 +8,9 @@ package com.bamboosoft.spirittreeapp.viewmodel.user;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.UserViewModel;
+import com.bamboosoft.spirittreeapp.viewmodel.user.UserViewModel;
 import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
-import com.example.android.architecture.blueprints.todoapp.users.UsersFragment;
-
+import com.bamboosoft.spirittreeapp.ui.user.UsersFragment;
 
 /**
  * Listens to user actions from the list item in ({@link UsersFragment}) and redirects them to the

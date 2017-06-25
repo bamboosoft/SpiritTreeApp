@@ -10,10 +10,10 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.Nullable;
 
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.data.User;
-import com.example.android.architecture.blueprints.todoapp.data.source.UsersDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.domain.user.User;
+import com.bamboosoft.spirittreeapp.repository.UsersDataSource;
+import com.bamboosoft.spirittreeapp.repository.UsersRepository;
 
 /**
  * ViewModel for the Add/Edit screen.

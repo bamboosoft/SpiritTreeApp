@@ -8,8 +8,8 @@ package com.bamboosoft.spirittreeapp.repository.remote;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
-import com.example.android.architecture.blueprints.todoapp.data.User;
-import com.example.android.architecture.blueprints.todoapp.data.source.UsersDao;
+import com.bamboosoft.spirittreeapp.domain.user.User;
+import com.bamboosoft.spirittreeapp.repository.UserDao;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;

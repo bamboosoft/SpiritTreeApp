@@ -2,7 +2,7 @@
  *
  */
 
-package com.bamboosoft.spirittreeapp.comm;
+package com.bamboosoft.spirittreeapp.ui;
 
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
