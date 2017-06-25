@@ -17,9 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.databinding.UserdetailFragBinding;
-import com.example.android.architecture.blueprints.todoapp.util.SnackbarUtils;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.databinding.UserdetailFragBinding;
+import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
 
 
 /**

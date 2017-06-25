@@ -12,15 +12,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.example.android.architecture.blueprints.todoapp.Injection;
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.ViewModelHolder;
-import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity;
-import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserFragment;
-import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
+import com.bamboosoft.spirittreeapp.Injection;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.ViewModelHolder;
+import com.bamboosoft.spirittreeapp.addedituser.AddEditUserActivity;
+import com.bamboosoft.spirittreeapp.addedituser.AddEditUserFragment;
+import com.bamboosoft.spirittreeapp.util.ActivityUtils;
 
-import static com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity.ADD_EDIT_RESULT_OK;
-import static com.example.android.architecture.blueprints.todoapp.userdetail.UserDetailFragment.REQUEST_EDIT_USER;
+import static com.bamboosoft.spirittreeapp.addedituser.AddEditUserActivity.ADD_EDIT_RESULT_OK;
+import static com.bamboosoft.spirittreeapp.userdetail.UserDetailFragment.REQUEST_EDIT_USER;
 
 /**
  * Displays user details screen.

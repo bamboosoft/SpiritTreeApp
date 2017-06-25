@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.databinding.StatisticsFragBinding;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.databinding.StatisticsFragBinding;
 
 /**
  * Main UI for the statistics screen.

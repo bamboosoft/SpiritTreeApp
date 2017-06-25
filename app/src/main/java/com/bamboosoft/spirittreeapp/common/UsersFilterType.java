@@ -3,7 +3,7 @@
  *
  */
 
-package com.bamboosoft.spirittreeapp.ui.user;
+package com.bamboosoft.spirittreeapp.common;
 
 /**
  * Used with the filter spinner in the users list.

@@ -18,14 +18,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.example.android.architecture.blueprints.todoapp.Injection;
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.ViewModelHolder;
-import com.example.android.architecture.blueprints.todoapp.addedituser.AddEditUserActivity;
-import com.example.android.architecture.blueprints.todoapp.statistics.StatisticsActivity;
-import com.example.android.architecture.blueprints.todoapp.userdetail.UserDetailActivity;
-import com.example.android.architecture.blueprints.todoapp.util.ActivityUtils;
-import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
+import com.bamboosoft.spirittreeapp.Injection;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.ViewModelHolder;
+import com.bamboosoft.spirittreeapp.addedituser.AddEditUserActivity;
+import com.bamboosoft.spirittreeapp.statistics.StatisticsActivity;
+import com.bamboosoft.spirittreeapp.userdetail.UserDetailActivity;
+import com.bamboosoft.spirittreeapp.util.ActivityUtils;
+import com.bamboosoft.spirittreeapp.util.EspressoIdlingResource;
 
 
 public class UsersActivity extends AppCompatActivity implements UserItemNavigator, UsersNavigator {
