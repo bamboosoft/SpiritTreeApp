@@ -21,7 +21,7 @@
 
         <variable
             name="stats"
-            type="com.bamboosoft.spirittreeapp.statistics.StatisticsViewModel" />
+            type="com.bamboosoft.spirittreeapp.viewmodel.user.StatisticsViewModel" />
     </data>
 
 <LinearLayout

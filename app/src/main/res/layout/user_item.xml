@@ -19,7 +19,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.bamboosoft.spirittreeapp.tasks.TaskItemViewModel" />
+            type="com.bamboosoft.spirittreeapp.viewmodel.user.TaskItemViewModel" />
     </data>
 
     <LinearLayout

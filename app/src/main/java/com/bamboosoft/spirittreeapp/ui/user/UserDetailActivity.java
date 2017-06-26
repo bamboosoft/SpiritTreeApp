@@ -14,15 +14,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
-<<<<<<< HEAD
-import com.bamboosoft.spirittreeapp.ViewModelHolder;
-import com.bamboosoft.spirittreeapp.addedituser.AddEditUserActivity;
-import com.bamboosoft.spirittreeapp.addedituser.AddEditUserFragment;
-import com.bamboosoft.spirittreeapp.util.ActivityUtils;
 
-import static com.bamboosoft.spirittreeapp.addedituser.AddEditUserActivity.ADD_EDIT_RESULT_OK;
-import static com.bamboosoft.spirittreeapp.userdetail.UserDetailFragment.REQUEST_EDIT_USER;
-=======
 import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
 import com.bamboosoft.spirittreeapp.ui.user.AddEditUserActivity;
 import com.bamboosoft.spirittreeapp.ui.user.AddEditUserFragment;
@@ -30,7 +22,7 @@ import com.bamboosoft.spirittreeapp.util.ActivityUtils;
 
 import static com.bamboosoft.spirittreeapp.ui.user.AddEditUserActivity.ADD_EDIT_RESULT_OK;
 import static com.bamboosoft.spirittreeapp.ui.user.UserDetailFragment.REQUEST_EDIT_USER;
->>>>>>> e72f6d88b19eda48a971c50878f43f0783558c63
+
 
 /**
  * Displays user details screen.
