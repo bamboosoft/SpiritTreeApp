@@ -23,7 +23,7 @@
 
         <variable
             name="viewmodel"
-            type="com.example.android.architecture.blueprints.todoapp.addedittask.AddEditTaskViewModel"/>
+            type="com.bamboosoft.spirittreeapp.viewmodel.user.AddEditTaskViewModel"/>
     </data>
 
     <com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout

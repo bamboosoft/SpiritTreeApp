@@ -22,14 +22,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import com.example.android.architecture.blueprints.todoapp.Injection;
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout;
-import com.example.android.architecture.blueprints.todoapp.data.User;
-import com.example.android.architecture.blueprints.todoapp.data.source.UsersRepository;
-import com.example.android.architecture.blueprints.todoapp.databinding.UserItemBinding;
-import com.example.android.architecture.blueprints.todoapp.databinding.UsersFragBinding;
-import com.example.android.architecture.blueprints.todoapp.util.SnackbarUtils;
+import com.bamboosoft.spirittreeapp.Injection;
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.ScrollChildSwipeRefreshLayout;
+import com.bamboosoft.spirittreeapp.domain.user.User;
+import com.bamboosoft.spirittreeapp.repository.UsersRepository;
+import com.bamboosoft.spirittreeapp.databinding.UserItemBinding;
+import com.bamboosoft.spirittreeapp.databinding.UsersFragBinding;
+import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
 
 import java.util.ArrayList;
 import java.util.List;

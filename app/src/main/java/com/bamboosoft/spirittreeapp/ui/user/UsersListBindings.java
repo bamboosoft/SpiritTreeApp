@@ -8,7 +8,7 @@ package com.bamboosoft.spirittreeapp.ui.user;
 import android.databinding.BindingAdapter;
 import android.widget.ListView;
 
-import com.example.android.architecture.blueprints.todoapp.data.User;
+import com.bamboosoft.spirittreeapp.domain.user.User;
 
 import java.util.List;
 
