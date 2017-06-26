@@ -18,8 +18,13 @@ import android.view.MenuItem;
 
 import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
+<<<<<<< HEAD
 import com.bamboosoft.spirittreeapp.ViewModelHolder;
 import com.bamboosoft.spirittreeapp.users.UsersActivity;
+=======
+import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
+import com.bamboosoft.spirittreeapp.ui.user.UsersActivity;
+>>>>>>> e72f6d88b19eda48a971c50878f43f0783558c63
 import com.bamboosoft.spirittreeapp.util.ActivityUtils;
 
 /**

@@ -23,7 +23,11 @@
 
         <variable
             name="viewmodel"
+<<<<<<< HEAD
             type="com.bamboosoft.spirittreeapp.addedittask.AddEditTaskViewModel"/>
+=======
+            type="com.bamboosoft.spirittreeapp.viewmodel.user.AddEditTaskViewModel"/>
+>>>>>>> e72f6d88b19eda48a971c50878f43f0783558c63
     </data>
 
     <com.bamboosoft.spirittreeapp.ScrollChildSwipeRefreshLayout

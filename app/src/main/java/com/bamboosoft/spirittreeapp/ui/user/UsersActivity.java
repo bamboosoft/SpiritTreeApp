@@ -20,10 +20,17 @@ import android.view.MenuItem;
 
 import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
+<<<<<<< HEAD
 import com.bamboosoft.spirittreeapp.ViewModelHolder;
 import com.bamboosoft.spirittreeapp.addedituser.AddEditUserActivity;
 import com.bamboosoft.spirittreeapp.statistics.StatisticsActivity;
 import com.bamboosoft.spirittreeapp.userdetail.UserDetailActivity;
+=======
+import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
+import com.bamboosoft.spirittreeapp.ui.user.AddEditUserActivity;
+import com.bamboosoft.spirittreeapp.ui.user.StatisticsActivity;
+import com.bamboosoft.spirittreeapp.ui.user.UserDetailActivity;
+>>>>>>> e72f6d88b19eda48a971c50878f43f0783558c63
 import com.bamboosoft.spirittreeapp.util.ActivityUtils;
 import com.bamboosoft.spirittreeapp.util.EspressoIdlingResource;
 
