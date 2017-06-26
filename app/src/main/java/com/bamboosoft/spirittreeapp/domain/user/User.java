@@ -20,13 +20,13 @@ import java.util.UUID;
 public final class User {
 
     @NonNull
-    private final int mUserId;
+    private final String mUserId;
 
     @Nullable
     private final String mAccount;
     
 	@Nullable
-	private final String mPassword
+	private final String mPassword;
 
     @Nullable
     private final int mMobile;
@@ -59,7 +59,7 @@ public final class User {
         mPassword = password;       
 		mMobile = mobile;
 		mEmail = email;
-		mCreateTime = getNow();
+		mCreateTime = getCreateTime();
 		mStatus = 1;
 		mLevel =1 ;
 		mType = 1;

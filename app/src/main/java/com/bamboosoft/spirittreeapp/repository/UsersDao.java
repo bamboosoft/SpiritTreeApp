@@ -6,7 +6,7 @@ package com.bamboosoft.spirittreeapp.repository;
 
 import android.support.annotation.NonNull;
 
-import com.bamboosoft.spirittreeapp.domain.user;
+import com.bamboosoft.spirittreeapp.domain.user.User;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * Main entry point for accessing users data.
  * 访问用户数据的主要入口点。
  */
-public interface UserDao {
+public interface UsersDao {
 
     interface LoadUserCallback {
 

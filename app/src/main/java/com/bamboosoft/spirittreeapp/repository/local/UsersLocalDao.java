@@ -14,8 +14,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 
-import com.bamboosoft.spirittreeapp.domain.user;
-import com.bamboosoft.spirittreeapp.repository.UserDao;
+import com.bamboosoft.spirittreeapp.domain.user.User;
+import com.bamboosoft.spirittreeapp.repository.UsersDao;
 import com.bamboosoft.spirittreeapp.repository.local.UserPersistenceContract.UserEntry;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Concrete implementation of a data source as a db.
  * 将数据源作为数据库的具体实现。
  */
-public class UserLocalDao implements UserDao {
+public class UserLocalDao implements UsersDao {
 
     private static UserLocalDao INSTANCE;
 

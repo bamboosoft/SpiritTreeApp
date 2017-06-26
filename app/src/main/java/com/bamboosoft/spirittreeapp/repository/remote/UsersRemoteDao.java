@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.bamboosoft.spirittreeapp.domain.user.User;
-import com.bamboosoft.spirittreeapp.repository.UserDao;
+import com.bamboosoft.spirittreeapp.repository.UsersDao;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;

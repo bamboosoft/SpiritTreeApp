@@ -9,13 +9,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.bamboosoft.spirittreeapp.domain.user;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.bamboosoft.spirittreeapp.domain.user.User;
 
 /**
  * Concrete implementation to load users from the data sources into a cache.
@@ -27,13 +27,13 @@ import java.util.Map;
  * 为简单起见，这实现了本地持久化数据和数据之间的非同步的同步
  * 从服务器获取，只有在本地数据库不使用时才使用远程数据源存在或者是空的。
  */
-public class UserRepository implements UserDao {
+public class UserRepository implements UsersDao {
 
     private static UserRepository INSTANCE = null;
 
-    private final UserDao mUserRemoteDao;
+    private final UsersDao mUserRemoteDao;
 
-    private final UserDao mUserLocalDao;
+    private final UsersDao mUserLocalDao;
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
@@ -51,8 +51,8 @@ public class UserRepository implements UserDao {
 
     // Prevent direct instantiation.
 	// 防止直接实例化。
-    private UserRepository(@NonNull UserDao usersRemoteDao,
-                            @NonNull UserDao usersLocalDao) {
+    private UserRepository(@NonNull UsersDao usersRemoteDao,
+                            @NonNull UsersDao usersLocalDao) {
         mUserRemoteDao = checkNotNull(usersRemoteDao);
         mUserLocalDao = checkNotNull(usersLocalDao);
     }
@@ -65,8 +65,8 @@ public class UserRepository implements UserDao {
      * @param usersLocalDao  设备存储数据源
      * @return the {@link UserRepository} instance
      */
-    public static UserRepository getInstance(UserDao usersRemoteDao,
-                                              UserDao usersLocalDao) {
+    public static UserRepository getInstance(UsersDao usersRemoteDao,
+                                              UsersDao usersLocalDao) {
         if (INSTANCE == null) {
             INSTANCE = new UserRepository(usersRemoteDao, usersLocalDao);
         }
@@ -75,7 +75,7 @@ public class UserRepository implements UserDao {
 
     /**
 	 * 用于强制{ @ link # getInstance(UserDao,UserDao)}来创建一个新实例
-     * Used to force {@link #getInstance(UserDao, UserDao)} to create a new instance
+     * Used to force {@link #getInstance(UsersDao, UsersDao)} to create a new instance
      * next time it's called.
 	 * 下次它被调用
      */
