@@ -27,9 +27,9 @@ import com.bamboosoft.spirittreeapp.domain.user.User;
  * 为简单起见，这实现了本地持久化数据和数据之间的非同步的同步
  * 从服务器获取，只有在本地数据库不使用时才使用远程数据源存在或者是空的。
  */
-public class UserRepository implements UsersDao {
+public class UsersRepository implements UsersDao {
 
-    private static UserRepository INSTANCE = null;
+    private static UsersRepository INSTANCE = null;
 
     private final UsersDao mUserRemoteDao;
 
@@ -51,7 +51,7 @@ public class UserRepository implements UsersDao {
 
     // Prevent direct instantiation.
 	// 防止直接实例化。
-    private UserRepository(@NonNull UsersDao usersRemoteDao,
+    private UsersRepository(@NonNull UsersDao usersRemoteDao,
                             @NonNull UsersDao usersLocalDao) {
         mUserRemoteDao = checkNotNull(usersRemoteDao);
         mUserLocalDao = checkNotNull(usersLocalDao);
@@ -63,12 +63,12 @@ public class UserRepository implements UsersDao {
 	 *			
      * @param usersRemoteDao 后端数据源
      * @param usersLocalDao  设备存储数据源
-     * @return the {@link UserRepository} instance
+     * @return the {@link UsersRepository} instance
      */
-    public static UserRepository getInstance(UsersDao usersRemoteDao,
+    public static UsersRepository getInstance(UsersDao usersRemoteDao,
                                               UsersDao usersLocalDao) {
         if (INSTANCE == null) {
-            INSTANCE = new UserRepository(usersRemoteDao, usersLocalDao);
+            INSTANCE = new UsersRepository(usersRemoteDao, usersLocalDao);
         }
         return INSTANCE;
     }
@@ -139,6 +139,19 @@ public class UserRepository implements UsersDao {
         mCachedUser.put(user.getId(), user);
     }
 
+    @Override
+    public void updateUser(@NonNull User user) {
+        checkNotNull(user);
+        mUserRemoteDao.saveUser(user);
+        mUserLocalDao.saveUser(user);
+
+        // Do in memory cache update to keep the app UI up to date
+        // 是否在内存缓存更新中保持应用程序的UI更新
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
+        }
+        mCachedUser.put(user.getId(), user);
+    }
 
 
     public void clearCompletedUser() {
@@ -297,8 +310,8 @@ public class UserRepository implements UsersDao {
     @Override
     public void completeUser(@NonNull User user) {
         checkNotNull(user);
-        mUsersRemoteDataSource.completeUser(user);
-        mUsersLocalDataSource.completeUser(user);
+        mUserRemoteDao.completeUser(user);
+        mUserLocalDao.completeUser(user);
 
         User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
 
@@ -319,8 +332,8 @@ public class UserRepository implements UsersDao {
     @Override
     public void activateUser(@NonNull User user) {
         checkNotNull(user);
-        mUsersRemoteDataSource.activateUser(user);
-        mUsersLocalDataSource.activateUser(user);
+        mUserRemoteDao.activateUser(user);
+        mUserLocalDao.activateUser(user);
 
         User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
 
@@ -340,8 +353,8 @@ public class UserRepository implements UsersDao {
 
     @Override
     public void clearCompletedUsers() {
-        mUsersRemoteDataSource.clearCompletedUsers();
-        mUsersLocalDataSource.clearCompletedUsers();
+        mUserRemoteDao.clearCompletedUsers();
+        mUserLocalDao.clearCompletedUsers();
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新

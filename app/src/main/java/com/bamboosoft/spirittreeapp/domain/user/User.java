@@ -7,7 +7,7 @@ package com.bamboosoft.spirittreeapp.domain.user;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
+import java.util.Date;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
@@ -35,7 +35,7 @@ public final class User {
     private final String mEmail;
 
     @Nullable
-    private final DateTime mCreateTime;
+    private final Date mCreateTime;
 
     @Nullable
     private final int mStatus;
@@ -55,6 +55,7 @@ public final class User {
      */
     public User(@Nullable String account, @Nullable String password,
 				@Nullable int mobile,@NonNull String email) {
+        mUserId = UUID.randomUUID().toString();
         mAccount = account;
         mPassword = password;       
 		mMobile = mobile;
@@ -92,7 +93,7 @@ public final class User {
     }
 
     @Nullable
-    public DateTime getCreateTime() {
+    public Date getCreateTime() {
         return mCreateTime;
     }
 
@@ -112,7 +113,11 @@ public final class User {
         return mType;
     }
 
+    public boolean isCompleted()
+    {
 
+        return true;
+    }
 
     @Override
     public boolean equals(Object o) {
