@@ -10,7 +10,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class UserDbHelper extends SQLiteOpenHelper {
+
+public class UsersDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
 
     public static final String DATABASE_NAME = "spirittreedb.db";
@@ -30,20 +31,20 @@ public class UserDbHelper extends SQLiteOpenHelper {
     private static final String COMMA_SEP = ",";
 
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + UserPersistenceContract.UserEntry.TABLE_NAME + " (" +
-                    UserPersistenceContract.UserEntry._ID + TEXT_TYPE + " PRIMARY KEY," +
-                    UserPersistenceContract.UserEntry.COLUMN_ID + INTEGER_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_ACCOUNT + VARCHAR_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_MOBILE + INT_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_EMAIL + VARCHAR_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_PASSWORD + VARCHAR_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_CREATETIME + DATETIME_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_STATUS + INTEGER_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_TYPE + INTEGER_TYPE + COMMA_SEP +
-                    UserPersistenceContract.UserEntry.COLUMN_MEMO + TEXT_TYPE +
+            "CREATE TABLE " + UsersPersistenceContract.UserEntry.TABLE_NAME + " (" +
+                    UsersPersistenceContract.UserEntry._ID + TEXT_TYPE + " PRIMARY KEY," +
+                    UsersPersistenceContract.UserEntry.COLUMN_ID + INTEGER_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_ACCOUNT + VARCHAR_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_MOBILE + INT_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_EMAIL + VARCHAR_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_PASSWORD + VARCHAR_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_CREATETIME + DATETIME_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_STATUS + INTEGER_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_TYPE + INTEGER_TYPE + COMMA_SEP +
+                    UsersPersistenceContract.UserEntry.COLUMN_MEMO + TEXT_TYPE +
             " )";
 
-    public UserDbHelper(Context context) {
+    public UsersDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

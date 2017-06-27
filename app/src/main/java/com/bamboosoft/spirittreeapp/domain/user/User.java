@@ -46,7 +46,7 @@ public final class User {
     @Nullable
     private final int mType;
 
-    private final String mMemo;
+    private final String mDescription;
 
     /**
      *
@@ -64,7 +64,7 @@ public final class User {
 		mStatus = 1;
 		mLevel =1 ;
 		mType = 1;
-		mMemo = "";
+        mDescription = "";
     }
 
     @NonNull

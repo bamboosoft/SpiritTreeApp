@@ -73,7 +73,7 @@ public class UsersRemoteDao implements UsersDao {
 	 * 则会触发此操作。
      */
     @Override
-    public void getUsers(final @NonNull LoadUsersCallback callback) {
+    public void getUsers(final @NonNull LoadUserCallback callback) {
         // Simulate network by delaying the execution.
 		// 通过延迟执行来模拟网络。
         Handler handler = new Handler();

@@ -313,14 +313,14 @@ public class UsersRepository implements UsersDao {
         mUserRemoteDao.completeUser(user);
         mUserLocalDao.completeUser(user);
 
-        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
+        User completedUser = new User(user.getAccount(), user.getPassword(), user.getMobile(),user.getEmail());
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUsers == null) {
-            mCachedUsers = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        mCachedUsers.put(user.getId(), completedUser);
+        mCachedUser.put(user.getId(), completedUser);
     }
 
     @Override
@@ -335,14 +335,14 @@ public class UsersRepository implements UsersDao {
         mUserRemoteDao.activateUser(user);
         mUserLocalDao.activateUser(user);
 
-        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
+        User activeUser = new User(user.getAccount(), user.getPassword(), user.getMobile(),user.getEmail());
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUsers == null) {
-            mCachedUsers = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        mCachedUsers.put(user.getId(), activeUser);
+        mCachedUser.put(user.getId(), activeUser);
     }
 
     @Override
@@ -358,10 +358,10 @@ public class UsersRepository implements UsersDao {
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUsers == null) {
-            mCachedUsers = new LinkedHashMap<>();
+        if (mCachedUser == null) {
+            mCachedUser = new LinkedHashMap<>();
         }
-        Iterator<Map.Entry<String, User>> it = mCachedUsers.entrySet().iterator();
+        Iterator<Map.Entry<String, User>> it = mCachedUser.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, User> entry = it.next();
             if (entry.getValue().isCompleted()) {

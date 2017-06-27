@@ -16,7 +16,7 @@ import android.support.annotation.NonNull;
 
 import com.bamboosoft.spirittreeapp.domain.user.User;
 import com.bamboosoft.spirittreeapp.repository.UsersDao;
-import com.bamboosoft.spirittreeapp.repository.local.UserPersistenceContract.UserEntry;
+import com.bamboosoft.spirittreeapp.repository.local.UsersPersistenceContract.UserEntry;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,26 +28,26 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Concrete implementation of a data source as a db.
  * 将数据源作为数据库的具体实现。
  */
-public class UserLocalDao implements UsersDao {
+public class UsersLocalDao implements UsersDao {
 
-    private static UserLocalDao INSTANCE;
+    private static UsersLocalDao INSTANCE;
 
-    private UserDbHelper mDbHelper;
+    private UsersDbHelper mDbHelper;
 
     //Prevent direct instantiation.
 	//禁止实例化
     private UserLocalDao(@NonNull Context context) {
         checkNotNull(context);
-        mDbHelper = new UserDbHelper(context);
+        mDbHelper = new UsersDbHelper(context);
     }
 
     /**
 	*数据库单例实例
 	*
 	*/
-    public static UserLocalDao getInstance(@NonNull Context context) {
+    public static UsersLocalDao getInstance(@NonNull Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new UserLocalDao(context);
+            INSTANCE = new UsersLocalDao(context);
         }
         return INSTANCE;
     }
@@ -59,7 +59,7 @@ public class UserLocalDao implements UsersDao {
      * or the table is empty.
      */
     @Override
-    public void getUsers(@NonNull LoadUsersCallback callback) {
+    public void getUsers(@NonNull LoadUserCallback callback) {
         List<User> users = new ArrayList<User>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
@@ -113,13 +113,13 @@ public class UserLocalDao implements UsersDao {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
-                UserEntry.COLUMN_NAME_ENTRY_ID,
-                UserEntry.COLUMN_NAME_TITLE,
-                UserEntry.COLUMN_NAME_DESCRIPTION,
-                UserEntry.COLUMN_NAME_COMPLETED
+                UserEntry.COLUMN_ID,
+                UserEntry.COLUMN_ACCOUNT,
+                UserEntry.COLUMN_DESCRIPTION,
+                UserEntry.COLUMN_STATUS
         };
 
-        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String selection = UserEntry.COLUMN_ID + " LIKE ?";
         String[] selectionArgs = { userId };
 
         Cursor c = db.query(
@@ -129,13 +129,13 @@ public class UserLocalDao implements UsersDao {
 
         if (c != null && c.getCount() > 0) {
             c.moveToFirst();
-            String itemId = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_ENTRY_ID));
-            String title = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_TITLE));
+            String itemId = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_ID));
+            String account = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_ACCOUNT));
             String description =
-                    c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_DESCRIPTION));
+                    c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_DESCRIPTION));
             boolean completed =
-                    c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_COMPLETED)) == 1;
-            user = new User(title, description, itemId, completed);
+                    c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_STATUS)) == 1;
+            user = new User(account, description, itemId, completed);
         }
         if (c != null) {
             c.close();
@@ -164,7 +164,7 @@ public class UserLocalDao implements UsersDao {
         values.put(UserEntry.COLUMN_ACCOUNT, user.getAccount());
         values.put(UserEntry.COLUMN_MOBILE, user.getMobile());
         values.put(UserEntry.COLUMN_EMAIL, user.getEmail());
-        values.put(UserEntry.COLUMN_PASSWORD, user.GetPassword());
+        values.put(UserEntry.COLUMN_PASSWORD, user.getPassword());
 
 
         db.insert(UserEntry.TABLE_NAME, null, values);
@@ -181,9 +181,9 @@ public class UserLocalDao implements UsersDao {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(UserEntry.COLUMN_NAME_COMPLETED, true);
+        values.put(UserEntry.COLUMN_STATUS, true);
 
-        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String selection = UserEntry.COLUMN_ID + " LIKE ?";
         String[] selectionArgs = { user.getId() };
 
         db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
@@ -237,9 +237,9 @@ public class UserLocalDao implements UsersDao {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(UserEntry.COLUMN_NAME_COMPLETED, true);
+        values.put(UserEntry.COLUMN_STATUS, true);
 
-        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String selection = UserEntry.COLUMN_ID + " LIKE ?";
         String[] selectionArgs = { user.getId() };
 
         db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
@@ -261,9 +261,9 @@ public class UserLocalDao implements UsersDao {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(UserEntry.COLUMN_NAME_COMPLETED, false);
+        values.put(UserEntry.COLUMN_STATUS, false);
 
-        String selection = UserEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?";
+        String selection = UserEntry.COLUMN_ID + " LIKE ?";
         String[] selectionArgs = { user.getId() };
 
         db.update(UserEntry.TABLE_NAME, values, selection, selectionArgs);
@@ -284,7 +284,7 @@ public class UserLocalDao implements UsersDao {
     public void clearCompletedUsers() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        String selection = UserEntry.COLUMN_NAME_COMPLETED + " LIKE ?";
+        String selection = UserEntry.COLUMN_STATUS + " LIKE ?";
         String[] selectionArgs = { "1" };
 
         db.delete(UserEntry.TABLE_NAME, selection, selectionArgs);
