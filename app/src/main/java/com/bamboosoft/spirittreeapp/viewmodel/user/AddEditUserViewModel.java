@@ -12,8 +12,10 @@ import android.support.annotation.Nullable;
 
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.domain.user.User;
-import com.bamboosoft.spirittreeapp.repository.UsersDataSource;
+import com.bamboosoft.spirittreeapp.repository.UsersDao;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
+import com.bamboosoft.spirittreeapp.ui.user.AddEditUserNavigator;
+
 
 /**
  * ViewModel for the Add/Edit screen.
@@ -22,15 +24,15 @@ import com.bamboosoft.spirittreeapp.repository.UsersRepository;
  * This ViewModel only exposes {@link ObservableField}s, so it doesn't need to extend
  * 这个ViewModel只公开了{ @ link可见域}，所以它不需要扩展
  * {@link android.databinding.BaseObservable} and updates are notified automatically. See
- * {@link com.example.android.architecture.blueprints.todoapp.statistics.StatisticsViewModel} for
+ * {@link com.bamboosoft.spirittreeapp.viewmodel.user.StatisticsViewModel} for
  * how to deal with more complex scenarios.
  * { @link android.databinding。可以自动地通知可执行的事件和更新。
  * 看到{ @link com.example.android.architecture.blueprints.todoapp.statistics。
  * 关于如何处理更复杂的场景的统计视图模型。
  */
-public class AddEditUserViewModel implements UsersDataSource.GetUserCallback {
+public class AddEditUserViewModel implements UsersDao.GetUserCallback {
 
-    public final ObservableField<String> title = new ObservableField<>();
+    public final ObservableField<String> account = new ObservableField<>();
 
     public final ObservableField<String> description = new ObservableField<>();
 
@@ -95,7 +97,7 @@ public class AddEditUserViewModel implements UsersDataSource.GetUserCallback {
 
     @Override
     public void onUserLoaded(User user) {
-        title.set(user.getTitle());
+        account.set(user.getAccount());
         description.set(user.getDescription());
         dataLoading.set(false);
         mIsDataLoaded = true;
@@ -113,11 +115,11 @@ public class AddEditUserViewModel implements UsersDataSource.GetUserCallback {
 
     // Called when clicking on fab.
 	// 当单击fab时调用。
-    public void saveUser(String title, String description) {
+    public void saveUser(String account, String password, int mobile, String email) {
         if (isNewUser()) {
-            createUser(title, description);
+            createUser(account,password,mobile,email);
         } else {
-            updateUser(title, description);
+            updateUser(account,password,mobile,email);
         }
     }
 
@@ -130,21 +132,21 @@ public class AddEditUserViewModel implements UsersDataSource.GetUserCallback {
         return mIsNewUser;
     }
 
-    private void createUser(String title, String description) {
-        User newUser = new User(title, description);
+    private void createUser(String account, String password, int mobile, String email) {
+        User newUser = new User(account,password,mobile,email);
         if (newUser.isEmpty()) {
-            snackbarText.set(mContext.getString(R.string.empty_user_message));
+            snackbarText.set(mContext.getString(R.string.empty_task_message));
         } else {
             mUsersRepository.saveUser(newUser);
             navigateOnUserSaved();
         }
     }
 
-    private void updateUser(String title, String description) {
+    private void updateUser(String account, String password, int mobile, String email) {
         if (isNewUser()) {
             throw new RuntimeException("updateUser() was called but user is new.");
         }
-        mUsersRepository.saveUser(new User(title, description, mUserId));
+        mUsersRepository.saveUser(new User(account,password,mobile,email, mUserId));
         // After an edit, go back to the list.
 		// 编辑后，返回到列表。
 		navigateOnUserSaved(); 

@@ -20,7 +20,7 @@ import com.bamboosoft.spirittreeapp.ui.user.UserDetailActivity;
 import com.bamboosoft.spirittreeapp.util.EspressoIdlingResource;
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.domain.user.User;
-import com.bamboosoft.spirittreeapp.repository.UsersDataSource;
+import com.bamboosoft.spirittreeapp.repository.UsersDao;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
 
 

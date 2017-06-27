@@ -67,6 +67,16 @@ public final class User {
         mDescription = "";
     }
 
+    public User(@Nullable String account, @Nullable String password,
+                @Nullable int mobile,@NonNull String email,@Nullable String userId) {
+        mUserId = userId;
+        mAccount = account;
+        mPassword = password;
+        mMobile = mobile;
+        mEmail = email;
+    }
+
+
     @NonNull
     public String getId() {
         return mUserId;
@@ -76,6 +86,8 @@ public final class User {
     public String getAccount() {
         return mAccount;
     }
+
+
 
     @Nullable
     public String getPassword() {
@@ -107,11 +119,20 @@ public final class User {
         return mLevel;
     }
 
-
     @Nullable
     public int getType() {
         return mType;
     }
+
+    @Nullable
+    public String getDescription() {
+        return mDescription;
+    }
+    public boolean isEmpty() {
+        return Strings.isNullOrEmpty(mAccount) &&
+                Strings.isNullOrEmpty(mPassword);
+    }
+
 
     public boolean isCompleted()
     {

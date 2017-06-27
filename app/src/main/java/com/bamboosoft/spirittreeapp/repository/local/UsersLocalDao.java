@@ -34,9 +34,9 @@ public class UsersLocalDao implements UsersDao {
 
     private UsersDbHelper mDbHelper;
 
-    //Prevent direct instantiation.
+    //Prevent direct instantiation.s
 	//禁止实例化
-    private UserLocalDao(@NonNull Context context) {
+    private UsersLocalDao(@NonNull Context context) {
         checkNotNull(context);
         mDbHelper = new UsersDbHelper(context);
     }
@@ -75,14 +75,24 @@ public class UsersLocalDao implements UsersDao {
 
         if (c != null && c.getCount() > 0) {
             while (c.moveToNext()) {
-                String itemId = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_ENTRY_ID));
-                String title = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_TITLE));
+                String itemId = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_ID));
+                String email = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_EMAIL));
+                int mobile = c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_MOBILE));
+
+
+                String account = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_ACCOUNT));
+                String password = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_PASSWORD));
+
                 String description =
-                        c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_DESCRIPTION));
-                boolean completed =
-                        c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME_COMPLETED)) == 1;
-                User user = new User(title, description, itemId, completed);
-                User.add(user);
+                        c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_DESCRIPTION));
+                boolean status =
+                        c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_STATUS)) == 1;
+
+
+
+
+                User user = new User(account, password,  mobile,email);
+                users.add(user);
             }
         }
         if (c != null) {
@@ -91,12 +101,12 @@ public class UsersLocalDao implements UsersDao {
 
         db.close();
 
-        if (User.isEmpty()) {
+        if (users.isEmpty()) {
             // This will be called if the table is new or just empty.
 			// 如果表是新的或者只是空的，就会调用这个。
             callback.onDataNotAvailable();
         } else {
-            callback.onUserLoaded(User);
+            callback.onUserLoaded(users);
         }
 
     }
@@ -131,11 +141,18 @@ public class UsersLocalDao implements UsersDao {
             c.moveToFirst();
             String itemId = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_ID));
             String account = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_ACCOUNT));
+            String password = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_PASSWORD));
+            String email = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_EMAIL));
+            int mobile = c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_MOBILE));
+
+
             String description =
                     c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_DESCRIPTION));
-            boolean completed =
+            boolean status =
                     c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_STATUS)) == 1;
-            user = new User(account, description, itemId, completed);
+
+
+            user = new User(account, password, mobile, email);
         }
         if (c != null) {
             c.close();

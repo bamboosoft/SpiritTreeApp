@@ -16,9 +16,9 @@ import java.util.List;
  */
 public interface UsersDao {
 
-    interface LoadUserCallback {
+    interface LoadUsersCallback {
 
-        void onUserLoaded(List<User> users);
+        void onUsersLoaded(List<User> users);
 
         void onDataNotAvailable();
     }
@@ -30,7 +30,7 @@ public interface UsersDao {
         void onDataNotAvailable();
     }
 
-    void getUser(@NonNull LoadUserCallback callback);
+    void getUsers(@NonNull LoadUsersCallback callback);
 
     void getUser(@NonNull String userId, @NonNull GetUserCallback callback);
 

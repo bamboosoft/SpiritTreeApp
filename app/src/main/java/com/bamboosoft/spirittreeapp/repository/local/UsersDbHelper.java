@@ -41,7 +41,7 @@ public class UsersDbHelper extends SQLiteOpenHelper {
                     UsersPersistenceContract.UserEntry.COLUMN_CREATETIME + DATETIME_TYPE + COMMA_SEP +
                     UsersPersistenceContract.UserEntry.COLUMN_STATUS + INTEGER_TYPE + COMMA_SEP +
                     UsersPersistenceContract.UserEntry.COLUMN_TYPE + INTEGER_TYPE + COMMA_SEP +
-                    UsersPersistenceContract.UserEntry.COLUMN_MEMO + TEXT_TYPE +
+                    UsersPersistenceContract.UserEntry.COLUMN_DESCRIPTION + TEXT_TYPE +
             " )";
 
     public UsersDbHelper(Context context) {
