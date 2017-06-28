@@ -209,7 +209,7 @@ public class UsersLocalDao implements UsersDao {
     }
 
     @Override
-    public void refreshUser() {
+    public void refreshUsers() {
         // Not required because the {@link UsersRepository} handles the logic of refreshing the
         // users from all the available data sources.
 
@@ -222,7 +222,7 @@ public class UsersLocalDao implements UsersDao {
 	*
 	*/
     @Override
-    public void deleteAllUser() {
+    public void deleteAllUsers() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         db.delete(UserEntry.TABLE_NAME, null, null);

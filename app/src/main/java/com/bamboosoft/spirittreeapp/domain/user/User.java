@@ -74,6 +74,13 @@ public final class User {
         mPassword = password;
         mMobile = mobile;
         mEmail = email;
+        mCreateTime = getCreateTime();
+        mStatus = 1;
+        mLevel =1 ;
+        mType = 1;
+        mDescription = "";
+
+
     }
 
 

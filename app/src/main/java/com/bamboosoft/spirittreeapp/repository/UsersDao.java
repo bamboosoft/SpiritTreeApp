@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface UsersDao {
 
-    interface LoadUsersCallback {
+     interface LoadUsersCallback {
 
         void onUsersLoaded(List<User> users);
 
@@ -38,9 +38,9 @@ public interface UsersDao {
 
     void updateUser(@NonNull User user);
 
-    void refreshUser();
+    void refreshUsers();
 
-    void deleteAllUser();
+    void deleteAllUsers();
 
     void deleteUser(@NonNull String userId);
 

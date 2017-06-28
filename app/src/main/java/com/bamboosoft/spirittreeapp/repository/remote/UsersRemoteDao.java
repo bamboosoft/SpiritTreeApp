@@ -23,29 +23,21 @@ import java.util.Map;
 public class UsersRemoteDao implements UsersDao {
 
     private static UsersRemoteDao INSTANCE;
-
     private static final int SERVICE_LATENCY_IN_MILLIS = 2000;
-
-    private final static Map<String, User> USER_SERVICE_DATA;
+    private final static Map<String, User> USERS_SERVICE_DATA;
 
     static {
-        USER_SERVICE_DATA = new LinkedHashMap<>(2);
-        addUser("Build tower in Pisa", "Ground looks good, no foundation work required.", "0");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "1");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "2");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "3");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "4");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "5");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "6");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "7");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "8");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "12");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "13");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "14");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "15");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "16");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "17");
-        addUser("Finish bridge in Tacoma", "Found awesome girders at half the cost!", "18");
+        USERS_SERVICE_DATA = new LinkedHashMap<>(2);
+        addUser("account1", "password",123456,"lnokoo@qq.com","0");
+        addUser("account2", "password",123456,"lnokoo@qq.com", "1");
+        addUser("account3", "password",123456,"lnokoo@qq.com", "3");
+        addUser("account4", "password",123456,"lnokoo@qq.com", "4");
+        addUser("account5", "password",123456,"lnokoo@qq.com", "5");
+        addUser("account6", "password",123456,"lnokoo@qq.com", "6");
+        addUser("account7", "password",123456,"lnokoo@qq.com", "7");
+        addUser("account8", "password",123456,"lnokoo@qq.com", "8");
+        addUser("account9", "password",123456,"lnokoo@qq.com", "9");
+
     }
 
     public static UsersRemoteDao getInstance() {
@@ -59,9 +51,9 @@ public class UsersRemoteDao implements UsersDao {
 	// 防止直接实例化。
     private UsersRemoteDao() {}
 
-    private static void addUser(String title, String description, String id) {
-        User newUser = new User(title, description, id);
-        USER_SERVICE_DATA.put(newUser.getId(), newUser);
+    private static void addUser(String account, String password,int mobile, String email, String id) {
+        User newUser = new User(account, password, mobile, email, id);
+        USERS_SERVICE_DATA.put(newUser.getId(), newUser);
     }
 
     /**
@@ -80,7 +72,7 @@ public class UsersRemoteDao implements UsersDao {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.onUsersLoaded(Lists.newArrayList(USER_SERVICE_DATA.values()));
+                callback.onUsersLoaded(Lists.newArrayList(USERS_SERVICE_DATA.values()));
             }
         }, SERVICE_LATENCY_IN_MILLIS);
     }
@@ -95,7 +87,7 @@ public class UsersRemoteDao implements UsersDao {
      */
     @Override
     public void getUser(@NonNull String userId, final @NonNull GetUserCallback callback) {
-        final User user = USER_SERVICE_DATA.get(userId);
+        final User user = USERS_SERVICE_DATA.get(userId);
 
         // Simulate network by delaying the execution.
 		// 通过延迟执行来模拟网络。
@@ -110,8 +102,14 @@ public class UsersRemoteDao implements UsersDao {
 
     @Override
     public void saveUser(@NonNull User user) {
-        USER_SERVICE_DATA.put(user.getId(), user);
+        USERS_SERVICE_DATA.put(user.getId(), user);
     }
+
+    @Override
+    public void updateUser(@NonNull User user) {
+        USERS_SERVICE_DATA.put(user.getId(), user);
+    }
+
 
     @Override
     public void refreshUsers() {
@@ -123,20 +121,20 @@ public class UsersRemoteDao implements UsersDao {
 
     @Override
     public void deleteAllUsers() {
-        USER_SERVICE_DATA.clear();
+        USERS_SERVICE_DATA.clear();
     }
 
     @Override
     public void deleteUser(@NonNull String userId) {
-        USER_SERVICE_DATA.remove(userId);
+        USERS_SERVICE_DATA.remove(userId);
     }
 
 	//----------------------------------------------------------------
 
     @Override
     public void completeUser(@NonNull User user) {
-        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
-        TASKS_SERVICE_DATA.put(user.getId(), completedUser);
+        User completedUser = new User(user.getAccount(),user.getPassword(), user.getMobile(),user.getEmail(), user.getId());
+        USERS_SERVICE_DATA.put(user.getId(), completedUser);
     }
 
     @Override
@@ -148,8 +146,8 @@ public class UsersRemoteDao implements UsersDao {
 
     @Override
     public void activateUser(@NonNull User user) {
-        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
-        TASKS_SERVICE_DATA.put(user.getId(), activeUser);
+        User activeUser = new User(user.getAccount(), user.getPassword(),user.getMobile(),user.getEmail(), user.getId());
+        USERS_SERVICE_DATA.put(user.getId(), activeUser);
     }
 
     @Override
@@ -162,7 +160,7 @@ public class UsersRemoteDao implements UsersDao {
 
     @Override
     public void clearCompletedUsers() {
-        Iterator<Map.Entry<String, User>> it = USER_SERVICE_DATA.entrySet().iterator();
+        Iterator<Map.Entry<String, User>> it = USERS_SERVICE_DATA.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, User> entry = it.next();
             if (entry.getValue().isCompleted()) {

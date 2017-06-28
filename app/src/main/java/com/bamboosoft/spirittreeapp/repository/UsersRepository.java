@@ -31,15 +31,15 @@ public class UsersRepository implements UsersDao {
 
     private static UsersRepository INSTANCE = null;
 
-    private final UsersDao mUserRemoteDao;
+    private final UsersDao mUsersRemoteDao;
 
-    private final UsersDao mUserLocalDao;
+    private final UsersDao mUsersLocalDao;
 
     /**
      * This variable has package local visibility so it can be accessed from tests.
      * 该变量具有包本地可见性，因此可以从测试中访问。
 	 */
-    Map<String, User> mCachedUser;
+    Map<String, User> mCachedUsers;
 
     /**
      * Marks the cache as invalid, to force an update the next time data is requested. This variable
@@ -53,8 +53,8 @@ public class UsersRepository implements UsersDao {
 	// 防止直接实例化。
     private UsersRepository(@NonNull UsersDao usersRemoteDao,
                             @NonNull UsersDao usersLocalDao) {
-        mUserRemoteDao = checkNotNull(usersRemoteDao);
-        mUserLocalDao = checkNotNull(usersLocalDao);
+        mUsersRemoteDao = checkNotNull(usersRemoteDao);
+        mUsersLocalDao = checkNotNull(usersLocalDao);
     }
 
     /**
@@ -92,114 +92,63 @@ public class UsersRepository implements UsersDao {
      * get the data.
 	 * 注:{ @ link LoadUserCallback # onDataNotAvailable()}如果所有数据源无法获取数据，则会被触发。
      */
+
     @Override
     public void getUsers(@NonNull final LoadUsersCallback callback) {
         checkNotNull(callback);
 
         // Respond immediately with cache if available and not dirty
-		// 如果可用且不脏，立即响应缓存
-        if (mCachedUser != null && !mCacheIsDirty) {
-            callback.onUsersLoaded(new ArrayList<>(mCachedUser.values()));
+        if (mCachedUsers != null && !mCacheIsDirty) {
+            callback.onUsersLoaded(new ArrayList<>(mCachedUsers.values()));
             return;
         }
 
         if (mCacheIsDirty) {
             // If the cache is dirty we need to fetch new data from the network.
-			// 如果缓存是脏的，我们需要从网络获取新数据。
-            getUserFromRemoteDao(callback);
+            getUsersFromRemoteDao(callback);
         } else {
             // Query the local storage if available. If not, query the network.
-            // 如果可用，查询本地存储。如果没有，查询网络。
-			mUserLocalDao.getUser(new LoadUsersCallback() {
+            mUsersLocalDao.getUsers(new LoadUsersCallback() {
                 @Override
-                public void onUserLoaded(List<User> users) {
+                public void onUsersLoaded(List<User> users) {
                     refreshCache(users);
-                    callback.onUsersLoaded(new ArrayList<>(mCachedUser.values()));
+                    callback.onUsersLoaded(new ArrayList<>(mCachedUsers.values()));
                 }
 
                 @Override
                 public void onDataNotAvailable() {
-                    getUserFromRemoteDao(callback);
+                    getUsersFromRemoteDao(callback);
                 }
             });
         }
     }
 
     @Override
-    public void getUser(@NonNull final String userId, @NonNull final GetUserCallback callback) {
-        checkNotNull(userId);
-        checkNotNull(callback);
-
-        User cachedUser = getUserWithId(userId);
-
-        // Respond immediately with cache if available
-        if (cachedUser != null) {
-            callback.onUserLoaded(cachedUser);
-            return;
-        }
-        // Load from server/persisted if needed.
-
-        // Is the task in the local data source? If not, query the network.
-        mUsersLocalDao.getUser(userId, new GetUserCallback() {
-            @Override
-            public void onUserLoaded(User user) {
-                // Do in memory cache update to keep the app UI up to date
-                if (mCachedUsers == null) {
-                    mCachedUsers = new LinkedHashMap<>();
-                }
-                mCachedUsers.put(user.getId(), user);
-                callback.onUserLoaded(user);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                mUsersRemoteDao.getUser(userId, new GetUserCallback() {
-                    @Override
-                    public void onUserLoaded(User user) {
-                        // Do in memory cache update to keep the app UI up to date
-                        if (mCachedUsers == null) {
-                            mCachedUsers = new LinkedHashMap<>();
-                        }
-                        mCachedUsers.put(user.getId(), user);
-                        callback.onUserLoaded(user);
-                    }
-
-                    @Override
-                    public void onDataNotAvailable() {
-                        callback.onDataNotAvailable();
-                    }
-                });
-            }
-        });
-    }
-
-
-    @Override
     public void saveUser(@NonNull User user) {
         checkNotNull(user);
-        mUserRemoteDao.saveUser(user);
-        mUserLocalDao.saveUser(user);
+        mUsersRemoteDao.saveUser(user);
+        mUsersLocalDao.saveUser(user);
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        mCachedUser.put(user.getId(), user);
+        mCachedUsers.put(user.getId(), user);
     }
 
     @Override
     public void updateUser(@NonNull User user) {
         checkNotNull(user);
-        mUserRemoteDao.saveUser(user);
-        mUserLocalDao.saveUser(user);
+        mUsersRemoteDao.saveUser(user);
+        mUsersLocalDao.saveUser(user);
 
         // Do in memory cache update to keep the app UI up to date
         // 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        mCachedUser.put(user.getId(), user);
+        mCachedUsers.put(user.getId(), user);
     }
 
 
@@ -209,10 +158,10 @@ public class UsersRepository implements UsersDao {
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        Iterator<Map.Entry<String, User>> it = mCachedUser.entrySet().iterator();
+        Iterator<Map.Entry<String, User>> it = mCachedUsers.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, User> entry = it.next();
             if (entry.getValue().isCompleted()) {
@@ -251,29 +200,29 @@ public class UsersRepository implements UsersDao {
 
         // Is the user in the local data source? If not, query the network.
         // 用户是否在本地数据源?如果没有，查询网络。
-		mUserLocalDao.getUser(userId, new GetUserCallback() {
+		mUsersLocalDao.getUser(userId, new GetUserCallback() {
             @Override
             public void onUserLoaded(User user) {
                 // Do in memory cache update to keep the app UI up to date
 				// 是否在内存缓存更新中保持应用程序的UI更新
-                if (mCachedUser == null) {
-                    mCachedUser = new LinkedHashMap<>();
+                if (mCachedUsers == null) {
+                    mCachedUsers = new LinkedHashMap<>();
                 }
-                mCachedUser.put(user.getId(), user);
+                mCachedUsers.put(user.getId(), user);
                 callback.onUserLoaded(user);
             }
 
             @Override
             public void onDataNotAvailable() {
-                mUserRemoteDao.getUser(userId, new GetUserCallback() {
+                mUsersRemoteDao.getUser(userId, new GetUserCallback() {
                     @Override
                     public void onUserLoaded(User user) {
                         // Do in memory cache update to keep the app UI up to date
                         // 是否在内存缓存更新中保持应用程序的UI更新
-						if (mCachedUser == null) {
-                            mCachedUser = new LinkedHashMap<>();
+						if (mCachedUsers == null) {
+                            mCachedUsers = new LinkedHashMap<>();
                         }
-                        mCachedUser.put(user.getId(), user);
+                        mCachedUsers.put(user.getId(), user);
                         callback.onUserLoaded(user);
                     }
 
@@ -287,36 +236,37 @@ public class UsersRepository implements UsersDao {
     }
 
     @Override
-    public void refreshUser() {
+    public void refreshUsers() {
         mCacheIsDirty = true;
     }
 
     @Override
-    public void deleteAllUser() {
-        mUserRemoteDao.deleteAllUser();
-        mUserLocalDao.deleteAllUser();
+    public void deleteAllUsers() {
+        mUsersRemoteDao.deleteAllUsers();
+        mUsersLocalDao.deleteAllUsers();
 
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        mCachedUser.clear();
+        mCachedUsers.clear();
     }
 
     @Override
     public void deleteUser(@NonNull String userId) {
-        mUserRemoteDao.deleteUser(checkNotNull(userId));
-        mUserLocalDao.deleteUser(checkNotNull(userId));
+        mUsersRemoteDao.deleteUser(checkNotNull(userId));
+        mUsersLocalDao.deleteUser(checkNotNull(userId));
 
-        mCachedUser.remove(userId);
+        mCachedUsers.remove(userId);
     }
 
-    private void getUserFromRemoteDao(@NonNull final LoadUsersCallback callback) {
-        mUserRemoteDao.getUser(new LoadUsersCallback() {
+
+    private void getUsersFromRemoteDao(@NonNull final LoadUsersCallback callback) {
+        mUsersRemoteDao.getUsers(new LoadUsersCallback() {
             @Override
-            public void onUserLoaded(List<User> users) {
+            public void onUsersLoaded(List<User> users) {
                 refreshCache(users);
                 refreshLocalDao(users);
-                callback.onUsersLoaded(new ArrayList<>(mCachedUser.values()));
+                callback.onUsersLoaded(new ArrayList<>(mCachedUsers.values()));
             }
 
             @Override
@@ -326,31 +276,33 @@ public class UsersRepository implements UsersDao {
         });
     }
 
+
+
     private void refreshCache(List<User> users) {
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        mCachedUser.clear();
+        mCachedUsers.clear();
         for (User user : users) {
-            mCachedUser.put(user.getId(), user);
+            mCachedUsers.put(user.getId(), user);
         }
         mCacheIsDirty = false;
     }
 
     private void refreshLocalDao(List<User> users) {
-        mUserLocalDao.deleteAllUser();
+        mUsersLocalDao.deleteAllUsers();
         for (User user : users) {
-            mUserLocalDao.saveUser(user);
+            mUsersLocalDao.saveUser(user);
         }
     }
 
     @Nullable
     private User getUserWithId(@NonNull String id) {
         checkNotNull(id);
-        if (mCachedUser == null || mCachedUser.isEmpty()) {
+        if (mCachedUsers == null || mCachedUsers.isEmpty()) {
             return null;
         } else {
-            return mCachedUser.get(id);
+            return mCachedUsers.get(id);
         }
     }
 
@@ -359,17 +311,17 @@ public class UsersRepository implements UsersDao {
     @Override
     public void completeUser(@NonNull User user) {
         checkNotNull(user);
-        mUserRemoteDao.completeUser(user);
-        mUserLocalDao.completeUser(user);
+        mUsersRemoteDao.completeUser(user);
+        mUsersLocalDao.completeUser(user);
 
         User completedUser = new User(user.getAccount(), user.getPassword(), user.getMobile(),user.getEmail());
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        mCachedUser.put(user.getId(), completedUser);
+        mCachedUsers.put(user.getId(), completedUser);
     }
 
     @Override
@@ -381,17 +333,17 @@ public class UsersRepository implements UsersDao {
     @Override
     public void activateUser(@NonNull User user) {
         checkNotNull(user);
-        mUserRemoteDao.activateUser(user);
-        mUserLocalDao.activateUser(user);
+        mUsersRemoteDao.activateUser(user);
+        mUsersLocalDao.activateUser(user);
 
         User activeUser = new User(user.getAccount(), user.getPassword(), user.getMobile(),user.getEmail());
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        mCachedUser.put(user.getId(), activeUser);
+        mCachedUsers.put(user.getId(), activeUser);
     }
 
     @Override
@@ -402,15 +354,15 @@ public class UsersRepository implements UsersDao {
 
     @Override
     public void clearCompletedUsers() {
-        mUserRemoteDao.clearCompletedUsers();
-        mUserLocalDao.clearCompletedUsers();
+        mUsersRemoteDao.clearCompletedUsers();
+        mUsersLocalDao.clearCompletedUsers();
 
         // Do in memory cache update to keep the app UI up to date
 		// 是否在内存缓存更新中保持应用程序的UI更新
-        if (mCachedUser == null) {
-            mCachedUser = new LinkedHashMap<>();
+        if (mCachedUsers == null) {
+            mCachedUsers = new LinkedHashMap<>();
         }
-        Iterator<Map.Entry<String, User>> it = mCachedUser.entrySet().iterator();
+        Iterator<Map.Entry<String, User>> it = mCachedUsers.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, User> entry = it.next();
             if (entry.getValue().isCompleted()) {
