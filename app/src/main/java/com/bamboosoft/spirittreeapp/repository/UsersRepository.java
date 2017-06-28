@@ -88,18 +88,18 @@ public class UsersRepository implements UsersDao {
      * available first.
 	 * 从缓存、本地数据源(SQLite)或远程数据源获取用户，无论哪一个都要是可用的。
      * <p>
-     * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if all data sources fail to
+     * Note: {@link LoadUsersCallback#onDataNotAvailable()} is fired if all data sources fail to
      * get the data.
 	 * 注:{ @ link LoadUserCallback # onDataNotAvailable()}如果所有数据源无法获取数据，则会被触发。
      */
     @Override
-    public void getUser(@NonNull final LoadUserCallback callback) {
+    public void getUsers(@NonNull final LoadUsersCallback callback) {
         checkNotNull(callback);
 
         // Respond immediately with cache if available and not dirty
 		// 如果可用且不脏，立即响应缓存
         if (mCachedUser != null && !mCacheIsDirty) {
-            callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
+            callback.onUsersLoaded(new ArrayList<>(mCachedUser.values()));
             return;
         }
 
@@ -110,11 +110,11 @@ public class UsersRepository implements UsersDao {
         } else {
             // Query the local storage if available. If not, query the network.
             // 如果可用，查询本地存储。如果没有，查询网络。
-			mUserLocalDao.getUser(new LoadUserCallback() {
+			mUserLocalDao.getUser(new LoadUsersCallback() {
                 @Override
                 public void onUserLoaded(List<User> users) {
                     refreshCache(users);
-                    callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
+                    callback.onUsersLoaded(new ArrayList<>(mCachedUser.values()));
                 }
 
                 @Override
@@ -124,6 +124,55 @@ public class UsersRepository implements UsersDao {
             });
         }
     }
+
+    @Override
+    public void getUser(@NonNull final String userId, @NonNull final GetUserCallback callback) {
+        checkNotNull(userId);
+        checkNotNull(callback);
+
+        User cachedUser = getUserWithId(userId);
+
+        // Respond immediately with cache if available
+        if (cachedUser != null) {
+            callback.onUserLoaded(cachedUser);
+            return;
+        }
+        // Load from server/persisted if needed.
+
+        // Is the task in the local data source? If not, query the network.
+        mUsersLocalDao.getUser(userId, new GetUserCallback() {
+            @Override
+            public void onUserLoaded(User user) {
+                // Do in memory cache update to keep the app UI up to date
+                if (mCachedUsers == null) {
+                    mCachedUsers = new LinkedHashMap<>();
+                }
+                mCachedUsers.put(user.getId(), user);
+                callback.onUserLoaded(user);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                mUsersRemoteDao.getUser(userId, new GetUserCallback() {
+                    @Override
+                    public void onUserLoaded(User user) {
+                        // Do in memory cache update to keep the app UI up to date
+                        if (mCachedUsers == null) {
+                            mCachedUsers = new LinkedHashMap<>();
+                        }
+                        mCachedUsers.put(user.getId(), user);
+                        callback.onUserLoaded(user);
+                    }
+
+                    @Override
+                    public void onDataNotAvailable() {
+                        callback.onDataNotAvailable();
+                    }
+                });
+            }
+        });
+    }
+
 
     @Override
     public void saveUser(@NonNull User user) {
@@ -261,13 +310,13 @@ public class UsersRepository implements UsersDao {
         mCachedUser.remove(userId);
     }
 
-    private void getUserFromRemoteDao(@NonNull final LoadUserCallback callback) {
-        mUserRemoteDao.getUser(new LoadUserCallback() {
+    private void getUserFromRemoteDao(@NonNull final LoadUsersCallback callback) {
+        mUserRemoteDao.getUser(new LoadUsersCallback() {
             @Override
             public void onUserLoaded(List<User> users) {
                 refreshCache(users);
                 refreshLocalDao(users);
-                callback.onUserLoaded(new ArrayList<>(mCachedUser.values()));
+                callback.onUsersLoaded(new ArrayList<>(mCachedUser.values()));
             }
 
             @Override

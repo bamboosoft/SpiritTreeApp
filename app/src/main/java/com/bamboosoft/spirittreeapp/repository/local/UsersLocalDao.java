@@ -55,11 +55,11 @@ public class UsersLocalDao implements UsersDao {
     /**
      * 注:{ @ link LoadUserCallback # onDataNotAvailable()}
 	 * 如果数据库不存在或表为空，则会被触发。
-     * Note: {@link LoadUserCallback#onDataNotAvailable()} is fired if the database doesn't exist
+     * Note: {@link LoadUsersCallback#onDataNotAvailable()} is fired if the database doesn't exist
      * or the table is empty.
      */
     @Override
-    public void getUsers(@NonNull LoadUserCallback callback) {
+    public void getUsers(@NonNull LoadUsersCallback callback) {
         List<User> users = new ArrayList<User>();
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
@@ -106,7 +106,7 @@ public class UsersLocalDao implements UsersDao {
 			// 如果表是新的或者只是空的，就会调用这个。
             callback.onDataNotAvailable();
         } else {
-            callback.onUserLoaded(users);
+            callback.onUsersLoaded(users);
         }
 
     }
