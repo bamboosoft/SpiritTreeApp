@@ -135,7 +135,7 @@ public class AddEditUserViewModel implements UsersDao.GetUserCallback {
     private void createUser(String account, String password, int mobile, String email) {
         User newUser = new User(account,password,mobile,email);
         if (newUser.isEmpty()) {
-            snackbarText.set(mContext.getString(R.string.empty_task_message));
+            snackbarText.set(mContext.getString(R.string.empty_user_message));
         } else {
             mUsersRepository.saveUser(newUser);
             navigateOnUserSaved();

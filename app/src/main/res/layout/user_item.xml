@@ -19,7 +19,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.bamboosoft.spirittreeapp.viewmodel.user.TaskItemViewModel" />
+            type="com.bamboosoft.spirittreeapp.viewmodel.user.UserItemViewModel" />
     </data>
 
     <LinearLayout
@@ -31,7 +31,7 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/list_item_padding"
         android:paddingTop="@dimen/list_item_padding"
-        android:onClick="@{() -> viewmodel.taskClicked()}">
+        android:onClick="@{() -> viewmodel.userClicked()}">
 
         <CheckBox
             android:id="@+id/complete"

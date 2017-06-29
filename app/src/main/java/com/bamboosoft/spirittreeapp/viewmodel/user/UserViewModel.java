@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.domain.user.User;
-import com.bamboosoft.spirittreeapp.repository.UsersDataSource;
+import com.bamboosoft.spirittreeapp.repository.UsersDao;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
 
 
@@ -22,7 +22,7 @@ import com.bamboosoft.spirittreeapp.repository.UsersRepository;
  * 用于显示单个{ @ link用户}的视图模型的抽象类。
  */
 public abstract class UserViewModel extends BaseObservable
-        implements UsersDataSource.GetUserCallback {
+        implements UsersDao.GetUserCallback {
 
     public final ObservableField<String> snackbarText = new ObservableField<>();
 
@@ -51,7 +51,7 @@ public abstract class UserViewModel extends BaseObservable
             public void onPropertyChanged(Observable observable, int i) {
                 User user = mUserObservable.get();
                 if (user != null) {
-                    title.set(user.getTitle());
+                    title.set(user.getAccount());
                     description.set(user.getDescription());
                 } else {
                     title.set(mContext.getString(R.string.no_data));

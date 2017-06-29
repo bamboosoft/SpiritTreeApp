@@ -21,7 +21,7 @@ import com.bamboosoft.spirittreeapp.ui.user.UsersFragment;
 public class UserDetailViewModel extends UserViewModel {
 
     @Nullable
-    private UserDetailNavigator mUserDetailNavigator;
+    private UsersDetailNavigator mUserDetailNavigator;
 
     public UserDetailViewModel(Context context, UsersRepository usersRepository) {
         super(context, usersRepository);

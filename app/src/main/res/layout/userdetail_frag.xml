@@ -22,7 +22,7 @@
 
         <variable
             name="viewmodel"
-            type="com.bamboosoft.spirittreeapp.viewmodel.user.TaskDetailViewModel" />
+            type="com.bamboosoft.spirittreeapp.viewmodel.user.UserDetailViewModel" />
     </data>
 
     <com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout
@@ -69,7 +69,7 @@
             android:visibility="@{viewmodel.dataAvailable ? View.VISIBLE : View.GONE}">
 
             <CheckBox
-                android:id="@+id/task_detail_complete"
+                android:id="@+id/user_detail_complete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -77,17 +77,17 @@
                 android:checked="@={viewmodel.completed}" />
 
             <TextView
-                android:id="@+id/task_detail_title"
-                android:layout_toRightOf="@id/task_detail_complete"
+                android:id="@+id/user_detail_title"
+                android:layout_toRightOf="@id/user_detail_complete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewmodel.title}"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/task_detail_description"
-                android:layout_toRightOf="@id/task_detail_complete"
-                android:layout_below="@id/task_detail_title"
+                android:id="@+id/user_detail_description"
+                android:layout_toRightOf="@id/user_detail_complete"
+                android:layout_below="@id/user_detail_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{viewmodel.description}"
