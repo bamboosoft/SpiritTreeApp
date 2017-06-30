@@ -52,11 +52,11 @@ public class UsersViewModel extends BaseObservable {
 
     public final ObservableField<Drawable> noUserIconRes = new ObservableField<>();
 
-    public final ObservableBoolean UsersAddViewVisible = new ObservableBoolean();
+    public final ObservableBoolean usersAddViewVisible = new ObservableBoolean();
 
     final ObservableField<String> snackbarText = new ObservableField<>();
 
-    private UsersFilterType mCurrentFiltering = UsersFilterType.ALL_Users;
+    private UsersFilterType mCurrentFiltering = UsersFilterType.ALL_USERS;
 
     private final UsersRepository mUsersRepository;
 

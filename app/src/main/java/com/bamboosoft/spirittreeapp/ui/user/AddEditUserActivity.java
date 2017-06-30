@@ -18,6 +18,9 @@ import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
 import com.bamboosoft.spirittreeapp.util.ActivityUtils;
 import com.bamboosoft.spirittreeapp.util.EspressoIdlingResource;
+import com.bamboosoft.spirittreeapp.viewmodel.user.AddEditUserViewModel;
+
+
 
 /**
  * Displays an add or edit user screen.

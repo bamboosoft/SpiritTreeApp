@@ -147,6 +147,27 @@ public final class User {
         return true;
     }
 
+    public boolean isActive()
+    {
+
+        return true;
+    }
+
+    public void setCompleted(boolean completed) {
+        //mCompleted = completed;
+    }
+
+
+    @Nullable
+    public String getAccountForList() {
+        if (!Strings.isNullOrEmpty(mAccount)) {
+            return mAccount;
+        } else {
+            return mEmail;
+        }
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

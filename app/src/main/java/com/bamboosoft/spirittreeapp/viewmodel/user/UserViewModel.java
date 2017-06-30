@@ -119,7 +119,7 @@ public abstract class UserViewModel extends BaseObservable
         if (mUserObservable.get() == null) {
             return "No data";
         }
-        return mUserObservable.get().getTitleForList();
+        return mUserObservable.get().getAccountForList();
     }
 
     @Override
