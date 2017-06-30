@@ -71,7 +71,7 @@ public class StatisticsViewModel extends BaseObservable {
         // that the app is busy until the response is handled.
         EspressoIdlingResource.increment(); // App is busy until further notice
 
-        mUsersRepository.getUsers(new UsersDao.LoadUsersCallback().LoadUsersCallback() {
+        mUsersRepository.getUsers(new UsersDao.LoadUsersCallback(){
             @Override
             public void onUsersLoaded(List<User> users) {
 

@@ -8,7 +8,8 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.bamboosoft.spirittreeapp.viewmodel.user.UserViewModel;
-
+import com.bamboosoft.spirittreeapp.ui.user.UsersFragment;
+import com.bamboosoft.spirittreeapp.ui.user.UserItemNavigator;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
 
 

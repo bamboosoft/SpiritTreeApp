@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import com.bamboosoft.spirittreeapp.viewmodel.user.UserViewModel;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
 import com.bamboosoft.spirittreeapp.ui.user.UsersFragment;
-
+import com.bamboosoft.spirittreeapp.ui.user.UserDetailNavigator;
 /**
  * Listens to user actions from the list item in ({@link UsersFragment}) and redirects them to the
  * Fragment's actions listener.
@@ -21,7 +21,7 @@ import com.bamboosoft.spirittreeapp.ui.user.UsersFragment;
 public class UserDetailViewModel extends UserViewModel {
 
     @Nullable
-    private UsersDetailNavigator mUserDetailNavigator;
+    private UserDetailNavigator mUserDetailNavigator;
 
     public UserDetailViewModel(Context context, UsersRepository usersRepository) {
         super(context, usersRepository);

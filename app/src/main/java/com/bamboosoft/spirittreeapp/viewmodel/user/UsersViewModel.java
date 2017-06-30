@@ -22,8 +22,8 @@ import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.domain.user.User;
 import com.bamboosoft.spirittreeapp.repository.UsersDao;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
-
-
+import com.bamboosoft.spirittreeapp.common.UsersFilterType;
+import com.bamboosoft.spirittreeapp.ui.user.UsersNavigator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -183,7 +183,7 @@ public class UsersViewModel extends BaseObservable {
     }
 
     /**
-     * @param forceUpdate   Pass in true to refresh the data in the {@link UsersDataSource}
+     * @param forceUpdate   Pass in true to refresh the data in the {@link UsersDao}
 	 * @ param forceUpdate通过true来刷新{ @ link UsersDataSource }中的数据
 
      * @param showLoadingUI Pass in true to display a loading icon in the UI
@@ -206,7 +206,7 @@ public class UsersViewModel extends BaseObservable {
 		//应用程序一直忙到另行通知
         EspressoIdlingResource.increment(); // App is busy until further notice
 
-        mUsersRepository.getUsers(new UsersDataSource.LoadUsersCallback() {
+        mUsersRepository.getUsers(new UsersDao.LoadUsersCallback() {
             @Override
             public void onUsersLoaded(List<User> users) {
                 List<User> usersToShow = new ArrayList<User>();
