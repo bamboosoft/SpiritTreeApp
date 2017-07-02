@@ -13,7 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.bamboosoft.spirittreeapp.Injection;
+import com.bamboosoft.spirittreeapp.repository.Injection;
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
 import com.bamboosoft.spirittreeapp.util.ActivityUtils;
