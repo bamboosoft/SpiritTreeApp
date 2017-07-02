@@ -34,6 +34,13 @@ public class AddEditUserViewModel implements UsersDao.GetUserCallback {
 
     public final ObservableField<String> account = new ObservableField<>();
 
+    public final ObservableField<String> password = new ObservableField<>();
+
+    public final ObservableField<String> email = new ObservableField<>();
+
+    public final ObservableField<Integer> mobile = new ObservableField<>();
+
+
     public final ObservableField<String> description = new ObservableField<>();
 
     public final ObservableBoolean dataLoading = new ObservableBoolean(false);
@@ -62,11 +69,11 @@ public class AddEditUserViewModel implements UsersDao.GetUserCallback {
         mUsersRepository = usersRepository;
     }
 
-    void onActivityCreated(AddEditUserNavigator navigator) {
+    public void onActivityCreated(AddEditUserNavigator navigator) {
         mAddEditUserNavigator = navigator;
     }
 
-    void onActivityDestroyed() {
+    public void onActivityDestroyed() {
         // Clear references to avoid potential memory leaks.
 		// 明确的引用以避免潜在的内存泄漏。
         mAddEditUserNavigator = null;

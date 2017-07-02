@@ -13,7 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-//import com.example.android.architecture.blueprints.todoapp.Injection;
+import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
 import com.bamboosoft.spirittreeapp.util.ActivityUtils;
@@ -114,10 +114,10 @@ public class AddEditUserActivity extends AppCompatActivity implements AddEditUse
                 (ViewModelHolder<AddEditUserViewModel>) getSupportFragmentManager()
                         .findFragmentByTag(ADD_EDIT_VIEWMODEL_TAG);
 
-        if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
+        if (retainedViewModel != null && retainedViewModel.getViewModel() != null) {
             // If the model was retained, return it.
 			// 如果模型被保留，返回它。
-            return retainedViewModel.getViewmodel();
+            return retainedViewModel.getViewModel();
         } else {
             // There is no ViewModel yet, create it.
 			// 现在还没有ViewModel，创建它。

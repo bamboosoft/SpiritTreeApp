@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.databinding.AdduserFragBinding;
 import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
-
+import com.bamboosoft.spirittreeapp.viewmodel.user.AddEditUserViewModel;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -114,7 +114,7 @@ public class AddEditUserFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.saveUser(mViewModel.title.get(), mViewModel.description.get());
+                mViewModel.saveUser(mViewModel.account.get(), mViewModel.password.get(), mViewModel.mobile.get(), mViewModel.email.get());
             }
         });
     }

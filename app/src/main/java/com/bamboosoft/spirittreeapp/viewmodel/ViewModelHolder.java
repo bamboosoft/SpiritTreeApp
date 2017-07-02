@@ -34,7 +34,7 @@ public class ViewModelHolder<VM> extends Fragment {
         setRetainInstance(true);
     }
 
-    @Nullable public VM getViewodel() {
+    @Nullable public VM getViewModel() {
         return mViewModel;
     }
 
