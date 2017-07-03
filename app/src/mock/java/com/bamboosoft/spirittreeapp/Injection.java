@@ -9,9 +9,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.bamboosoft.spirittreeapp.data.FakeUsersRemoteDao;
-import com.bamboosoft.spirittreeapp.UsersDao;
-import com.bamboosoft.spirittreeapp.UsersRepository;
-import com.bamboosoft.spirittreeapp.local.UsersLocalDao;
+import com.bamboosoft.spirittreeapp.repository.UsersDao;
+import com.bamboosoft.spirittreeapp.repository.UsersRepository;
+import com.bamboosoft.spirittreeapp.repository.local.UsersLocalDao;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 

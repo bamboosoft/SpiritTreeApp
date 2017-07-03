@@ -62,7 +62,7 @@ public class AddEditUserViewModel implements UsersDao.GetUserCallback {
 
     private AddEditUserNavigator mAddEditUserNavigator;
 
-    AddEditUserViewModel(Context context, UsersRepository usersRepository) {
+    public AddEditUserViewModel(Context context, UsersRepository usersRepository) {
         // Force use of Application Context.
 		// 强制使用应用程序上下文
 		mContext = context.getApplicationContext(); 

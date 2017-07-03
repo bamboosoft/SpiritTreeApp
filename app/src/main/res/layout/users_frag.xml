@@ -22,7 +22,7 @@
 
         <variable
             name="view"
-            type="com.bamboosoft.spirittreeapp.users.UsersFragment" />
+            type="com.bamboosoft.spirittreeapp.ui.user.UsersFragment" />
 
         <variable
             name="viewmodel"
@@ -30,7 +30,7 @@
 
     </data>
 
-<com.bamboosoft.spirittreeapp.ScrollChildSwipeRefreshLayout
+<com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout
     android:id="@+id/refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -107,6 +107,6 @@
 
         </LinearLayout>
     </RelativeLayout>
-</com.bamboosoft.spirittreeapp.ScrollChildSwipeRefreshLayout>
+</com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout>
 </layout>
 

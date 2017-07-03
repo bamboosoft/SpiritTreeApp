@@ -10,6 +10,7 @@ import android.support.annotation.VisibleForTesting;
 
 import com.bamboosoft.spirittreeapp.repository.UsersDao;
 import com.google.common.collect.Lists;
+import com.bamboosoft.spirittreeapp.domain.user.User;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -26,7 +27,7 @@ public class FakeUsersRemoteDao implements UsersDao {
     private static final Map<String, User> USERS_SERVICE_DATA = new LinkedHashMap<>();
 
     // Prevent direct instantiation.
-	// 防止直接实例化。
+    // 防止直接实例化。
     private FakeUsersRemoteDao() {}
 
     public static FakeUsersRemoteDao getInstance() {
@@ -53,27 +54,34 @@ public class FakeUsersRemoteDao implements UsersDao {
     }
 
     @Override
+    public void updateUser(@NonNull User user) {
+        USERS_SERVICE_DATA.put(user.getId(), user);
+    }
+
+
+
+    @Override
     public void completeUser(@NonNull User user) {
-        User completedUser = new User(user.getTitle(), user.getDescription(), user.getId(), true);
+        User completedUser = new User(user.getAccount(), user.getPassword(),user.getMobile(), user.getEmail(), user.getId());
         USERS_SERVICE_DATA.put(user.getId(), completedUser);
     }
 
     @Override
     public void completeUser(@NonNull String userId) {
         // Not required for the remote data source.
-		// 不需要远程数据源。
+        // 不需要远程数据源。
     }
 
     @Override
     public void activateUser(@NonNull User user) {
-        User activeUser = new User(user.getTitle(), user.getDescription(), user.getId());
+        User activeUser = new User(user.getAccount(), user.getPassword(),user.getMobile(), user.getEmail(), user.getId());
         USERS_SERVICE_DATA.put(user.getId(), activeUser);
     }
 
     @Override
     public void activateUser(@NonNull String userId) {
         // Not required for the remote data source.
-		// 不需要远程数据源。
+        // 不需要远程数据源。
 
     }
 
@@ -91,7 +99,7 @@ public class FakeUsersRemoteDao implements UsersDao {
     public void refreshUsers() {
         // Not required because the {@link UsersRepository} handles the logic of refreshing the
         // users from all the available data sources.
-		// 不需要，因为{ @ link UsersRepository }处理从所有可用数据源中刷新用户的逻辑。
+        // 不需要，因为{ @ link UsersRepository }处理从所有可用数据源中刷新用户的逻辑。
     }
 
     @Override

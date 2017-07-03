@@ -54,7 +54,7 @@ public class UsersViewModel extends BaseObservable {
 
     public final ObservableBoolean usersAddViewVisible = new ObservableBoolean();
 
-    final ObservableField<String> snackbarText = new ObservableField<>();
+    public final ObservableField<String> snackbarText = new ObservableField<>();
 
     private UsersFilterType mCurrentFiltering = UsersFilterType.ALL_USERS;
 
@@ -82,11 +82,11 @@ public class UsersViewModel extends BaseObservable {
         setFiltering(UsersFilterType.ALL_USERS);
     }
 
-    void setNavigator(UsersNavigator navigator) {
+    public void setNavigator(UsersNavigator navigator) {
         mNavigator = navigator;
     }
 
-    void onActivityDestroyed() {
+    public void onActivityDestroyed() {
         // Clear references to avoid potential memory leaks.
 		// 明确的引用以避免潜在的内存泄漏。
         mNavigator = null;
@@ -163,7 +163,7 @@ public class UsersViewModel extends BaseObservable {
         }
     }
 
-    void handleActivityResult(int requestCode, int resultCode) {
+    public void handleActivityResult(int requestCode, int resultCode) {
         if (AddEditUserActivity.REQUEST_CODE == requestCode) {
             switch (resultCode) {
                 case UserDetailActivity.EDIT_RESULT_OK:

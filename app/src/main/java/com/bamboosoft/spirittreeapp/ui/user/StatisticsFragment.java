@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.databinding.StatisticsFragBinding;
-
+import com.bamboosoft.spirittreeapp.viewmodel.user.StatisticsViewModel;
 /**
  * Main UI for the statistics screen.
  * 统计屏幕的主UI。

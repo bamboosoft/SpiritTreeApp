@@ -20,6 +20,7 @@ import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
 
 import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
+import com.bamboosoft.spirittreeapp.viewmodel.user.StatisticsViewModel;
 import com.bamboosoft.spirittreeapp.ui.user.UsersActivity;
 
 import com.bamboosoft.spirittreeapp.util.ActivityUtils;
@@ -75,10 +76,10 @@ public class StatisticsActivity extends AppCompatActivity {
                 (ViewModelHolder<StatisticsViewModel>) getSupportFragmentManager()
                         .findFragmentByTag(STATS_VIEWMODEL_TAG);
 
-        if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
+        if (retainedViewModel != null && retainedViewModel.getViewModel() != null) {
             // If the model was retained, return it.
 			// 如果模型被保留，返回它。
-            return retainedViewModel.getViewmodel();
+            return retainedViewModel.getViewModel();
         } else {
             // There is no ViewModel yet, create it.
 			// 现在还没有ViewModel，创建它。

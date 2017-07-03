@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.databinding.UserdetailFragBinding;
 import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
-
+import com.bamboosoft.spirittreeapp.viewmodel.user.UserDetailViewModel;
 
 /**
  * Main UI for the user detail screen.

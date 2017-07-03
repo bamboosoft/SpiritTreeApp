@@ -24,12 +24,15 @@ import android.widget.ListView;
 
 import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
-import com.bamboosoft.spirittreeapp.ScrollChildSwipeRefreshLayout;
+import com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout;
 import com.bamboosoft.spirittreeapp.domain.user.User;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
 import com.bamboosoft.spirittreeapp.databinding.UserItemBinding;
 import com.bamboosoft.spirittreeapp.databinding.UsersFragBinding;
 import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
+import com.bamboosoft.spirittreeapp.viewmodel.user.UsersViewModel;
+import com.bamboosoft.spirittreeapp.viewmodel.user.UserItemViewModel;
+import com.bamboosoft.spirittreeapp.common.UsersFilterType;
 
 import java.util.ArrayList;
 import java.util.List;

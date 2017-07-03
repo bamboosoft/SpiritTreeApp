@@ -24,10 +24,12 @@ import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
 import com.bamboosoft.spirittreeapp.ui.user.AddEditUserActivity;
 import com.bamboosoft.spirittreeapp.ui.user.StatisticsActivity;
 import com.bamboosoft.spirittreeapp.ui.user.UserDetailActivity;
-
-
+import com.bamboosoft.spirittreeapp.viewmodel.user.UserDetailViewModel;
+import com.bamboosoft.spirittreeapp.viewmodel.user.UsersViewModel;
 import com.bamboosoft.spirittreeapp.util.ActivityUtils;
 import com.bamboosoft.spirittreeapp.util.EspressoIdlingResource;
+
+
 
 
 public class UsersActivity extends AppCompatActivity implements UserItemNavigator, UsersNavigator {
@@ -72,9 +74,9 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
                 (ViewModelHolder<UsersViewModel>) getSupportFragmentManager()
                         .findFragmentByTag(USERS_VIEWMODEL_TAG);
 
-        if (retainedViewModel != null && retainedViewModel.getViewmodel() != null) {
+        if (retainedViewModel != null && retainedViewModel.getViewModel() != null) {
             // If the model was retained, return it.
-            return retainedViewModel.getViewmodel();
+            return retainedViewModel.getViewModel();
         } else {
             // There is no ViewModel yet, create it.
 			// 现在还没有ViewModel，创建它。
@@ -147,8 +149,8 @@ public class UsersActivity extends AppCompatActivity implements UserItemNavigato
                             case R.id.statistics_navigation_menu_item:
                                 Intent intent =
                                         new Intent(UsersActivity.this, StatisticsActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_USER
-                                        | Intent.FLAG_ACTIVITY_CLEAR_USER);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
                                 break;
                             default:
