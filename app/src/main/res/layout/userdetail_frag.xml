@@ -25,7 +25,7 @@
             type="com.bamboosoft.spirittreeapp.viewmodel.user.UserDetailViewModel" />
     </data>
 
-    <com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout
+    <com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,5 +95,5 @@
 
         </RelativeLayout>
     </LinearLayout>
-    </com.example.android.architecture.blueprints.todoapp.ScrollChildSwipeRefreshLayout>
+    </com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout>
 </layout>

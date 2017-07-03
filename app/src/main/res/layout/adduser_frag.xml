@@ -28,7 +28,7 @@
 
     </data>
 
-    <com.bamboosoft.spirittreeapp.ScrollChildSwipeRefreshLayout
+    <com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -68,5 +68,5 @@
 
             </LinearLayout>
         </ScrollView>
-    </com.bamboosoft.spirittreeapp.ScrollChildSwipeRefreshLayout>
+    </com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout>
 </layout>
