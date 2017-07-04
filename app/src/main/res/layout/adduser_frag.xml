@@ -50,12 +50,12 @@
                 android:visibility="@{viewmodel.dataLoading ? View.GONE : View.VISIBLE}">
 
                 <EditText
-                    android:id="@+id/add_user_title"
+                    android:id="@+id/add_user_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/title_hint"
+                    android:hint="@string/account_hint"
                     android:singleLine="true"
-                    android:text="@={viewmodel.title}"
+                    android:text="@={viewmodel.account}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
                 <EditText

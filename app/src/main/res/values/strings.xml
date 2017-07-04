@@ -18,20 +18,20 @@
     <string name="app_name">TO-DO-MVVM-DataBinding</string>
     <string name="add_user">New TO-DO</string>
     <string name="edit_user">Edit TO-DO</string>
-    <string name="user_marked_complete">Task marked complete</string>
-    <string name="user_marked_active">Task marked active</string>
+    <string name="user_marked_complete">User marked complete</string>
+    <string name="user_marked_active">User marked active</string>
     <string name="loading_users_error">Error while loading users</string>
     <string name="completed_users_cleared">Completed users cleared</string>
     <string name="menu_filter">Filter</string>
     <string name="menu_clear">Clear completed</string>
     <string name="menu_delete_user">Delete user</string>
-    <string name="navigation_view_header_title">TO-DOs</string>
-    <string name="title_hint">Title</string>
+    <string name="navigation_view_header_account">TO-DOs</string>
+    <string name="account_hint">Account</string>
     <string name="description_hint">Enter your TO-DO here.</string>
     <string name="empty_user_message">TO DOs cannot be empty</string>
     <string name="successfully_saved_user_message">TO-DO saved</string>
-    <string name="list_title">TO-DO List</string>
-    <string name="statistics_title">Statistics</string>
+    <string name="list_account">TO-DO List</string>
+    <string name="statistics_account">Statistics</string>
     <string name="statistics_no_users">You have no users.</string>
     <string name="statistics_active_users">Active users: %d</string>
     <string name="statistics_completed_users">Completed users: %d</string>
@@ -55,7 +55,7 @@
     <string name="no_users_completed">You have no completed TO-DOs!</string>
     <string name="no_users_add">Add a TO-DO item +</string>
     <string name="refresh">Refresh</string>
-    <string name="successfully_deleted_user_message">Task was deleted</string>
+    <string name="successfully_deleted_user_message">User was deleted</string>
     <string name="successfully_added_user_message">TO-DO added</string>
     <string name="no_data_description"/>
 
