@@ -60,9 +60,23 @@ android {
 
     dataBinding{  
         enabled true  
-    }  
+    } 
+    
+    sourceSets {  
+        main {
+            res.srcDirs =  
+                    [  
+                            'src/main/res/resmore/user',
+                            'src/main/res/resmore',  
+                            'src/main/res'  
+                    ]  
+        }  
+    } 
+
 
 }
+
+
 
 dependencies {
 
