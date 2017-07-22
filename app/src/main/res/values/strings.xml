@@ -3,7 +3,32 @@
   -->
 
 <resources>
-    <string name="app_name">TO-DO-MVVM-DataBinding</string>
+	<!--通用-->
+    <string name="app_name">灵树祖谱</string>
+    <string name="refresh">Refresh</string>
+    <string name="no_data_description"/>
+    <string name="no_data">No data</string>
+    <string name="loading">LOADING</string>
+    <string name="hello_world">Hello World</string>
+	<!--灵树-->
+	<string name="spirit_tree">灵树</string>
+
+	<!--祖谱-->
+	<string name="genealogy">祖谱</string>
+
+
+	<!--祠堂-->
+	<string name="ancestrall_hall">祠堂</string>
+
+	<!--家乡-->
+	<string name="hometown">家乡</string>
+
+	<!--动态-->
+	<string name="trends">动态</string>
+
+	<!--宣传广告-->
+
+    <!--用户-->
     <string name="add_user">New TO-DO</string>
     <string name="edit_user">Edit TO-DO</string>
     <string name="user_marked_complete">User marked complete</string>
@@ -24,9 +49,6 @@
     <string name="statistics_active_users">Active users: %d</string>
     <string name="statistics_completed_users">Completed users: %d</string>
     <string name="statistics_error">Error loading statistics.</string>
-    <string name="no_data">No data</string>
-    <string name="loading">LOADING</string>
-
     <string-array name="list_users_array">
         <item>@string/nav_all</item>
         <item>@string/nav_active</item>
@@ -42,9 +64,8 @@
     <string name="no_users_active">You have no active TO-DOs!</string>
     <string name="no_users_completed">You have no completed TO-DOs!</string>
     <string name="no_users_add">Add a TO-DO item +</string>
-    <string name="refresh">Refresh</string>
     <string name="successfully_deleted_user_message">User was deleted</string>
     <string name="successfully_added_user_message">TO-DO added</string>
-    <string name="no_data_description"/>
+
 
 </resources>

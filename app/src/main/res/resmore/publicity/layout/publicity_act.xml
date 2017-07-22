@@ -11,3 +11,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.publicity.PublicityActivity"
     tools:openDrawer="start">
+
+
+    </android.support.v4.widget.DrawerLayout>

@@ -9,19 +9,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-                android:name="com.bamboosoft.spirittreeapp.ui.user.UsersActivity"
-                android:theme="@style/AppTheme.OverlapSystemBar">
+            android:name=".SplashActivity"
+            android:configChanges="keyboardHidden"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.bamboosoft.spirittreeapp.ui.user.UserDetailActivity" />
-        <activity android:name="com.bamboosoft.spirittreeapp.ui.user.AddEditUserActivity" />
-        <activity android:name="com.bamboosoft.spirittreeapp.ui.user.StatisticsActivity" />
+        <activity
+            android:name=".GuideActivity"
+            android:configChanges="keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.user.UserDetailActivity" />
+        <activity android:name=".ui.user.AddEditUserActivity" />
+        <activity android:name=".ui.user.StatisticsActivity" />
+        <activity android:name=".ui.publicity.PublicityActivity"></activity>
     </application>
-
-
-
 
 </manifest>
