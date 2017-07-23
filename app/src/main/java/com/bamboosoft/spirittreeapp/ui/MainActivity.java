@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import com.bamboosoft.spirittreeapp.R;
 
 public class MainActivity extends AppCompatActivity {
 

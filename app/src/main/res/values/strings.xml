@@ -4,12 +4,13 @@
 
 <resources>
 	<!--通用-->
-    <string name="app_name">灵树祖谱</string>
+    <string name="app_name">灵树家谱</string>
     <string name="refresh">Refresh</string>
     <string name="no_data_description"/>
     <string name="no_data">No data</string>
     <string name="loading">LOADING</string>
     <string name="hello_world">Hello World</string>
+    <string name="action_settings">Settings</string>
 	<!--灵树-->
 	<string name="spirit_tree">灵树</string>
 

@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-
+import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.ui.MainActivity;
 /**
  * 
  * @{# SplashActivity.java Create on 2013-5-2 下午9:10:01

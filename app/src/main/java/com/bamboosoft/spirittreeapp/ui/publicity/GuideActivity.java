@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import cn.eoe.leigo.splash.adapter.ViewPagerAdapter;
-
+import com.bamboosoft.spirittreeapp.ui.publicity.ViewPagerAdapter;
+import com.bamboosoft.spirittreeapp.R;
 /**
  * 
  * @{# GuideActivity.java Create on 2013-5-2 下午10:59:08
@@ -57,10 +57,10 @@ public class GuideActivity extends AppCompatActivity implements OnPageChangeList
 
 		views = new ArrayList<View>();
 		// 初始化引导图片列表
-		views.add(inflater.inflate(R.layout.what_new_one, null));
-		views.add(inflater.inflate(R.layout.what_new_two, null));
-		views.add(inflater.inflate(R.layout.what_new_three, null));
-		views.add(inflater.inflate(R.layout.what_new_four, null));
+		views.add(inflater.inflate(R.layout.guide1_act, null));
+		views.add(inflater.inflate(R.layout.guide2_act, null));
+		views.add(inflater.inflate(R.layout.guide3_act, null));
+		views.add(inflater.inflate(R.layout.guide4_act, null));
 
 		// 初始化Adapter
 		vpAdapter = new ViewPagerAdapter(views, this);
