@@ -25,7 +25,7 @@
             android:name=".ui.publicity.GuideActivity"
             android:configChanges="keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+            android:theme="@style/AppTheme.OverlapSystemBar" />
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.user.UserDetailActivity" />
         <activity android:name=".ui.user.AddEditUserActivity" />

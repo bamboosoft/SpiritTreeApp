@@ -61,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
 
 		System.out.println("setContentView");
 
-		//init();
+		init();
 	}
 
 	private void init() {
