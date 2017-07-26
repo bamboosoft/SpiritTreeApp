@@ -55,10 +55,13 @@ public class SplashActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		System.out.println("onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 
-		init();
+		System.out.println("setContentView");
+
+		//init();
 	}
 
 	private void init() {
@@ -70,11 +73,16 @@ public class SplashActivity extends AppCompatActivity {
 		// 取得相应的值，如果没有该值，说明还未写入，用true作为默认值
 		isFirstIn = preferences.getBoolean("isFirstIn", true);
 
+		System.out.println("init");
+
 		// 判断程序与第几次运行，如果是第一次运行则跳转到引导界面，否则跳转到主界面
 		if (!isFirstIn) {
+
 			// 使用Handler的postDelayed方法，3秒后执行跳转到MainActivity
 			mHandler.sendEmptyMessageDelayed(GO_HOME, SPLASH_DELAY_MILLIS);
+
 		} else {
+
 			mHandler.sendEmptyMessageDelayed(GO_GUIDE, SPLASH_DELAY_MILLIS);
 		}
 
