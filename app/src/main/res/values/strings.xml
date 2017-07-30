@@ -3,6 +3,9 @@
   -->
 
 <resources>
+	
+
+
 	<!--通用-->
     <string name="app_name">灵树家谱</string>
     <string name="refresh">Refresh</string>
@@ -14,8 +17,17 @@
 	<!--灵树-->
 	<string name="spirit_tree">灵树</string>
 
-	<!--祖谱-->
-	<string name="genealogy">祖谱</string>
+	<!--家谱-->
+	<string name="genealogy">家谱</string>
+	<string name="genealogyinfo">家谱信息</string>
+
+
+    <string name="create_genealog">创建家谱</string>
+    <string name="create_genealog_member">创建家谱成员</string>
+
+    <string name="edit_genealog">修改家谱</string>
+    <string name="join_genealog">加入家谱</string>
+    <string name="search_genealog">查找家谱</string>
 
 
 	<!--祠堂-->
@@ -30,8 +42,9 @@
 	<!--宣传广告-->
 
     <!--用户-->
+    <string name="register_user">注册用户</string>
+    <string name="edit_user">修改</string>
     <string name="add_user">New TO-DO</string>
-    <string name="edit_user">Edit TO-DO</string>
     <string name="user_marked_complete">User marked complete</string>
     <string name="user_marked_active">User marked active</string>
     <string name="loading_users_error">Error while loading users</string>

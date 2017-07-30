@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_spirit_tree"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/spirit_tree"/>
+
+    <item
+        android:id="@+id/navigation_genealogy"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/genealogy"/>
+
+    <item
+        android:id="@+id/navigation_ancestrall_hall"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/ancestrall_hall"/>
+
+    <item
+        android:id="@+id/navigation_hometown"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/hometown"/>
+
+    <item
+        android:id="@+id/navigation_trends"
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="@string/trends"/>
+
+</menu>
