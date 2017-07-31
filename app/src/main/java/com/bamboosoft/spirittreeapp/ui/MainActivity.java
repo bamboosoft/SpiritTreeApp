@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -49,6 +50,14 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
+	private void setupBottomMenu() {
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
+		BottomNavigationView bottomNavigationview = (BottomNavigationView) findViewById(R.id.bottommenu);
+		if (bottomNavigationview != null) {
+			//setupDrawerContent(navigationView);
+		}
+	}
 
 
 	private void setupDrawerContent(NavigationView navigationView) {
@@ -62,11 +71,13 @@ public class MainActivity extends AppCompatActivity {
 								// 什么都不做，我们已经在屏幕上了
 								break;
 							case R.id.statistics_navigation_menu_item:
+								/*
 								Intent intent =
 										new Intent(UsersActivity.this, StatisticsActivity.class);
 								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 										| Intent.FLAG_ACTIVITY_CLEAR_TASK);
 								startActivity(intent);
+								*/
 								break;
 							default:
 								break;
