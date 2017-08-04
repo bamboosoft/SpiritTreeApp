@@ -34,7 +34,7 @@
         <android.support.design.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <FrameLayout
                 android:id="@+id/contentFrame"
@@ -43,15 +43,19 @@
 
         </android.support.design.widget.CoordinatorLayout>
 
+
+
+			<android.support.design.widget.BottomNavigationView
+				android:id="@+id/bottommenu"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="bottom"
+				android:background="?android:attr/windowBackground"
+				app:menu="@menu/bottommenuitem"/>
+
     </LinearLayout>
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottommenu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        app:menu="@menu/bottommenuitem"/>
+
 
     <!-- Navigation Drawer -->
     <android.support.design.widget.NavigationView

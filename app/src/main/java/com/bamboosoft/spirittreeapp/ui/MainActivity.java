@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
 		setupNavigationDrawer();
 
+		setupBottomMenu();
+
 
 	}
 
