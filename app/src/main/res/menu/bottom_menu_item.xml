@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_spirit_tree"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/spirit_tree"/>
+
+    <item
+        android:id="@+id/navigation_genealogy"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/genealogy"/>
+
+    <item
+        android:id="@+id/navigation_myhome"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="我的家"/>
+
+</menu>

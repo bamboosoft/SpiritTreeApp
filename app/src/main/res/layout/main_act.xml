@@ -53,12 +53,12 @@
 </FrameLayout>
 
 			<android.support.design.widget.BottomNavigationView
-				android:id="@+id/bottommenu"
+				android:id="@+id/bottom_menu"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="bottom"
 				android:background="?android:attr/windowBackground"
-				app:menu="@menu/bottommenuitem"/>
+				app:menu="@menu/bottom_menu_item"/>
 
     </LinearLayout>
 
@@ -72,6 +72,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/drawer_actions" />
+        app:menu="@menu/drawer_menu" />
 
 </android.support.v4.widget.DrawerLayout>

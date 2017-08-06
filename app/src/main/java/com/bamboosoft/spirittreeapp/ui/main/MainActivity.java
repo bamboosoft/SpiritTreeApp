@@ -1,10 +1,11 @@
-package com.bamboosoft.spirittreeapp.ui;
+package com.bamboosoft.spirittreeapp.ui.main.;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -33,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 	}
-
-
+	//region Toolbar
 	private void setupToolbar() {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
@@ -42,21 +42,14 @@ public class MainActivity extends AppCompatActivity {
 		ab.setHomeAsUpIndicator(R.drawable.ic_menu);
 		ab.setDisplayHomeAsUpEnabled(true);
 	}
+	//endregion
 
+	//region NavigationDrawer
 	private void setupNavigationDrawer() {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		if (navigationView != null) {
-			//setupDrawerContent(navigationView);
-		}
-	}
-
-	private void setupBottomMenu() {
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
-		BottomNavigationView bottomNavigationview = (BottomNavigationView) findViewById(R.id.bottommenu);
-		if (bottomNavigationview != null) {
 			//setupDrawerContent(navigationView);
 		}
 	}
@@ -93,11 +86,46 @@ public class MainActivity extends AppCompatActivity {
 				});
 	}
 
+
+	//endregion
+
+	//region BottomMenu
+	private void setupBottomMenu() {
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
+		BottomNavigationView bottomNavigationview = (BottomNavigationView) findViewById(R.id.bottom_menu);
+		if (bottomNavigationview != null) {
+			//setupDrawerContent(navigationView);
+		}
+	}
+	//endregion
+
+	//region Override AppCompatActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				// Open the navigation drawer when the home icon is selected from the toolbar.
+				// 从工具栏中选择home图标时打开导航抽屉。
+				mDrawerLayout.openDrawer(GravityCompat.START);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onDestroy() {
+
+		super.onDestroy();
+	}
+
+
+	//endregion
 
 }
