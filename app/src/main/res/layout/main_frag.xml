@@ -12,7 +12,7 @@
 
         <variable
             name="view"
-            type="com.bamboosoft.spirittreeapp.ui.user.UsersFragment" />
+            type="com.bamboosoft.spirittreeapp.ui.main.MainFragment" />
 
         <variable
             name="viewmodel"

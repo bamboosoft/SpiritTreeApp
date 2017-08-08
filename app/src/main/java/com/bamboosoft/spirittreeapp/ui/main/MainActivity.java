@@ -1,4 +1,4 @@
-package com.bamboosoft.spirittreeapp.ui.main.;
+package com.bamboosoft.spirittreeapp.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -3,7 +3,7 @@
  *
  */
 
-package com.bamboosoft.spirittreeapp.ui.main.;
+package com.bamboosoft.spirittreeapp.ui.main;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.Observable;
@@ -24,6 +24,7 @@ import android.widget.ListView;
 
 import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
+import com.bamboosoft.spirittreeapp.databinding.MainFragBinding;
 import com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout;
 import com.bamboosoft.spirittreeapp.domain.user.User;
 import com.bamboosoft.spirittreeapp.repository.UsersRepository;
@@ -45,7 +46,7 @@ public class MainFragment extends Fragment {
 
     private UsersViewModel mUsersViewModel;
 
-    private UsersFragBinding mUsersFragBinding;
+    private MainFragBinding mMainFragBinding;
 
     private UsersAdapter mListAdapter;
 
@@ -70,15 +71,15 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mUsersFragBinding = UsersFragBinding.inflate(inflater, container, false);
+        mMainFragBinding = MainFragBinding.inflate(inflater, container, false);
 
-        mUsersFragBinding.setView(this);
+        mMainFragBinding.setView(this);
 
-        mUsersFragBinding.setViewmodel(mUsersViewModel);
+        mMainFragBinding.setViewmodel(mUsersViewModel);
 
         setHasOptionsMenu(true);
 
-        View root = mUsersFragBinding.getRoot();
+        View root = mMainFragBinding.getRoot();
 
         return root;
     }
@@ -179,7 +180,7 @@ public class MainFragment extends Fragment {
     }
 
     private void setupListAdapter() {
-        ListView listView =  mUsersFragBinding.usersList;
+        ListView listView =  mMainFragBinding.usersList;
 
         mListAdapter = new UsersAdapter(
                 new ArrayList<User>(0),
