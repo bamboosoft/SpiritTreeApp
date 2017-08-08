@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <!--
         <activity
             android:name="com.bamboosoft.spirittreeapp.ui.user.UsersActivity"
             android:theme="@style/AppTheme.OverlapSystemBar">
@@ -17,8 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+-->
 
-        <!--
         <activity
             android:name=".ui.publicity.SplashActivity"
             android:configChanges="keyboardHidden"
@@ -32,13 +32,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        -->
+
         <activity
             android:name=".ui.publicity.GuideActivity"
             android:configChanges="keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.OverlapSystemBar" />
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.user.UserDetailActivity" />
         <activity android:name=".ui.user.AddEditUserActivity" />
         <activity android:name=".ui.user.StatisticsActivity" />

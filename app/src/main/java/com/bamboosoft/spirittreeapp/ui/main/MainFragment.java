@@ -34,7 +34,7 @@ import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
 import com.bamboosoft.spirittreeapp.viewmodel.user.UsersViewModel;
 import com.bamboosoft.spirittreeapp.viewmodel.user.UserItemViewModel;
 import com.bamboosoft.spirittreeapp.common.UsersFilterType;
-
+import com.bamboosoft.spirittreeapp.ui.user.UserItemNavigator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +48,6 @@ public class MainFragment extends Fragment {
 
     private MainFragBinding mMainFragBinding;
 
-    private UsersAdapter mListAdapter;
 
     private Observable.OnPropertyChangedCallback mSnackbarCallback;
 
@@ -61,6 +60,16 @@ public class MainFragment extends Fragment {
         return new MainFragment();
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setupSnackbar();
+
+        setupRefreshLayout();
+    }
+
+    //region Override Fragment
     @Override
     public void onResume() {
         super.onResume();
@@ -99,37 +108,24 @@ public class MainFragment extends Fragment {
         }
         return true;
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.users_fragment_menu, menu);
     }
-
-    public void setViewModel(UsersViewModel viewModel) {
-        mUsersViewModel = viewModel;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        setupSnackbar();
-
-        setupFab();
-
-        setupListAdapter();
-
-        setupRefreshLayout();
-    }
-
     @Override
     public void onDestroy() {
-        mListAdapter.onDestroy();
         if (mSnackbarCallback != null) {
             mUsersViewModel.snackbarText.removeOnPropertyChangedCallback(mSnackbarCallback);
         }
         super.onDestroy();
     }
+    //endregion
+
+
+    public void setViewModel(UsersViewModel viewModel) {
+        mUsersViewModel = viewModel;
+    }
+
 
     private void setupSnackbar() {
         mSnackbarCallback = new Observable.OnPropertyChangedCallback() {
@@ -165,34 +161,11 @@ public class MainFragment extends Fragment {
 
         popup.show();
     }
-
-    private void setupFab() {
-        FloatingActionButton fab =
-                (FloatingActionButton) getActivity().findViewById(R.id.fab_add_user);
-
-        fab.setImageResource(R.drawable.ic_add);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mUsersViewModel.addNewUser();
-            }
-        });
-    }
-
-    private void setupListAdapter() {
-        ListView listView =  mMainFragBinding.usersList;
-
-        mListAdapter = new UsersAdapter(
-                new ArrayList<User>(0),
-                (UsersActivity) getActivity(),
-                Injection.provideUsersRepository(getContext().getApplicationContext()),
-                mUsersViewModel);
-        listView.setAdapter(mListAdapter);
-    }
-
+    /*
+    * 刷新Layout
+    * */
     private void setupRefreshLayout() {
-        ListView listView =  mUsersFragBinding.usersList;
-        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mUsersFragBinding.refreshLayout;
+        final ScrollChildSwipeRefreshLayout swipeRefreshLayout = mMainFragBinding.refreshLayout;
         swipeRefreshLayout.setColorSchemeColors(
                 ContextCompat.getColor(getActivity(), R.color.colorPrimary),
                 ContextCompat.getColor(getActivity(), R.color.colorAccent),
@@ -200,97 +173,6 @@ public class MainFragment extends Fragment {
         );
         // Set the scrolling view in the custom SwipeRefreshLayout.
 		// 在自定义滑动刷新布局中设置滚动视图。
-        swipeRefreshLayout.setScrollUpChild(listView);
-    }
-
-    public static class UsersAdapter extends BaseAdapter {
-
-        @Nullable private UserItemNavigator mUserItemNavigator;
-
-        private final UsersViewModel mUsersViewModel;
-
-        private List<User> mUsers;
-
-        private UsersRepository mUsersRepository;
-
-        public UsersAdapter(List<User> users, UsersActivity userItemNavigator,
-                            UsersRepository usersRepository,
-                            UsersViewModel usersViewModel) {
-            mUserItemNavigator = userItemNavigator;
-            mUsersRepository = usersRepository;
-            mUsersViewModel = usersViewModel;
-            setList(users);
-
-        }
-
-        public void onDestroy() {
-            mUserItemNavigator = null;
-        }
-
-        public void replaceData(List<User> users) {
-            setList(users);
-        }
-
-        @Override
-        public int getCount() {
-            return mUsers != null ? mUsers.size() : 0;
-        }
-
-        @Override
-        public User getItem(int i) {
-            return mUsers.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            User user = getItem(i);
-            UserItemBinding binding;
-            if (view == null) {
-                // Inflate
-				// 膨胀
-                LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-
-                // Create the binding
-				// 创建绑定
-                binding = UserItemBinding.inflate(inflater, viewGroup, false);
-            } else {
-                // Recycling view
-				// 回收的观点
-                binding = DataBindingUtil.getBinding(view);
-            }
-
-            final UserItemViewModel viewmodel = new UserItemViewModel(
-                    viewGroup.getContext().getApplicationContext(),
-                    mUsersRepository
-            );
-
-            viewmodel.setNavigator(mUserItemNavigator);
-
-            binding.setViewmodel(viewmodel);
-            // To save on PropertyChangedCallbacks, wire the item's snackbar text observable to the
-            // fragment's.
-			// 为了节省PropertyChangedCallbacks,线项目间小吃店的文本片段的可观察到的。
-            viewmodel.snackbarText.addOnPropertyChangedCallback(
-                    new Observable.OnPropertyChangedCallback() {
-                @Override
-                public void onPropertyChanged(Observable observable, int i) {
-                    mUsersViewModel.snackbarText.set(viewmodel.getSnackbarText());
-                }
-            });
-            viewmodel.setUser(user);
-
-            return binding.getRoot();
-        }
-
-
-        private void setList(List<User> users) {
-            mUsers = users;
-            notifyDataSetChanged();
-        }
+        //swipeRefreshLayout.setScrollUpChild(listView);
     }
 }

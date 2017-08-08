@@ -53,12 +53,7 @@
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:text="@{viewmodel.currentFilteringLabel}" />
 
-            <ListView
-                android:id="@+id/users_list"
-                app:items="@{viewmodel.items}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/noUsers"
