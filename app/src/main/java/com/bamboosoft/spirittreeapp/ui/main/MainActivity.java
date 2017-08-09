@@ -3,6 +3,7 @@ package com.bamboosoft.spirittreeapp.ui.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,13 +14,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.bamboosoft.spirittreeapp.Injection;
 import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.ui.user.StatisticsActivity;
 import com.bamboosoft.spirittreeapp.ui.user.UsersActivity;
+import com.bamboosoft.spirittreeapp.ui.user.UsersFragment;
+import com.bamboosoft.spirittreeapp.util.ActivityUtils;
+import com.bamboosoft.spirittreeapp.viewmodel.ViewModelHolder;
+import com.bamboosoft.spirittreeapp.viewmodel.user.UsersViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
 	private DrawerLayout mDrawerLayout;
+    private UsersViewModel mViewModel;
+    public static final String USERS_VIEWMODEL_TAG = "USERS_VIEWMODEL_TAG";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +40,45 @@ public class MainActivity extends AppCompatActivity {
 
 		setupBottomMenu();
 
+        setupMainFragment();
+
 
 	}
+	//region MainFragment
+    private void setupMainFragment()
+    {
+        MainFragment mainFragment = findOrCreateViewFragment();
+
+        //mViewModel = findOrCreateViewModel();
+       //mViewModel.setNavigator(this);
+
+        // Link View and ViewModel
+        // 链接视图和视图模型
+        //mainFragment.setViewModel(mViewModel);
+
+
+
+    }
+
+
+    @NonNull
+    private MainFragment findOrCreateViewFragment() {
+        MainFragment mainFragment =
+                (MainFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (mainFragment == null) {
+            // Create the fragment
+            // 创建片段
+            mainFragment = MainFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(), mainFragment, R.id.contentFrame);
+        }
+        return mainFragment;
+    }
+
+
+
+    //endregion
+
 	//region Toolbar
 	private void setupToolbar() {
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,6 +144,38 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 	//endregion
+
+    //region ViewModel
+
+    private UsersViewModel findOrCreateViewModel() {
+        // In a configuration change we might have a ViewModel present. It's retained using the
+        // Fragment Manager.
+        // 在配置更改中，我们可能会有一个视图模型。它使用片段管理器保留。
+        @SuppressWarnings("unchecked")
+        ViewModelHolder<UsersViewModel> retainedViewModel =
+                (ViewModelHolder<UsersViewModel>) getSupportFragmentManager()
+                        .findFragmentByTag(USERS_VIEWMODEL_TAG);
+
+        if (retainedViewModel != null && retainedViewModel.getViewModel() != null) {
+            // If the model was retained, return it.
+            return retainedViewModel.getViewModel();
+        } else {
+            // There is no ViewModel yet, create it.
+            // 现在还没有ViewModel，创建它。
+            UsersViewModel viewModel = new UsersViewModel(
+                    Injection.provideUsersRepository(getApplicationContext()),
+                    getApplicationContext());
+            // and bind it to this Activity's lifecycle using the Fragment Manager.
+            // 使用片段管理器将其绑定到这个活动的生命周期。
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(),
+                    ViewModelHolder.createContainer(viewModel),
+                    USERS_VIEWMODEL_TAG);
+            return viewModel;
+        }
+    }
+
+    //endregion
 
 	//region Override AppCompatActivity
 	@Override

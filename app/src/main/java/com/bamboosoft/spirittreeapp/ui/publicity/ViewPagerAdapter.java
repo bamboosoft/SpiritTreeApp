@@ -13,7 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import com.bamboosoft.spirittreeapp.ui.MainActivity;
+import com.bamboosoft.spirittreeapp.ui.main.MainActivity;
 import com.bamboosoft.spirittreeapp.R;
 
 /**
