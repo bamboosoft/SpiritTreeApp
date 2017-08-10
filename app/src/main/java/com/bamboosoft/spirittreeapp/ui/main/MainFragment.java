@@ -44,12 +44,7 @@ import java.util.List;
  */
 public class MainFragment extends Fragment {
 
-    private UsersViewModel mUsersViewModel;
-
     private MainFragBinding mMainFragBinding;
-
-
-    private Observable.OnPropertyChangedCallback mSnackbarCallback;
 
     public MainFragment() {
         // Requires empty public constructor
@@ -64,8 +59,6 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //setupSnackbar();
-
         setupRefreshLayout();
     }
 
@@ -73,7 +66,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mUsersViewModel.start();
+
     }
 
     @Nullable
@@ -83,8 +76,6 @@ public class MainFragment extends Fragment {
         mMainFragBinding = MainFragBinding.inflate(inflater, container, false);
 
         mMainFragBinding.setView(this);
-
-        mMainFragBinding.setViewmodel(mUsersViewModel);
 
         setHasOptionsMenu(true);
 
@@ -97,13 +88,13 @@ public class MainFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_clear:
-                mUsersViewModel.clearCompletedUsers();
+
                 break;
             case R.id.menu_filter:
                 showFilteringPopUpMenu();
                 break;
             case R.id.menu_refresh:
-                mUsersViewModel.loadUsers(true);
+
                 break;
         }
         return true;
@@ -114,29 +105,12 @@ public class MainFragment extends Fragment {
     }
     @Override
     public void onDestroy() {
-        if (mSnackbarCallback != null) {
-            mUsersViewModel.snackbarText.removeOnPropertyChangedCallback(mSnackbarCallback);
-        }
+
         super.onDestroy();
     }
     //endregion
 
-
-    public void setViewModel(UsersViewModel viewModel) {
-        mUsersViewModel = viewModel;
-    }
-
-
-    private void setupSnackbar() {
-        mSnackbarCallback = new Observable.OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable observable, int i) {
-                SnackbarUtils.showSnackbar(getView(), mUsersViewModel.getSnackbarText());
-            }
-        };
-        mUsersViewModel.snackbarText.addOnPropertyChangedCallback(mSnackbarCallback);
-    }
-
+    //region PopUpMenu
     private void showFilteringPopUpMenu() {
         PopupMenu popup = new PopupMenu(getContext(), getActivity().findViewById(R.id.menu_filter));
         popup.getMenuInflater().inflate(R.menu.filter_users, popup.getMenu());
@@ -145,22 +119,25 @@ public class MainFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.active:
-                        mUsersViewModel.setFiltering(UsersFilterType.ACTIVE_USERS);
+
                         break;
                     case R.id.completed:
-                        mUsersViewModel.setFiltering(UsersFilterType.COMPLETED_USERS);
+
                         break;
                     default:
-                        mUsersViewModel.setFiltering(UsersFilterType.ALL_USERS);
+
                         break;
                 }
-                mUsersViewModel.loadUsers(false);
+
                 return true;
             }
         });
 
         popup.show();
     }
+    //endregion
+
+
     /*
     * 刷新Layout
     * */
