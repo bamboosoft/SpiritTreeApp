@@ -27,17 +27,9 @@ import com.bamboosoft.spirittreeapp.R;
 import com.bamboosoft.spirittreeapp.databinding.MainFragBinding;
 import com.bamboosoft.spirittreeapp.ui.ScrollChildSwipeRefreshLayout;
 import com.bamboosoft.spirittreeapp.domain.user.User;
-import com.bamboosoft.spirittreeapp.repository.UsersRepository;
-import com.bamboosoft.spirittreeapp.databinding.UserItemBinding;
-import com.bamboosoft.spirittreeapp.databinding.UsersFragBinding;
-import com.bamboosoft.spirittreeapp.util.SnackbarUtils;
-import com.bamboosoft.spirittreeapp.viewmodel.user.UsersViewModel;
-import com.bamboosoft.spirittreeapp.viewmodel.user.UserItemViewModel;
-import com.bamboosoft.spirittreeapp.common.UsersFilterType;
-import com.bamboosoft.spirittreeapp.ui.user.UserItemNavigator;
-import java.util.ArrayList;
-import java.util.List;
 
+import android.content.Intent;
+import com.bamboosoft.spirittreeapp.ui.user.AddEditUserActivity;
 /**
  * Display a grid of {@link User}s. User can choose to view all, active or completed users.
  * 显示一个网格的{ @ link用户}。用户可以选择查看所有、活动或已完成的用户。
@@ -87,8 +79,8 @@ public class MainFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_clear:
-
+            case R.id.menu_register_user:
+				registerUser();
                 break;
             case R.id.menu_filter:
                 showFilteringPopUpMenu();
@@ -101,7 +93,7 @@ public class MainFragment extends Fragment {
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.users_fragment_menu, menu);
+        inflater.inflate(R.menu.main_fragment_menu, menu);
     }
     @Override
     public void onDestroy() {
@@ -137,6 +129,17 @@ public class MainFragment extends Fragment {
     }
     //endregion
 
+	//region menu click
+
+	private void registerUser() {
+        Intent intent = new Intent(getActivity(), AddEditUserActivity.class);
+        startActivityForResult(intent, AddEditUserActivity.REQUEST_CODE);
+
+
+    }
+
+	//endregion
+
 
     /*
     * 刷新Layout
@@ -152,4 +155,5 @@ public class MainFragment extends Fragment {
 		// 在自定义滑动刷新布局中设置滚动视图。
         //swipeRefreshLayout.setScrollUpChild(listView);
     }
+
 }
