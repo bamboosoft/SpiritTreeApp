@@ -132,8 +132,8 @@ public class MainFragment extends Fragment {
 	//region menu click
 
 	private void registerUser() {
-        Intent intent = new Intent(getActivity(), AddEditUserActivity.class);
-        startActivityForResult(intent, AddEditUserActivity.REQUEST_CODE);
+        Intent intent = new Intent(getActivity(), RegisterUserActivity.class);
+        startActivityForResult(intent, RegisterUserActivity.REQUEST_CODE);
 
 
     }
